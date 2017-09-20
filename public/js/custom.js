@@ -1,0 +1,54 @@
+
+
+$('#projectname-add').click(function (event) {
+    var text = $('#projectname-input').val();
+    $.ajax({
+        type: 'post',
+        url: '/addProject',
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+
+            if (token) {
+                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
+        data: {
+            '_token': $('input[name=_token]').val(),
+            'name': text
+        },
+        success: function(data) {
+            console.log(data);
+            $('#project-list').append("<a href='" + data.id + "' class='list-group-item'>" + data.name + "</a>");
+        },
+    });
+    $('#projectname-input').val('');
+});
+
+$('.project-item').click(function (event) {
+    $('#id').val($(this).data('id'));
+    $('#projectname-updated').val($(this).data('name'));
+    $('#update-project').modal('show');
+
+});
+
+$('#projectname-update').click(function (event){
+    $.ajax({
+        type: 'post',
+        url: '/updateProject',
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+
+            if (token) {
+                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
+        data: {
+            '_token': $('input[name=_token]').val(),
+            'id': $("#id").val(),
+            'name': $('#projectname-updated').val()
+        },
+        success: function(data) {
+            $('#' + data.id).replaceWith("<a id='" + data.id + "' data-id='" + data.id + "' class='list-group-item project-item' data-name='" + data.name + "'>" + data.name + "</a>");
+        }
+    });
+});
