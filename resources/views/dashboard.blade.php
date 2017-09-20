@@ -19,7 +19,7 @@
                          <div class="panel-body">
                              <div class="list-group" id="project-list">
                                 @foreach ($data as $project)
-                                 <a id="{{$project->id}}" data-id="{{$project->id}}" class="list-group-item project-item" data-name="{{$project->name}}">{{$project->name}}</a>
+                                 <a id="{{$project->id}}" name="{{$project->name}}" data-id="{{Auth::user()->id}}" class="list-group-item project-item">{{$project->name}}</a>
                                 @endforeach
                              </div>
                          </div>

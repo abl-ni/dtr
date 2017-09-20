@@ -18,20 +18,20 @@ $('#projectname-add').click(function (event) {
         },
         success: function(data) {
             console.log(data);
-            $('#project-list').append("<a href='" + data.id + "' class='list-group-item'>" + data.name + "</a>");
+            $('#project-list').append("<a id='" + data.id  + "' name='" + data.name + "' class='list-group-item project-item'>" + data.name + "</a>");
         },
     });
     $('#projectname-input').val('');
 });
 
-$('.project-item').click(function (event) {
-    $('#id').val($(this).data('id'));
-    $('#projectname-updated').val($(this).data('name'));
+$(document).on('click', '.project-item', function(e) {
+    $('#id').val($(this).attr('id'));
+    $('#projectname-updated').val($(this).attr('name'));
     $('#update-project').modal('show');
 
 });
 
-$('#projectname-update').click(function (event){
+$(document).on('click', '#projectname-update', function(e) {
     $.ajax({
         type: 'post',
         url: '/updateProject',
@@ -48,7 +48,7 @@ $('#projectname-update').click(function (event){
             'name': $('#projectname-updated').val()
         },
         success: function(data) {
-            $('#' + data.id).replaceWith("<a id='" + data.id + "' data-id='" + data.id + "' class='list-group-item project-item' data-name='" + data.name + "'>" + data.name + "</a>");
+            $('#' + data.id).replaceWith("<a id='" + data.id + "' name='" + data.name + "' class='list-group-item project-item'>" + data.name + "</a>");
         }
     });
 });
