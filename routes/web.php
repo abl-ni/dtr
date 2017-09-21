@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/form', function () {
+    return view('form');
+});
+
 Route::get('dashboard', 'ProjectController@readProject'); 
 Route::post('addProject', 'ProjectController@addProject'); 
 Route::post('updateProject', 'ProjectController@updateProject'); 
