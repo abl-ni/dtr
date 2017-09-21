@@ -1,3 +1,25 @@
 body { 
     padding-top: 70px; 
 }
+
+#report-tab {
+    display: none;
+}
+
+.dashboard-tab li a {
+    border-radius: 0px !important;
+    border: none !important;
+}
+
+.dashboard-tab li {
+    margin-top: 0px    
+}
+
+.filter-container {
+    margin-top: 50px;
+}
+
+.filter {
+    height: 100px; /*temp*/
+    border-radius: 0px;
+}

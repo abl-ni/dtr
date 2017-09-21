@@ -30,7 +30,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/home') }}">
+                    <a class="navbar-brand" href="@guest{{ url('/') }}@else{{ url('/dashboard') }}@endguest">
                         {{ config('app.name')}}
                     </a>
                 </div>

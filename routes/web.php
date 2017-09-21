@@ -18,5 +18,7 @@ Route::get('/', function () {
 Route::get('dashboard', 'ProjectController@readProject'); 
 Route::post('addProject', 'ProjectController@addProject'); 
 Route::post('updateProject', 'ProjectController@updateProject'); 
+Route::post('deleteProject', 'ProjectController@deleteProject');
+
 
 Auth::routes();

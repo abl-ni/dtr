@@ -35,4 +35,9 @@ class ProjectController extends Controller
         $data->save ();
         return response ()->json ( $data );
     }
+    
+    public function deleteProject(Request $req) {
+        Project::find ( $req->id )->delete ();
+        return response ()->json ();
+    }
 }
