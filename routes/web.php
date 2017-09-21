@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/form', function () {
+Route::get('inc/form', function () {
     return view('form');
 });
 
