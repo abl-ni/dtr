@@ -7,10 +7,18 @@
             </div>
            <form action="post">
                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Project Name</label>
-                        <input type="text" class="form-control" id="projectname-input">
-                    </div>
+                   <div class="form-group">
+                       <label>Project Name</label>
+                       <input type="text" class="form-control" id="projectname-input">
+                   </div>
+                   <div class="form-group">
+                       <label>Project Manager</label>
+                       <input type="text" class="form-control" id="projectname-input">
+                   </div>
+                   <div class="form-group">
+                       <label>Team Leader</label>
+                       <input type="text" class="form-control" id="projectname-input">
+                   </div>
                </div>
                <div class="modal-footer">
                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

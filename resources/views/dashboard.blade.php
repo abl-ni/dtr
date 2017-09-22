@@ -31,19 +31,20 @@
                     </div>
                     <div class="panel-body">
                         <form action="">
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label>Project Name</label>
-                                    <input type="text" class="form-control" id="projectname-input">
-                                </div>
-                                <div class="form-group">
-                                    <label>Project Manager</label>
-                                    <input type="text" class="form-control" id="projectname-input">
-                                </div>
-                                <div class="form-group">
-                                    <label>Team Leader</label>
-                                    <input type="text" class="form-control" id="projectname-input">
-                                </div>
+                            <div class="form-group">
+                                <select class="form-control" name="" id="">
+                                    <option value="">Project</option>
+                                    <option value="">Project Manager</option>
+                                    <option value="">Developer</option>
+                                </select>
+                            </div>
+                            <div class="form-group"> 
+                                <input id="text" class="form-control">
+                            </div>
+                            <div class="form-group"> 
+                                <button type="submit" class="btn btn-default col-lg-12">
+                                    Go
+                                </button>
                             </div>
                         </form>
                     </div>
