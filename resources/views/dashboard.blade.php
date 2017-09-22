@@ -25,8 +25,29 @@
                 </ul>
             </div>
             <div class="col-md-12 filter-container">
-                <div class="panel panel-default filter">
-                    filter search here
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">View by</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="">
+                            <div class="form-group">
+                                <select class="form-control" name="" id="">
+                                    <option value="">Project</option>
+                                    <option value="">Project Manager</option>
+                                    <option value="">Developer</option>
+                                </select>
+                            </div>
+                            <div class="form-group"> 
+                                <input id="text" class="form-control">
+                            </div>
+                            <div class="form-group"> 
+                                <button type="submit" class="btn btn-default col-lg-12">
+                                    Go
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
