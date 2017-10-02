@@ -58,12 +58,7 @@
                         </thead>
                         <tbody id="table-body">
                            
-<!--
-                            @foreach($getDevsDtrs as $getDevsDtrs)
-                            <tr class="item{{$getDevsDtrs->dev_id}}">
-                                <td colspan="7"></td>
-                            </tr>
--->
+
                                 @foreach($result as $result)   
                                 <tr class="item{{$result->id}}">
                                     <td>{{$result->name}}</td>
@@ -76,7 +71,6 @@
                                 </tr>
 
                                 @endforeach 
-<!--                            @endforeach-->
                             @else 
                             <h3 class="text-center">No result.</h3>
                             @endif
