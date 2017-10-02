@@ -27,6 +27,6 @@ class FilterController extends Controller
             ->groupBy('dtrs.id')
             ->get();
             
-        return $result;//view('reports', compact('result', 'getDevsDtrs'));
+        return view('reports', compact('result', 'getDevsDtrs'));
     }
 }
