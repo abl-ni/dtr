@@ -11,6 +11,18 @@
                         <label>Project Name</label>
                         <input type="text" class="form-control" id="projectname-updated">
                         <input type="hidden" id="id">
+                        <label>Project Manager</label>
+                        <select name="pm" id="pm_list" class="form-control pm selectpicker" data-live-search="true">
+                            @foreach ($allPM as $all)
+                            <option id="{{ $all->id }}" value="{{ $all->name }}">{{ $all->name }}</option>
+                            @endforeach
+                        </select>
+                        <label>Team Leader</label>
+                        <select name="dev" id="dev_list" class="form-control dev selectpicker" data-live-search="true">
+                            @foreach ($dev as $dev)
+                            <option id="{{ $dev->id }}" value="{{ $dev->name }}">{{ $dev->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
