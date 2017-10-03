@@ -11,18 +11,25 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/','welcome');
 
-Route::get('inc/form', function () {
-    return view('form');
-});
+Route::group(['middleware' => 'auth'], function () {
 
-Route::get('dashboard', 'ProjectController@readProject'); 
-Route::post('addProject', 'ProjectController@addProject'); 
-Route::post('updateProject', 'ProjectController@updateProject'); 
-Route::post('deleteProject', 'ProjectController@deleteProject');
+   
+    Route::get('dashboard', 'ProjectController@getQuery'); 
+    Route::post('addProject', 'ProjectController@addProject'); 
+    Route::post('updateProject', 'ProjectController@updateProject'); 
+    Route::post('deleteProject', 'ProjectController@deleteProject');
+    Route::post('project', 'ProjectController@getProject');
+    Route::post('getDev', 'ProjectController@getDev');
+    
+    Route::post('addDev','ProjectDevsController@addDev');
+    Route::post('ListDev','ProjectDevsController@getListDev');
 
+    Route::post('Logs', 'DtrController@addLogs');
+    
+    Route::get('reports', 'FilterController@getQuery');
+    
+    });
 
 Auth::routes();

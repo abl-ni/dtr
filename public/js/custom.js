@@ -1,5 +1,17 @@
+$('.addproj').click(function (event){
+    var added_by = $('.current_user').attr('id');
+    $("#pm").val($("#" + added_by).val());
+    console.log($("#" + added_by).val());
+});
+
 $('#projectname-add').click(function (event) {
     var text = $('#projectname-input').val();
+    var pm = $('#pm').find(":selected").val();
+    var pm_id = $('#pm').find(":selected").attr('id');
+    var tl = $('#tl').find(":selected").val();
+    var tl_id = $('#tl').find(":selected").attr('id');
+    var added_by = $('.current_user').attr('id');
+    
     $.ajax({
         type: 'post',
         url: '/addProject',
@@ -11,21 +23,44 @@ $('#projectname-add').click(function (event) {
         },
         data: {
             '_token': $('input[name=_token]').val(),
-            'name': text
+            'name': text,
+            'added_by': added_by,
+            'pm_id': pm_id,
+            'tl_id': tl_id
         },
         success: function(data) {
-            console.log(data);
-            $('#table-body').append("<tr class='item" + data.id + "'><td>" + data.id + "</td><td>" + data.name + "</td><td><span class='badge'>14</span></td><td><div class='col-sm-12'><button class='edit-modal btn btn-warning btn-sm col-sm-5 col-sm-offset-1' data-id='" + data.id + "' data-name='" + data.name + "' data-target='#update-project'>Update</button><button class='delete-modal btn btn-danger btn-sm col-sm-5 col-sm-offset-1' data-id='" + data.id + "' data-name='" + data.name + "' data-target='#delete-project'>Delete</button></div></td></tr>");
-        },
+            location.reload();
+        }
     });
     $('#projectname-input').val('');
 });
 
-
 $(document).on('click', '.edit-modal', function(e) {
-    $('#id').val($(this).data('id'));
-    $('#projectname-updated').val($(this).data('name'));
     $('#update-project').modal('show');
+    var id = $(this).data('id');
+    
+    $.ajax({
+        type: 'post',
+        url: '/project', 
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
+        data: {
+            '_token': $('input[name=_token]').val(),
+            'id': id,
+            
+        },
+        success: function(data) {
+            $('#id').val(data.id);
+            $('#projectname-updated').val(data.name);
+            $("#pm_list").val($("#" + data.pm_id).val());
+            $("#dev_list").val($("#" + data.tl_id).val());
+        }
+    });
+    
 });
 
 
@@ -35,30 +70,8 @@ $(document).on('click', '.delete-modal', function(e) {
     $('#delete-project').modal('show');
 });
 
-
-$(document).on('click', '#project-update', function(e) {
-    $.ajax({
-        type: 'post',
-        url: '/updateProject',
-        beforeSend: function (xhr) {
-            var token = $('meta[name="csrf_token"]').attr('content');
-            if (token) {
-                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-            }
-        },
-        data: {
-            '_token': $('input[name=_token]').val(),
-            'id': $("#id").val(),
-            'name': $('#projectname-updated').val()
-        },
-        success: function(data) {
-            $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" + data.id + "</td><td>" + data.name + "</td><td><span class='badge'>14</span></td><td><div class='col-sm-12'><button class='edit-modal btn btn-warning btn-sm col-sm-5 col-sm-offset-1' data-id='" + data.id + "' data-name='" + data.name + "' data-target='#update-project'>Update</button><button class='delete-modal btn btn-danger btn-sm col-sm-5 col-sm-offset-1' data-id='" + data.id + "' data-name='" + data.name + "' data-target='#delete-project'>Delete</button></div></td></tr>");
-        }
-    });
-});
-
-
 $(document).on('click', '#project-delete', function(e) {
+
     $.ajax({
         type: 'post',
         url: '/deleteProject',
@@ -66,15 +79,238 @@ $(document).on('click', '#project-delete', function(e) {
             var token = $('meta[name="csrf_token"]').attr('content');
             if (token) {
                 return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-            }
-        },
+            }},
         data: {
             '_token': $('input[name=_token]').val(),
-            'id': $('#projectid').text()
-        },
+            'id': $('#projectid').text() },
         success: function(data) {
             $('.item' + $('#projectid').text()).remove();
         }
     });
+
 });
+
+
+$(document).on('click', '#project-update', function(e) {
+  
+    var id = $("#id").val();
+    var name = $('#projectname-updated').val();
+    var pm = $('#pm_list').find(":selected").val();
+    var pm_id = $('#pm_list').find(":selected").attr('id');
+    var tl = $('#tl_list').find(":selected").val();
+    var tl_id = $('#tl_list').find(":selected").attr('id');
+    console.log(id, name, pm, pm_id, tl, tl_id);
+    $.ajax({
+        type: 'post',
+        url: '/updateProject',
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }},
+        data: {
+            '_token': $('input[name=_token]').val(),
+            'id': id,
+            'name': name,
+            'pm' : pm,
+            'pm_id' : pm_id,
+            'tl' : tl,
+            'tl_id' : tl_id,},
+        success: function(data) {
+            location.reload();
+        }
+    });
+    
+});
+
+
+$('#select_devs').selectpicker(); 
+$(document).on('click', '.add-modal', function(e) {
+
+    var id = $(this).data('id');
+
+    $.ajax({
+        type: 'post',
+        url: '/getDev', 
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
+        data: {
+            '_token': $('input[name=_token]').val(),
+            'id': id,
+        },
+        success: function(data) {
+            
+            if (!$.trim(data)){   
+                $('select#select_devs').append($("<option></option>")
+                                       .attr("disabled", "disabled")
+                                       .text("No Available"))
+                .selectpicker('refresh');
+            }
+            else {
+                
+                $.each(data, function(key, value) {
+                    $('select#select_devs')
+                            .append($("<option></option>")
+                            .attr("id", value.id)
+                            .attr("value", value.id)
+                            .text(value.name))
+                    .selectpicker('refresh');
+                });   
+            }    
+        }
+    });
+
+    $('select#select_devs').html('');
+
+});
+
+$(document).on('click', '.add-modal', function(){
+    $('#project_id').val($(this).data('id'));
+});
+
+
+$(document).on('click', '#add_devs_btn', function(e) {
+    
+    var ids = new Array();
+    $( "select#select_devs" ).change(function() {
+                $( "select#select_devs option:selected" ).each(function() {
+                    ids.push($( this ).attr('id'));
+                });
+            })
+        .trigger( "change" );
+
+    $.ajax({
+        type: 'post',
+        url: '/addDev',
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }},
+        data: {
+            '_token': $('input[name=_token]').val(),
+            'id': $('#project_id').val(),
+            'data': ids,
+        },
+        success: function(data) {
+            location.reload();
+        }
+    });
+    
+});
+
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();  
+    
+    $('body').on('click', function (e) {
+        $('[data-toggle="popover"]').each(function () {
+            //the 'is' for buttons that trigger popups
+            //the 'has' for icons within a button that triggers a popup
+            if (!$(this).is(e.target) 
+                && $(this).has(e.target).length === 0 
+                && $('.popover').has(e.target).length === 0) {
+                    $(this).popover('hide');
+            }
+        });    
+    });
+    
+    $('.list_popover').on('click', function(){
+        $('.popover-content').append('<ul class="list-group"></ul>');
+        $.ajax({
+            type: 'post',
+            url: '/ListDev',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }},
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'id': $(this).attr('id'),
+            },
+            success: function(data) {
+                $.each(data, function(key, value) {
+                    $('ul.list-group')
+                    .append($("<li></li>")
+                            .attr("class", "list-group-item")
+                            .text(value.name));
+                });
+            }
+        });
+        
+    });
+});
+
+
+$(document).on('click', '#dtrSubmit-btn', function() {
+    var proj_id = $('select#selectProject option:selected').attr('id');
+    var ticket_no = $('#ticket-number').val();
+    var task_title = $('#task-title').val();
+    var roadblock = $('#roadblock').val();
+    var hrs_rendered = $('#hours-rendered').val();
+
+    $.ajax({
+        type: 'post',
+        url: '/Logs',
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }},
+        data: {
+            '_token': $('input[name=_token]').val(),
+            'proj_id' : proj_id,
+            'ticket_no' : ticket_no,
+            'task_title' : task_title,
+            'roadblock' : roadblock,
+            'hrs_rendered' : hrs_rendered
+        },
+        success: function(data) {
+            $('.form-container')
+            .append("<div class='alert alert-success alert-dismissable fade in'>" +
+                    "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+                    "Your Logs are added <strong>successfully!</strong>." +
+                    "</div>");
+            
+            $('#ticket-number').val('');
+            $('#task-title').val('');
+            $('#roadblock').val('');
+            $('#hours-rendered').val('');
+        }
+    });
+    
+});
+
+$('input[name="daterange"]').daterangepicker();
+
+$(function() {
+
+    var start = moment();
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+    cb(start, end);
+
+});
+
 

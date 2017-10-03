@@ -20,6 +20,41 @@ body {
 }
 
 .filter {
-    height: 100px; /*temp*/
     border-radius: 0px;
+    border: none;
+    background-color: #fff;
+}
+
+.icon-modals {
+    font-size: 10pt;
+}
+
+.dashboard-container {
+    margin-top:40px
+}
+
+.dash-nav {
+    background:#fff;
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 50px;
+    z-index:1000;
+}
+
+.popover-content {
+    height: 200px;
+    width: 200px;
+    overflow-y: scroll;
+}
+
+
+
+#reportrange {
+    background: #fff; 
+    cursor: pointer; 
+    padding: 6px 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 3px;
+    width: 90%;
 }
