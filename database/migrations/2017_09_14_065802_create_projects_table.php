@@ -32,7 +32,7 @@ class CreateProjectsTable extends Migration
                     ->references('id')
                     ->on('users')
                     ->onDelete('cascade');
-            $table->timestamps();
+            $table->string('date_created')->nullable();
         });
     }
 

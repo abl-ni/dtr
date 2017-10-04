@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('Logs', 'DtrController@addLogs');
     
     Route::get('reports', 'FilterController@getQuery');
+    Route::post('getFilter', 'FilterController@getFilter');
     
     });
 

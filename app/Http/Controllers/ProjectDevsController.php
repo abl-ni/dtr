@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Dev;
 use App\User;
 use App\Project;
+use Carbon\Carbon;
     
 class ProjectDevsController extends Controller
 {
@@ -16,6 +17,7 @@ class ProjectDevsController extends Controller
             $dataSet[] = [
                 'proj_id' => $request->id,
                 'dev_id' => $dev,
+                'date_created' => Carbon::now()->toDateString()
             ];
         }
         Dev::insert($dataSet);  
@@ -30,7 +32,6 @@ class ProjectDevsController extends Controller
         $project = Project::find($request->id);
 
         $selectDev = User::where([
-            ['id', '!=', $project->tl_id],
             ['type', 'Dev']
         ])
             ->whereIn('id', $devArray)

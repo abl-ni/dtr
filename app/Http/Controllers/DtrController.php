@@ -8,6 +8,7 @@ use App\User;
 use App\Project;
 use App\Dtr;
 use Auth;
+use Carbon\Carbon;
 
 class DtrController extends Controller
 {
@@ -26,6 +27,7 @@ class DtrController extends Controller
         $data->task_no = $request->ticket_no;
         $data->roadblock = $request->roadblock;
         $data->hours_rendered = $request->hrs_rendered;
+        $data->date_created = Carbon::now()->toDateString();
         $data->save ();
         return response()->json($data); 
     }

@@ -26,7 +26,7 @@ class CreateDevTable extends Migration
                 ->references('id')
                 ->on('projects')
                 ->onDelete('cascade');
-            $table->timestamps();
+            $table->string('date_created')->nullable();
         });
     }
 

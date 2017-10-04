@@ -64,7 +64,7 @@
                                 <div class="col-md-9">
                                     <input class="form-control" type="text" id="hours-rendered">
                                     <span class="" style="font-size:8pt; font-family: sans-serif">
-                                        <strong>Format: </strong>3:30 = 3 hours and 30 minutes = <span class="text-danger"><b>3h30m</b></span><br>
+                                        <strong>Format: </strong>3:30 = 3 hours and 30 minutes = <span class="text-danger"><b>3.30</b></span><br>
                                     </span>
                                 </div>
                             </div>

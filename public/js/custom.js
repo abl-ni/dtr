@@ -271,10 +271,11 @@ $(document).on('click', '#dtrSubmit-btn', function() {
         },
         success: function(data) {
             $('.form-container')
-            .append("<div class='alert alert-success alert-dismissable fade in'>" +
+            .append("<div id='success-alert' class='alert alert-success alert-dismissable fade in'>" +
                     "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
                     "Your Logs are added <strong>successfully!</strong>." +
                     "</div>");
+            $("#success-alert").slideUp(500);
             
             $('#ticket-number').val('');
             $('#task-title').val('');
@@ -285,6 +286,8 @@ $(document).on('click', '#dtrSubmit-btn', function() {
     
 });
 
+
+
 $('input[name="daterange"]').daterangepicker();
 
 $(function() {
@@ -294,6 +297,8 @@ $(function() {
 
     function cb(start, end) {
         $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+        $('#start').val(start.format('YYYY-MM-DD'));
+        $('#end').val(end.format('YYYY-MM-DD'));
     }
 
     $('#reportrange').daterangepicker({
@@ -312,5 +317,136 @@ $(function() {
     cb(start, end);
 
 });
+
+
+$(document).on('click', '#filterGo-btn', function() {
+
+    var groupby = $('#grouBy').val();
+    var start = $('#start').val();
+    var end = $('#end').val();
+
+    $('#filter-body').html('');
+    $.ajax({
+        type: 'post',
+        url: '/getFilter',
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }},
+        data: {
+            '_token': $('input[name=_token]').val(),
+            'groupby' : groupby,
+            'starts' : start,
+            'ends' : end,
+        },
+        success: function(data) {
+            
+            if (!$.trim(data)){ 
+
+                $('#filter-body')
+                .append("<h4 style='padding-top:50px' class='text-center'>No Results</h4>");
+
+            }else {
+                
+               sortArray(data);
+            
+            }
+            
+        }
+    });
+    
+});
+
+function sortArray(data){
+    
+    var groups = {};
+    for (var i = 0; i < data.length; i++) {
+        var id = data[i].id;
+        var name = data[i].name;
+        if (!groups[id]) {
+            groups[id] = [];
+        }
+        groups[id].push(data[i]);
+    }
+    data = [];
+
+    for (var id in groups) {
+        var count = 0;
+        for (var i = 0; i < groups[id].length; i++) {
+            count += parseFloat(groups[id][i]['hours_rendered']);
+        }
+
+        data.push({id: id, name: groups[id][0]['name'], total: formatTotalHours(count), query: groups[id]});
+    }
+    
+    return appendElements(data);
+}
+
+
+function formatTotalHours(count){
+    
+    var total = count.toString();
+    if(total.includes(".")){
+        total = total.replace(".", "h");
+        return total+'m';
+    }
+    return total+'h';
+    
+}
+
+function appendElements(data){
+
+    var total = 0;
+    $('#filter-body')
+            .append("<div class='groupItem'>" +
+                    "<table class='table table-list-search' id='default'>" +
+                    "<thead>"  +
+                    "<tr>" +
+                    "<th class='col-md-1'>Name</th>" +
+                    "<th class='col-md-1'>Project Name</th>" +
+                    "<th class='col-md-1'>Ticket #</th>" +
+                    "<th class='col-md-1'>Task Title</th>" +
+                    "<th class='col-md-2'>Roadblock</th>" +
+                    "<th class='col-md-1'>Date</th>" +
+                    "<th class='col-md-1'>Hours</th>" +
+                    "</tr>" +
+                    "</thead>" +
+                    "<tbody id='table-body'>" +
+                    "</tbody>" +  
+                    "</table>" +
+                    "</div>");
+    
+    $.each(data, function(key, value) {
+        
+        $('#table-body')
+        .append("<tr>" +
+                    "<td colspan='6'><strong>" + value.name.toUpperCase() + "</strong></td>" +
+                    "<td colspan='1'><strong>" + value.total + "</strong></td>" +
+                "</tr>" +
+                "<tr>" +
+                "<td colspan='7'><table style='width:100%' class='item"+ value.id +"'></table></td>" +  
+                "</tr>");
+        
+        $.each(value.query, function(innerKey, innerValue){
+            $('table.item'+ value.id)
+            .append("<tr class='item'>" +
+                        "<td class='col-md-1'></td>" +
+                        "<td class='col-md-1'>" + innerValue.project_name + "</td>" +
+                        "<td class='col-md-1'>" + innerValue.task_no + "</td>" +
+                        "<td class='col-md-1'>" + innerValue.task_title + "</td>" +
+                        "<td class='col-md-2'>" + innerValue.roadblock + "</td>" +
+                        "<td class='col-md-1'>" + innerValue.date_created + "</td>" +
+                        "<td class='col-md-1'>" + formatTotalHours(innerValue.hours_rendered) + "</td>" +
+                    "</tr>");
+
+        });
+        
+    });
+    
+    
+
+}
+
 
 

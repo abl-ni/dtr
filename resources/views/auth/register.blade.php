@@ -46,7 +46,6 @@
                                 <select class="form-control" id="type" name="type" value="{{ old('type') }}" >
                                     <option>PM</option>
                                     <option>Dev</option>
-                                    <option>Tech</option>
                                 </select>
 
                                 @if ($errors->has('type'))

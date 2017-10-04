@@ -9,6 +9,7 @@ use App\Dev;
 use Auth;
 use Validator;
 use Response;
+use Carbon\Carbon;
 
 class ProjectController extends Controller
 {
@@ -24,8 +25,15 @@ class ProjectController extends Controller
         $data->added_by = $request->added_by;
         $data->pm_id = $request->pm_id;
         $data->tl_id = $request->tl_id;
+        $data->date_created = Carbon::now()->toDateString();
         $data->save ();
-        return response()->json($data);  
+        
+        $dev = new Dev ();
+        $dev->dev_id = $request->tl_id;
+        $dev->proj_id = $data->id;
+        $dev->date_created = Carbon::now()->toDateString();
+        $dev->save ();
+        return $dev->proj_id;//response()->json($data);  
     }
     
     public function getQuery(Request $req)
@@ -53,8 +61,8 @@ class ProjectController extends Controller
     {
         $data = Project::find($req->id);
         $data->name = $req->name;
-//        $data->pm_id = $req->pm_id;
-//        $data->tl_id = $req->tl_id;
+        $data->pm_id = $req->pm_id;
+        $data->tl_id = $req->tl_id;
         $data->save();
         return response()->json($data);
     }

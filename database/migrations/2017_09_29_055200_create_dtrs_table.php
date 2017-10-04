@@ -25,7 +25,7 @@ class CreateDtrsTable extends Migration
                 ->references('id')
                 ->on('devs')
                 ->onDelete('cascade');
-            $table->timestamps();
+            $table->string('date_created')->nullable();
         });
     }
 

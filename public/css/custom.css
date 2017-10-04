@@ -58,3 +58,7 @@ body {
     border-radius: 3px;
     width: 90%;
 }
+
+.groupItem {
+    margin-top: 50px;
+}

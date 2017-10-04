@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dtr extends Model
 {
     protected $table = 'dtrs';
+    public $timestamps = false;
     
     public function dev()
     {

@@ -74,7 +74,7 @@
 </div>
 
 @else
-@include('inc.form')
+    @include('inc.form')
 @endif
 
 @endsection
