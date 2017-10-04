@@ -8,8 +8,8 @@
 <div class="row dash-nav">
     <div class="dash-navbar col-md-4 col-md-offset-4">
         <ul class="nav navbar-nav col-md-12 text-center">
-            <li class="col-md-6 ative"><a href="{{ route('register') }}">Projects</a></li>
-            <li class="col-md-6"><a href="{{ route('register') }}">Reports</a></li>
+            <li class="col-md-6 ative"><a href="{{ url('dashboard') }}">Projects</a></li>
+            <li class="col-md-6"><a href="{{ url('reports') }}">Reports</a></li>
         </ul>
     </div>
 </div>
@@ -72,7 +72,7 @@
 
                             @endforeach 
                             @else 
-                            <h3 class="text-center">No result.</h3>
+                            <h3 style="padding-top:50px" class="text-center">No result.</h3>
                             @endif
 
                         </tbody>   

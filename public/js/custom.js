@@ -321,10 +321,10 @@ $(function() {
 
 $(document).on('click', '#filterGo-btn', function() {
 
-    var groupby = $('#grouBy').val();
+    var groupby = $('#groupBy').val();
     var start = $('#start').val();
     var end = $('#end').val();
-
+    
     $('#filter-body').html('');
     $.ajax({
         type: 'post',
@@ -345,11 +345,11 @@ $(document).on('click', '#filterGo-btn', function() {
             if (!$.trim(data)){ 
 
                 $('#filter-body')
-                .append("<h4 style='padding-top:50px' class='text-center'>No Results</h4>");
+                .append("<h3 style='padding-top:50px' class='text-center'>No Results</h3>");
 
             }else {
                 
-               sortArray(data);
+                sortArray(data, groupby);
             
             }
             
@@ -358,7 +358,7 @@ $(document).on('click', '#filterGo-btn', function() {
     
 });
 
-function sortArray(data){
+function sortArray(data, groupby){
     
     var groups = {};
     for (var i = 0; i < data.length; i++) {
@@ -376,11 +376,11 @@ function sortArray(data){
         for (var i = 0; i < groups[id].length; i++) {
             count += parseFloat(groups[id][i]['hours_rendered']);
         }
-
-        data.push({id: id, name: groups[id][0]['name'], total: formatTotalHours(count), query: groups[id]});
+        data.push({id: id, name: groups[id][0]['name'], total: formatTotalHours(count.toFixed(2)), query: groups[id]});
     }
     
-    return appendElements(data);
+    console.log(data);
+    return appendElements(data, groupby);
 }
 
 
@@ -395,52 +395,155 @@ function formatTotalHours(count){
     
 }
 
-function appendElements(data){
+function appendElements(data, groupby){
 
     var total = 0;
-    $('#filter-body')
+    
+    switch(groupby){
+
+        case 'Group by Developers':
+            $('#filter-body')
             .append("<div class='groupItem'>" +
                     "<table class='table table-list-search' id='default'>" +
                     "<thead>"  +
                     "<tr>" +
-                    "<th class='col-md-1'>Name</th>" +
-                    "<th class='col-md-1'>Project Name</th>" +
-                    "<th class='col-md-1'>Ticket #</th>" +
-                    "<th class='col-md-1'>Task Title</th>" +
-                    "<th class='col-md-2'>Roadblock</th>" +
-                    "<th class='col-md-1'>Date</th>" +
-                    "<th class='col-md-1'>Hours</th>" +
+                    "<th id='name' class='col-md-1'>Name</th>" +
+                    "<th id='pname' class='col-md-1'>Project Name</th>" +
+                    "<th id='ticket' class='col-md-1'>Ticket #</th>" +
+                    "<th id='task' class='col-md-1'>Task Title</th>" +
+                    "<th id='roadblock' class='col-md-2'>Roadblock</th>" +
+                    "<th id='date' class='col-md-1'>Date</th>" +
+                    "<th id='hours' class='col-md-1'>Hours</th>" +
                     "</tr>" +
                     "</thead>" +
                     "<tbody id='table-body'>" +
                     "</tbody>" +  
                     "</table>" +
                     "</div>");
+            break;
+        case 'Group by Projects':
+            $('#filter-body')
+            .append("<div class='groupItem'>" +
+                    "<table class='table table-list-search' id='default'>" +
+                    "<thead>"  +
+                    "<tr>" +
+                    "<th id='name' class='col-md-1'>Project Name</th>" +
+                    "<th id='pname' class='col-md-1'>Name</th>" +
+                    "<th id='ticket' class='col-md-1'>Ticket #</th>" +
+                    "<th id='task' class='col-md-1'>Task Title</th>" +
+                    "<th id='roadblock' class='col-md-2'>Roadblock</th>" +
+                    "<th id='date' class='col-md-1'>Date</th>" +
+                    "<th id='hours' class='col-md-1'>Hours</th>" +
+                    "</tr>" +
+                    "</thead>" +
+                    "<tbody id='table-body'>" +
+                    "</tbody>" +  
+                    "</table>" +
+                    "</div>");
+            break;
+        case 'Group by Tickets':
+            $('#filter-body')
+            .append("<div class='groupItem'>" +
+                    "<table class='table table-list-search' id='default'>" +
+                    "<thead>"  +
+                    "<tr>" +
+                    "<th id='name' class='col-md-1'>Task Title</th>" +
+                    "<th id='pname' class='col-md-1'>Ticket #</th>" +
+                    "<th id='ticket' class='col-md-1'>Project Name</th>" +
+                    "<th id='task' class='col-md-1'>Name</th>" +
+                    "<th id='roadblock' class='col-md-2'>Roadblock</th>" +
+                    "<th id='date' class='col-md-1'>Date</th>" +
+                    "<th id='hours' class='col-md-1'>Hours</th>" +
+                    "</tr>" +
+                    "</thead>" +
+                    "<tbody id='table-body'>" +
+                    "</tbody>" +  
+                    "</table>" +
+                    "</div>");
+            break;
+    }
     
     $.each(data, function(key, value) {
         
-        $('#table-body')
-        .append("<tr>" +
-                    "<td colspan='6'><strong>" + value.name.toUpperCase() + "</strong></td>" +
-                    "<td colspan='1'><strong>" + value.total + "</strong></td>" +
-                "</tr>" +
-                "<tr>" +
-                "<td colspan='7'><table style='width:100%' class='item"+ value.id +"'></table></td>" +  
-                "</tr>");
-        
-        $.each(value.query, function(innerKey, innerValue){
-            $('table.item'+ value.id)
-            .append("<tr class='item'>" +
-                        "<td class='col-md-1'></td>" +
-                        "<td class='col-md-1'>" + innerValue.project_name + "</td>" +
-                        "<td class='col-md-1'>" + innerValue.task_no + "</td>" +
-                        "<td class='col-md-1'>" + innerValue.task_title + "</td>" +
-                        "<td class='col-md-2'>" + innerValue.roadblock + "</td>" +
-                        "<td class='col-md-1'>" + innerValue.date_created + "</td>" +
-                        "<td class='col-md-1'>" + formatTotalHours(innerValue.hours_rendered) + "</td>" +
-                    "</tr>");
+       switch(groupby){
+       
+        case 'Group by Developers':
+               $('#table-body')
+               .append("<tr>" +
+                       "<td colspan='6'><strong>" + value.name.toUpperCase() + "</strong></td>" +
+                       "<td colspan='1'><strong>" + value.total + "</strong></td>" +
+                       "</tr>" +
+                       "<tr>" +
+                       "<td colspan='7'><table style='width:100%' class='item"+ value.id +"'></table></td>" +  
+                       "</tr>");
 
-        });
+               $.each(value.query, function(innerKey, innerValue){
+                   $('table.item'+ value.id)
+                   .append("<tr class='item'>" +
+                           "<td class='col-md-1'></td>" +
+                           "<td class='col-md-1'>" + innerValue.project_name + "</td>" +
+                           "<td class='col-md-1'>" + innerValue.task_no + "</td>" +
+                           "<td class='col-md-1'>" + innerValue.task_title + "</td>" +
+                           "<td class='col-md-2'>" + innerValue.roadblock + "</td>" +
+                           "<td class='col-md-1'>" + innerValue.date_created + "</td>" +
+                           "<td class='col-md-1'>" + formatTotalHours(innerValue.hours_rendered) + "</td>" +
+                           "</tr>");
+
+               });
+               break;
+               
+           case 'Group by Projects':
+               $('#table-body')
+               .append("<tr>" +
+                       "<td colspan='6'><strong>" + value.name.toUpperCase() + "</strong></td>" +
+                       "<td colspan='1'><strong>" + value.total + "</strong></td>" +
+                       "</tr>" +
+                       "<tr>" +
+                       "<td colspan='7'><table style='width:100%' class='item"+ value.id +"'></table></td>" +  
+                       "</tr>");
+
+               $.each(value.query, function(innerKey, innerValue){
+                   $('table.item'+ value.id)
+                   .append("<tr class='item'>" +
+                           "<td class='col-md-1'></td>" +
+                           "<td class='col-md-1'>" + innerValue.username + "</td>" +
+                           "<td class='col-md-1'>" + innerValue.task_no + "</td>" +
+                           "<td class='col-md-1'>" + innerValue.task_title + "</td>" +
+                           "<td class='col-md-2'>" + innerValue.roadblock + "</td>" +
+                           "<td class='col-md-1'>" + innerValue.date_created + "</td>" +
+                           "<td class='col-md-1'>" + formatTotalHours(innerValue.hours_rendered) + "</td>" +
+                           "</tr>");
+
+               });
+               break;
+               
+           case 'Group by Tickets':
+               $('#table-body')
+               .append("<tr>" +
+                       "<td colspan='1'><strong>" + value.name.toUpperCase() + "</strong></td>" +
+                       "<td colspan='5'><strong>" + value.id + "</strong></td>" +
+                       "<td colspan='1'><strong>" + value.total + "</strong></td>" +
+                       "</tr>" +
+                       "<tr>" +
+                       "<td colspan='7'><table style='width:100%' class='item"+ value.id +"'></table></td>" +  
+                       "</tr>");
+
+               $.each(value.query, function(innerKey, innerValue){
+                   $('table.item'+ value.id)
+                   .append("<tr class='item'>" +
+                           "<td class='col-md-1'></td>" +
+                           "<td class='col-md-1'></td>" +
+                           "<td class='col-md-1'>" + innerValue.project_name + "</td>" +
+                           "<td class='col-md-1'>" + innerValue.username + "</td>" +
+                           "<td class='col-md-2'>" + innerValue.roadblock + "</td>" +
+                           "<td class='col-md-1'>" + innerValue.date_created + "</td>" +
+                           "<td class='col-md-1'>" + formatTotalHours(innerValue.hours_rendered) + "</td>" +
+                           "</tr>");
+
+               });
+               break;
+       
+       }
         
     });
     
