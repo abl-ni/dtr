@@ -95,7 +95,8 @@ $(document).on('click', '#project-update', function(e) {
   
     var id = $("#id").val();
     var name = $('#projectname-updated').val();
-    var pm_id, tl_id;
+    var pm_id = $("select#pm_list option:selected").attr('id');
+    var tl_id = $("select#dev_list option:selected").attr('id');
     
     $( "select#pm_list" ).change(function() {
         $( "select#pm_list option:selected" ).each(function() {
@@ -125,7 +126,8 @@ $(document).on('click', '#project-update', function(e) {
             'id': id,
             'name': name,
             'pm_id' : pm_id,
-            'tl_id' : tl_id,},
+            'tl_id' : tl_id,
+        },
         success: function(data) {
             location.reload();
         }

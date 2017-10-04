@@ -62,3 +62,11 @@ body {
 .groupItem {
     margin-top: 50px;
 }
+
+.bg-white {
+    background-color: #fff;
+}
+
+.padding-none {
+    padding: 0px !important;
+}
