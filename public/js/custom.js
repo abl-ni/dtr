@@ -95,11 +95,23 @@ $(document).on('click', '#project-update', function(e) {
   
     var id = $("#id").val();
     var name = $('#projectname-updated').val();
-    var pm = $('#pm_list').find(":selected").val();
-    var pm_id = $('#pm_list').find(":selected").attr('id');
-    var tl = $('#tl_list').find(":selected").val();
-    var tl_id = $('#tl_list').find(":selected").attr('id');
-    console.log(id, name, pm, pm_id, tl, tl_id);
+    var pm_id, tl_id;
+    
+    $( "select#pm_list" ).change(function() {
+        $( "select#pm_list option:selected" ).each(function() {
+            pm_id = $( this ).attr('id');
+        });
+    })
+    .trigger( "change" ); 
+
+    $( "select#dev_list" ).change(function() {
+        $( "select#dev_list option:selected" ).each(function() {
+            tl_id = $( this ).attr('id');
+        });
+    })
+    .trigger( "change" );
+    
+    console.log(id, name, pm_id, tl_id);
     $.ajax({
         type: 'post',
         url: '/updateProject',
@@ -112,9 +124,7 @@ $(document).on('click', '#project-update', function(e) {
             '_token': $('input[name=_token]').val(),
             'id': id,
             'name': name,
-            'pm' : pm,
             'pm_id' : pm_id,
-            'tl' : tl,
             'tl_id' : tl_id,},
         success: function(data) {
             location.reload();
@@ -208,8 +218,6 @@ $(document).ready(function(){
     
     $('body').on('click', function (e) {
         $('[data-toggle="popover"]').each(function () {
-            //the 'is' for buttons that trigger popups
-            //the 'has' for icons within a button that triggers a popup
             if (!$(this).is(e.target) 
                 && $(this).has(e.target).length === 0 
                 && $('.popover').has(e.target).length === 0) {
@@ -407,7 +415,7 @@ function appendElements(data, groupby){
                     "<table class='table table-list-search' id='default'>" +
                     "<thead>"  +
                     "<tr>" +
-                    "<th id='name' class='col-md-1'>Name</th>" +
+                    "<th id='name' class='col-md-1'></th>" +
                     "<th id='pname' class='col-md-1'>Project Name</th>" +
                     "<th id='ticket' class='col-md-1'>Ticket #</th>" +
                     "<th id='task' class='col-md-1'>Task Title</th>" +
@@ -427,7 +435,7 @@ function appendElements(data, groupby){
                     "<table class='table table-list-search' id='default'>" +
                     "<thead>"  +
                     "<tr>" +
-                    "<th id='name' class='col-md-1'>Project Name</th>" +
+                    "<th id='name' class='col-md-1'></th>" +
                     "<th id='pname' class='col-md-1'>Name</th>" +
                     "<th id='ticket' class='col-md-1'>Ticket #</th>" +
                     "<th id='task' class='col-md-1'>Task Title</th>" +
@@ -447,8 +455,8 @@ function appendElements(data, groupby){
                     "<table class='table table-list-search' id='default'>" +
                     "<thead>"  +
                     "<tr>" +
-                    "<th id='name' class='col-md-1'>Task Title</th>" +
-                    "<th id='pname' class='col-md-1'>Ticket #</th>" +
+                    "<th id='name' class='col-md-1'></th>" +
+                    "<th id='pname' class='col-md-1'></th>" +
                     "<th id='ticket' class='col-md-1'>Project Name</th>" +
                     "<th id='task' class='col-md-1'>Name</th>" +
                     "<th id='roadblock' class='col-md-2'>Roadblock</th>" +
