@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('deleteProject', 'ProjectController@deleteProject');
     Route::post('project', 'ProjectController@getProject');
     Route::post('getDev', 'ProjectController@getDev');
+    Route::get('project/{id}', 'ProjectController@show');
     
     Route::post('addDev','ProjectDevsController@addDev');
     Route::post('ListDev','ProjectDevsController@getListDev');

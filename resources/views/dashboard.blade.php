@@ -15,35 +15,50 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="col-md-9">
-                <div class="panel panel-success">
+                <div class="panel panel-default">
                     <div class="panel-heading col-md-12">
-                        <span class="col-md-6">Project</span>
-                        <span class="col-md-3">Tickets</span>
+                        <span class="col-md-5">Project</span>
+                        <span class="col-md-2">Tickets</span>
                         <span class="col-md-3">Developers</span>
+                        <span class="col-md-1">Action</span>
                     </div>
                     <div class="panel-body col-lg-12 bg-white padding-none">
                         @foreach($project as $project)
-                        <a href="{{ url('project/{$project->id}') }}" class="list-group-item col-lg-12">
-                            <span class="col-md-6">{{ $project->name }}</span>
-                            <span class="col-md-3"><span class="badge">67</span></span>
-                            <span class="col-md-3"><span class="badge">67</span></span>
-                        </a>
+                        <div class="list-group-item col-lg-12">
+                            <a href="{{action('ProjectController@show', $project->id)}}" class="col-lg-10">
+                                <span class="col-md-6">{{ $project->name }}</span>
+                                <span class="col-md-3"><span class="badge">{{ $project->total_tickets }}</span></span>
+                                <span class="col-md-3"><span class="badge">{{ $project->total_devs }}</span></span>
+                            </a>
+                            <div class="col-sm-2">
+                                <button class="add-modal btn btn-info btn-sm" data-id="{{$project->id}}" data-name="{{$project->name}}" data-target="#add-dev" data-toggle="modal">
+                                    <span class="icons icons icon-user-follow icon-modals"></span>
+                                </button>
+                                <button class="edit-modal btn btn-warning btn-sm" data-id="{{$project->id}}" data-name="{{$project->name}}" data-target="#update-project" data-toggle="modal">
+                                    <span class="icons icon-pencil icon-modals"></span>
+                                </button>
+                                <button class="delete-modal btn btn-danger btn-sm" data-id="{{$project->id}}" data-name="{{$project->name}}" data-target="#delete-project" data-toggle="modal">
+                                    <span class="icons icon-trash icon-modals"></span>
+                                </button>
+                            </div>
+                            
+                        </div>
                         @endforeach                      
                     </div>
 
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="panel panel-success">
+                <div class="panel panel-default">
                     <div class="panel-heading ">
                         <h3 class="panel-title">TOTAL PROJECTS</h3>
                     </div>
                     <div class="panel-body">
-                        <h1 class="text-center"><strong>89</strong></h1>
+                        <h1 class="text-center"><strong>{{ $projectCount }}</strong></h1>
                     </div>
                 </div>
 
-                <div class="panel panel-success">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Logs Today</h3>
                     </div>
@@ -58,11 +73,11 @@
 
 @elseif (Auth::user()->type == 'PM')
 
-@include('inc.projects')
+    @include('inc.projects')
 
 @else
 
-@include('inc.form')
+    @include('inc.form')
 
 @endif
 

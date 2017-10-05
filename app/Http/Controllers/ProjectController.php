@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Project;
 use App\User;
 use App\Dev;
@@ -17,44 +18,63 @@ class ProjectController extends Controller
     {
         return view('dashboard');
     }
+    
+    public function show($id)
+    {
+        $project = Project::find($id);
+        
+        return $project;//view('project',compact('project'));
+    }
 
     public function addProject(Request $request)
     { 
-        $data = new Project ();
+        $data = new Project();
         $data->name = $request->name;
         $data->added_by = $request->added_by;
         $data->pm_id = $request->pm_id;
         $data->tl_id = $request->tl_id;
         $data->date_created = Carbon::now()->toDateString();
-        $data->save ();
+        $data->save();
         
-        $dev = new Dev ();
+        $dev = new Dev();
         $dev->dev_id = $request->tl_id;
         $dev->proj_id = $data->id;
         $dev->date_created = Carbon::now()->toDateString();
-        $dev->save ();
-        return $dev->proj_id;//response()->json($data);  
+        $dev->save();
+        return response()->json($data);  
     }
     
     public function getQuery(Request $req)
     {
         $id = Auth::id();
         
-        if(User::find($id)->type == 'Dev'){
+        if (User::find($id)->type == 'Dev')
+        {
             $project = Dev::where('dev_id', $id)->get();
             $projDevArray = [];
             $projDevArray = array_pluck($project, 'proj_id');
-
-            $project = Project::whereIn('id', $projDevArray)
-                              ->get();
-        } else {
+            $project = Project::whereIn('id', $projDevArray)->get();
+        }
+        else if (User::find($id)->type == 'Admin')
+        {
+            $project = DB::table('projects')
+            ->select(DB::raw('projects.*, COUNT(devs.dev_id) as total_devs, COUNT(dtrs.task_no) as total_tickets'))
+            ->leftJoin('devs', 'devs.proj_id', '=', 'projects.id')
+            ->leftJoin('dtrs', 'devs.id', '=', 'dtrs.proj_devs_id')
+            ->groupBy('projects.id')
+            ->get();
+        }
+        else
+        {
             $project = Project::all();
         }
+        
+        $projectCount = count($project);
 
         $dev = User::where('type', 'Dev')->get();
         $pm = User::orderByRaw("id = $id DESC")->where('type', 'PM')->get();
         $allPM = User::where('type', 'PM')->get();
-        return view ('dashboard',compact('project', 'dev', 'pm', 'allPM'));
+        return view ('dashboard',compact('project', 'projectCount', 'dev', 'pm', 'allPM'));
     }
     
     public function updateProject(Request $req) 
@@ -90,8 +110,7 @@ class ProjectController extends Controller
 
         $selectDev = User::where([
             ['id', '!=', $project->tl_id],
-            ['type', 'Dev']
-        ])
+            ['type', 'Dev']])
             ->whereNotIn('id', $devArray)
             ->get();
 

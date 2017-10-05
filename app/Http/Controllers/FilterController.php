@@ -53,7 +53,7 @@ class FilterController extends Controller
                     ->where('users.type', 'Dev')
                     ->whereBetween('dtrs.date_created', [$start, $end])
                     ->whereIn('devs.id', $getDtrIds)
-                    ->groupBy('users.id')
+                    ->groupBy('dtrs.id')
                     ->get();
 
                 return $result;
