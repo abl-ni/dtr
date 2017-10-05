@@ -14,8 +14,8 @@
 <div class="dashboard-container">
     <div class="row">
         <div class="col-lg-12">
-            <div class="col-md-7">
-                <div class="panel panel-default">
+            <div class="col-md-9">
+                <div class="panel panel-success">
                     <div class="panel-heading col-md-12">
                         <span class="col-md-6">Project</span>
                         <span class="col-md-3">Tickets</span>
@@ -23,30 +23,32 @@
                     </div>
                     <div class="panel-body col-lg-12 bg-white padding-none">
                         @foreach($project as $project)
-                        <a href="#" class="list-group-item">
-                            <span>{{ $project->name }}</span>
+                        <a href="{{ url('project/{$project->id}') }}" class="list-group-item col-lg-12">
+                            <span class="col-md-6">{{ $project->name }}</span>
+                            <span class="col-md-3"><span class="badge">67</span></span>
+                            <span class="col-md-3"><span class="badge">67</span></span>
                         </a>
                         @endforeach                      
                     </div>
-                   
+
                 </div>
             </div>
-            <div class="col-md-5">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Panel title</h3>
+            <div class="col-md-3">
+                <div class="panel panel-success">
+                    <div class="panel-heading ">
+                        <h3 class="panel-title">TOTAL PROJECTS</h3>
                     </div>
                     <div class="panel-body">
-                        Panel content
+                        <h1 class="text-center"><strong>89</strong></h1>
                     </div>
                 </div>
-                
-                <div class="panel panel-default">
+
+                <div class="panel panel-success">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Panel title</h3>
+                        <h3 class="panel-title">Logs Today</h3>
                     </div>
                     <div class="panel-body">
-                        Panel content
+                        <h1 class="text-center"><strong>0</strong></h1>
                     </div>
                 </div>
             </div>
@@ -55,13 +57,13 @@
 </div>
 
 @elseif (Auth::user()->type == 'PM')
-   
-    @include('inc.projects')
-    
+
+@include('inc.projects')
+
 @else
-   
-    @include('inc.form')
-    
+
+@include('inc.form')
+
 @endif
 
 @endsection

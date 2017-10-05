@@ -31,6 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('reports', 'FilterController@getQuery');
     Route::post('getFilter', 'FilterController@getFilter');
     
+    
+    
     });
 
 Auth::routes();
