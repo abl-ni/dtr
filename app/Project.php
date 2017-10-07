@@ -23,4 +23,14 @@ class Project extends Model
     {
         return $this->hasMany('App\Dev', 'proj_id', 'id');
     }
+
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id', 'added_by');
+    }
+
+    public function dtrs()
+    {
+        return $this->hasMany('App\Dtr');
+    }
 }

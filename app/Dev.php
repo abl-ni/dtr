@@ -12,15 +12,15 @@ class Dev extends Model
     
     public function user()
     {
-        return $this->hasOne('App\User', 'id', 'dev_id');
+        return $this->belongsTo('App\User', 'dev_id', 'id');
     }
     
     public function project()
     {
-        return $this->belongsTo('App\Project', 'id', 'proj_id');
+        return $this->belongsToMany('App\Project', 'id', 'proj_id');
     }
     
-    public function dtr()
+    public function dtrs()
     {
         return $this->hasMany('App\Dtr', 'proj_devs_id', 'id');
     }

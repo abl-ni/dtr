@@ -11,7 +11,7 @@ class Dtr extends Model
     
     public function dev()
     {
-        return $this->hasOne('App\Dev', 'id', 'proj_devs_id');
+        return $this->belongsToMany('App\Dev', 'id', 'proj_devs_id');
     }
 }
 

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Project;
 use App\User;
 use App\Dev;
+use App\Dtr;
 use Auth;
 use Validator;
 use Response;
@@ -21,9 +22,11 @@ class ProjectController extends Controller
     
     public function show($id)
     {
-        $project = Project::find($id);
-        
-        return $project;//view('project',compact('project'));
+        $project = Project::where('id', $id)->first();
+        $devs = $project->dev()->pluck('id');
+        $logs = Dtr::whereIn('proj_devs_id', $devs)->get();
+        $tickets = $logs->groupBy('task_no')->count();
+        return view('project',compact('project', 'logs', 'tickets'));
     }
 
     public function addProject(Request $request)
@@ -55,16 +58,7 @@ class ProjectController extends Controller
             $projDevArray = array_pluck($project, 'proj_id');
             $project = Project::whereIn('id', $projDevArray)->get();
         }
-        else if (User::find($id)->type == 'Admin')
-        {
-            $project = DB::table('projects')
-            ->select(DB::raw('projects.*, COUNT(devs.dev_id) as total_devs, COUNT(dtrs.task_no) as total_tickets'))
-            ->leftJoin('devs', 'devs.proj_id', '=', 'projects.id')
-            ->leftJoin('dtrs', 'devs.id', '=', 'dtrs.proj_devs_id')
-            ->groupBy('projects.id')
-            ->get();
-        }
-        else
+        else 
         {
             $project = Project::all();
         }

@@ -15,7 +15,7 @@
 </div>
 <div class="dashboard-container">
     <div class="row">
-        <div class="col-lg-10 col-md-offset-1">
+        <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading col-md-12">
                     <form method="post">
@@ -72,7 +72,7 @@
 
                             @endforeach 
                             @else 
-                            <h3 style="padding-top:50px" class="text-center">No result.</h3>
+                            <h3 style="padding-top:50px" class="text-center">No Results Found.</h3>
                             @endif
 
                         </tbody>   

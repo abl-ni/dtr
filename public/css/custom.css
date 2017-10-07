@@ -30,7 +30,9 @@ body {
 }
 
 .dashboard-container {
-    margin-top:40px
+    margin-top:40px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .dash-nav {
@@ -44,11 +46,9 @@ body {
 
 .popover-content {
     height: 200px;
-    width: 200px;
+    width: 250px;
     overflow-y: scroll;
 }
-
-
 
 #reportrange {
     background: #fff; 

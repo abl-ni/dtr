@@ -41,7 +41,7 @@ $(document).on('click', '.edit-modal', function(e) {
     
     $.ajax({
         type: 'post',
-        url: '/project', 
+        url: '/getproject', 
         beforeSend: function (xhr) {
             var token = $('meta[name="csrf_token"]').attr('content');
             if (token) {
@@ -355,7 +355,7 @@ $(document).on('click', '#filterGo-btn', function() {
             if (!$.trim(data)){ 
 
                 $('#filter-body')
-                .append("<h3 style='padding-top:50px' class='text-center'>No Results</h3>");
+                .append("<h3 style='padding-top:50px' class='text-center'>No Results Found.</h3>");
 
             }else {
                 
@@ -479,7 +479,7 @@ function appendElements(data, groupby){
        
         case 'Group by Developers':
                $('#table-body')
-               .append("<tr>" +
+               .append("<tr style='border-top: none;'>" +
                        "<td colspan='6'><strong>" + value.name.toUpperCase() + "</strong></td>" +
                        "<td colspan='1'><strong>" + value.total + "</strong></td>" +
                        "</tr>" +
@@ -489,7 +489,7 @@ function appendElements(data, groupby){
 
                $.each(value.query, function(innerKey, innerValue){
                    $('table.item'+ value.id)
-                   .append("<tr class='item'>" +
+                   .append("<tr class='item' style='border-bottom: 1px solid #f5f5f5;'>" +
                            "<td class='col-md-1'></td>" +
                            "<td class='col-md-1'>" + innerValue.project_name + "</td>" +
                            "<td class='col-md-1'>" + innerValue.task_no + "</td>" +
@@ -504,7 +504,7 @@ function appendElements(data, groupby){
                
            case 'Group by Projects':
                $('#table-body')
-               .append("<tr>" +
+               .append("<tr style='border-top: none;'>" +
                        "<td colspan='6'><strong>" + value.name.toUpperCase() + "</strong></td>" +
                        "<td colspan='1'><strong>" + value.total + "</strong></td>" +
                        "</tr>" +
@@ -514,7 +514,7 @@ function appendElements(data, groupby){
 
                $.each(value.query, function(innerKey, innerValue){
                    $('table.item'+ value.id)
-                   .append("<tr class='item'>" +
+                   .append("<tr class='item' style='border-bottom: 1px solid #f5f5f5;'>" +
                            "<td class='col-md-1'></td>" +
                            "<td class='col-md-1'>" + innerValue.username + "</td>" +
                            "<td class='col-md-1'>" + innerValue.task_no + "</td>" +
@@ -529,9 +529,10 @@ function appendElements(data, groupby){
                
            case 'Group by Tickets':
                $('#table-body')
-               .append("<tr>" +
-                       "<td colspan='1'><strong>" + value.name.toUpperCase() + "</strong></td>" +
-                       "<td colspan='5'><strong>" + value.id + "</strong></td>" +
+               .append("<tr style='border-top: none;'>" +
+                      "<td colspan='6'><strong>" + value.name.toUpperCase() + "</strong><br>" +
+                        "<strong> <span class='badge'>#" + value.id + "</span></strong>" +
+                      "</td>" +
                        "<td colspan='1'><strong>" + value.total + "</strong></td>" +
                        "</tr>" +
                        "<tr>" +
@@ -540,7 +541,7 @@ function appendElements(data, groupby){
 
                $.each(value.query, function(innerKey, innerValue){
                    $('table.item'+ value.id)
-                   .append("<tr class='item'>" +
+                   .append("<tr class='item'style='border-bottom: 1px solid #f5f5f5;'>" +
                            "<td class='col-md-1'></td>" +
                            "<td class='col-md-1'></td>" +
                            "<td class='col-md-1'>" + innerValue.project_name + "</td>" +

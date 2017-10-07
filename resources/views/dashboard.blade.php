@@ -2,7 +2,10 @@
 
 @section('content')
 @if (Auth::user()->type == 'Admin')
-
+      @include('modals.create')
+      @include('modals.update')
+      @include('modals.delete')
+      @include('modals.dev')
 <div class="row dash-nav">
     <div class="dash-navbar col-md-4 col-md-offset-4">
         <ul class="nav navbar-nav col-md-12 text-center">
@@ -16,34 +19,50 @@
         <div class="col-lg-12">
             <div class="col-md-9">
                 <div class="panel panel-default">
-                    <div class="panel-heading col-md-12">
-                        <span class="col-md-5">Project</span>
-                        <span class="col-md-2">Tickets</span>
-                        <span class="col-md-3">Developers</span>
-                        <span class="col-md-1">Action</span>
-                    </div>
-                    <div class="panel-body col-lg-12 bg-white padding-none">
-                        @foreach($project as $project)
-                        <div class="list-group-item col-lg-12">
-                            <a href="{{action('ProjectController@show', $project->id)}}" class="col-lg-10">
-                                <span class="col-md-6">{{ $project->name }}</span>
-                                <span class="col-md-3"><span class="badge">{{ $project->total_tickets }}</span></span>
-                                <span class="col-md-3"><span class="badge">{{ $project->total_devs }}</span></span>
-                            </a>
-                            <div class="col-sm-2">
-                                <button class="add-modal btn btn-info btn-sm" data-id="{{$project->id}}" data-name="{{$project->name}}" data-target="#add-dev" data-toggle="modal">
-                                    <span class="icons icons icon-user-follow icon-modals"></span>
-                                </button>
-                                <button class="edit-modal btn btn-warning btn-sm" data-id="{{$project->id}}" data-name="{{$project->name}}" data-target="#update-project" data-toggle="modal">
-                                    <span class="icons icon-pencil icon-modals"></span>
-                                </button>
-                                <button class="delete-modal btn btn-danger btn-sm" data-id="{{$project->id}}" data-name="{{$project->name}}" data-target="#delete-project" data-toggle="modal">
-                                    <span class="icons icon-trash icon-modals"></span>
-                                </button>
-                            </div>
-                            
-                        </div>
-                        @endforeach                      
+                  <div class="panel-body col-lg-12 bg-white padding-none">
+                    <table class="table table-borderless table-responsive">
+                          @if($project->isNotEmpty())
+                          <thead>
+                              <tr>
+                                  <th class="col-md-1">ID</th>
+                                  <th class="col-md-3">Name</th>
+                                  <th class="col-md-2">Project Manager</th>
+                                  <th class="col-md-2">Team Leader</th>
+                                  <th class="col-md-2">Developers</th>
+                                  <th class="col-md-2">Actions</th>
+                              </tr>
+                          </thead>
+                          <tbody id="table-body">
+                              @foreach($project as $project)    
+                              <tr class="item{{$project->id}}">
+                                  <td>{{$project->id}}</td>
+                                  <td><a href="{{ action('ProjectController@show', $project->id)}}">{{$project->name}}</a></td>
+                                  <td>{{$project->PM()->first()->name}}</td>
+                                  <td>{{$project->TL()->first()->name}}</td>
+                                  <td>
+                                      <a href="#" class="list_popover" id="{{$project->id}}" data-toggle="popover" title="Developers" data-html="true" data-content="">See List <span class="badge">{{ count($project->dev) }}</span></a>
+                                  </td>
+                                  <td>
+                                      <div class="col-sm-12">
+                                          <button class="add-modal btn btn-info btn-sm" data-id="{{$project->id}}" data-name="{{$project->name}}" data-target="#add-dev" data-toggle="modal">
+                                              <span class="icons icons icon-user-follow icon-modals"></span>
+                                          </button>
+                                          <button class="edit-modal btn btn-warning btn-sm" data-id="{{$project->id}}" data-name="{{$project->name}}" data-target="#update-project" data-toggle="modal">
+                                              <span class="icons icon-pencil icon-modals"></span>
+                                          </button>
+                                          <button class="delete-modal btn btn-danger btn-sm" data-id="{{$project->id}}" data-name="{{$project->name}}" data-target="#delete-project" data-toggle="modal">
+                                              <span class="icons icon-trash icon-modals"></span>
+                                          </button>
+                                      </div>
+                                  </td>
+                              </tr>
+                              @endforeach 
+                              @else 
+                              <h3 class="text-center">No Projects Yet.</h3>
+                              @endif
+                          </tbody>   
+                      </table>
+                                   
                     </div>
 
                 </div>
