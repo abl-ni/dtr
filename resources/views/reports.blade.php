@@ -8,8 +8,9 @@
 <div class="row dash-nav">
     <div class="dash-navbar col-md-4 col-md-offset-4">
         <ul class="nav navbar-nav col-md-12 text-center">
-            <li class="col-md-6 ative"><a href="{{ url('dashboard') }}">Projects</a></li>
-            <li class="col-md-6"><a href="{{ url('reports') }}">Reports</a></li>
+            <li class="col-md-4 ative"><a href="{{ url('dashboard') }}">Projects</a></li>
+            <li class="col-md-4"><a href="{{ url('reports') }}">Reports</a></li>
+            <li class="col-md-4"><a href="{{ url('users') }}">Users</a></li>
         </ul>
     </div>
 </div>
@@ -45,7 +46,7 @@
                     </form>
                 </div>
                 <div class="panel-body" id="filter-body">
-                    <table class="table table-list-search" id="default">
+                    <table class="table" cellspacing="0" width="100%">
                         @if($result->isNotEmpty())
                         <thead>
                             <tr>

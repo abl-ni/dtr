@@ -1,140 +1,32 @@
-$('.addproj').click(function (event){
-    var added_by = $('.current_user').attr('id');
-    $("#pm").val($("#" + added_by).val());
-    console.log($("#" + added_by).val());
-});
-
-$('#projectname-add').click(function (event) {
-    var text = $('#projectname-input').val();
-    var pm = $('#pm').find(":selected").val();
-    var pm_id = $('#pm').find(":selected").attr('id');
-    var tl = $('#tl').find(":selected").val();
-    var tl_id = $('#tl').find(":selected").attr('id');
-    var added_by = $('.current_user').attr('id');
+////NEWWWWWW EDIT PROJECT
+$("select.selectpicker").selectpicker();
+$('#updateProject-modal').on('show.bs.modal', function(e) {
+    //get data-id attribute of the clicked element
+    var projectid = $(e.relatedTarget).data('id');
+    var projectname = $(e.relatedTarget).data('name');
+    var pmid = $(e.relatedTarget).data('pm_id');
+    var tlid = $(e.relatedTarget).data('tl_id');
     
-    $.ajax({
-        type: 'post',
-        url: '/addProject',
-        beforeSend: function (xhr) {
-            var token = $('meta[name="csrf_token"]').attr('content');
-            if (token) {
-                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-            }
-        },
-        data: {
-            '_token': $('input[name=_token]').val(),
-            'name': text,
-            'added_by': added_by,
-            'pm_id': pm_id,
-            'tl_id': tl_id
-        },
-        success: function(data) {
-            location.reload();
-        }
-    });
-    $('#projectname-input').val('');
+    $("input[name='projectname']").val(projectname);
+    $("input[name='projectid']").val(projectid);
+    $("select[name='pm'].selectpicker").selectpicker('val', pmid);
+    $("select[name='dev'].selectpicker").selectpicker('val', tlid);
+     
+    $("#updateProject-form").attr("action", "updateProject/" + projectid + "");
 });
+//////END NEWWW EDIT PROJECT
 
-$(document).on('click', '.edit-modal', function(e) {
-    $('#update-project').modal('show');
-    var id = $(this).data('id');
+////NEWWWWWW DELETE PROJECT
+$('#deleteProject-modal').on('show.bs.modal', function(e) {
+    //get data-id attribute of the clicked element
+    var projectid = $(e.relatedTarget).data('id');
+    var projectname = $(e.relatedTarget).data('name');
     
-    $.ajax({
-        type: 'post',
-        url: '/getproject', 
-        beforeSend: function (xhr) {
-            var token = $('meta[name="csrf_token"]').attr('content');
-            if (token) {
-                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-            }
-        },
-        data: {
-            '_token': $('input[name=_token]').val(),
-            'id': id,
-            
-        },
-        success: function(data) {
-            $('#id').val(data.id);
-            $('#projectname-updated').val(data.name);
-            $("#pm_list").val($("#" + data.pm_id).val());
-            $("#dev_list").val($("#" + data.tl_id).val());
-        }
-    });
-    
+    $('span#projectname').html(projectname);
+
+    $("#deleteProject-form").attr("action", "deleteProject/" + projectid + "");
 });
-
-
-$(document).on('click', '.delete-modal', function(e) {
-    $('span#projectname').text($(this).data('name'));
-    $('span#projectid').text($(this).data('id'));
-    $('#delete-project').modal('show');
-});
-
-$(document).on('click', '#project-delete', function(e) {
-
-    $.ajax({
-        type: 'post',
-        url: '/deleteProject',
-        beforeSend: function (xhr) {
-            var token = $('meta[name="csrf_token"]').attr('content');
-            if (token) {
-                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-            }},
-        data: {
-            '_token': $('input[name=_token]').val(),
-            'id': $('#projectid').text() },
-        success: function(data) {
-            $('.item' + $('#projectid').text()).remove();
-        }
-    });
-
-});
-
-
-$(document).on('click', '#project-update', function(e) {
-  
-    var id = $("#id").val();
-    var name = $('#projectname-updated').val();
-    var pm_id = $("select#pm_list option:selected").attr('id');
-    var tl_id = $("select#dev_list option:selected").attr('id');
-    
-    $( "select#pm_list" ).change(function() {
-        $( "select#pm_list option:selected" ).each(function() {
-            pm_id = $( this ).attr('id');
-        });
-    })
-    .trigger( "change" ); 
-
-    $( "select#dev_list" ).change(function() {
-        $( "select#dev_list option:selected" ).each(function() {
-            tl_id = $( this ).attr('id');
-        });
-    })
-    .trigger( "change" );
-    
-    console.log(id, name, pm_id, tl_id);
-    $.ajax({
-        type: 'post',
-        url: '/updateProject',
-        beforeSend: function (xhr) {
-            var token = $('meta[name="csrf_token"]').attr('content');
-                if (token) {
-                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                }},
-        data: {
-            '_token': $('input[name=_token]').val(),
-            'id': id,
-            'name': name,
-            'pm_id' : pm_id,
-            'tl_id' : tl_id,
-        },
-        success: function(data) {
-            location.reload();
-        }
-    });
-    
-});
-
+//////END NEWWW DELETE PROJECT
 
 $('#select_devs').selectpicker(); 
 $(document).on('click', '.add-modal', function(e) {
@@ -255,47 +147,59 @@ $(document).ready(function(){
     });
 });
 
+//
+//$(document).on('click', '#dtrSubmit-btn', function() {
+//    var proj_id = $('select#selectProject option:selected').attr('id');
+//    var ticket_no = $('#ticket-number').val();
+//    var task_title = $('#task-title').val();
+//    var roadblock = $('#roadblock').val();
+//    var hrs_rendered = $('#hours-rendered').val();
+//
+//    $.ajax({
+//        type: 'post',
+//        url: '/Logs',
+//        beforeSend: function (xhr) {
+//            var token = $('meta[name="csrf_token"]').attr('content');
+//            if (token) {
+//                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+//            }},
+//        data: {
+//            '_token': $('input[name=_token]').val(),
+//            'proj_id' : proj_id,
+//            'ticket_no' : ticket_no,
+//            'task_title' : task_title,
+//            'roadblock' : roadblock,
+//            'hrs_rendered' : hrs_rendered
+//        },
+//        success: function(data) {
+//            $('.form-container')
+//            .append("<div id='success-alert' class='alert alert-success alert-dismissable fade in'>" +
+//                    "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+//                    "Your Logs are added <strong>successfully!</strong>." +
+//                    "</div>");
+//            $("#success-alert").slideUp(500);
+//            
+//            $('#ticket-number').val('');
+//            $('#task-title').val('');
+//            $('#roadblock').val('');
+//            $('#hours-rendered').val('');
+//        }
+//    });
+//    
+//});
 
-$(document).on('click', '#dtrSubmit-btn', function() {
-    var proj_id = $('select#selectProject option:selected').attr('id');
-    var ticket_no = $('#ticket-number').val();
-    var task_title = $('#task-title').val();
-    var roadblock = $('#roadblock').val();
-    var hrs_rendered = $('#hours-rendered').val();
 
-    $.ajax({
-        type: 'post',
-        url: '/Logs',
-        beforeSend: function (xhr) {
-            var token = $('meta[name="csrf_token"]').attr('content');
-            if (token) {
-                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-            }},
-        data: {
-            '_token': $('input[name=_token]').val(),
-            'proj_id' : proj_id,
-            'ticket_no' : ticket_no,
-            'task_title' : task_title,
-            'roadblock' : roadblock,
-            'hrs_rendered' : hrs_rendered
-        },
-        success: function(data) {
-            $('.form-container')
-            .append("<div id='success-alert' class='alert alert-success alert-dismissable fade in'>" +
-                    "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
-                    "Your Logs are added <strong>successfully!</strong>." +
-                    "</div>");
-            $("#success-alert").slideUp(500);
-            
-            $('#ticket-number').val('');
-            $('#task-title').val('');
-            $('#roadblock').val('');
-            $('#hours-rendered').val('');
-        }
-    });
-    
+////NEWWWWWW ADD LOGS (DTR)
+$('#deleteProject-modal').on('show.bs.modal', function(e) {
+    //get data-id attribute of the clicked element
+    var projectid = $(e.relatedTarget).data('id');
+    var projectname = $(e.relatedTarget).data('name');
+
+    $('span#projectname').html(projectname);
+
+    $("#deleteProject-form").attr("action", "deleteProject/" + projectid + "");
 });
-
+//////END NEWWW ADD LOGS (DTR)
 
 
 $('input[name="daterange"]').daterangepicker();
@@ -327,6 +231,11 @@ $(function() {
     cb(start, end);
 
 });
+
+
+$(document).ready(function() {
+    $('table#table').DataTable();
+} );
 
 
 $(document).on('click', '#filterGo-btn', function() {
@@ -414,7 +323,7 @@ function appendElements(data, groupby){
         case 'Group by Developers':
             $('#filter-body')
             .append("<div class='groupItem'>" +
-                    "<table class='table table-list-search' id='default'>" +
+                    "<table class='table table-list-search display' id='default'>" +
                     "<thead>"  +
                     "<tr>" +
                     "<th id='name' class='col-md-1'></th>" +
@@ -558,9 +467,24 @@ function appendElements(data, groupby){
         
     });
     
-    
-
 }
+
+
+$('#reset-password').on('show.bs.modal', function(e) {
+    //get data-id attribute of the clicked element
+    var userid = $(e.relatedTarget).data('id');
+    var username = $(e.relatedTarget).data('name');
+    $("span#username").html(username);
+    $("#reset-form").attr("action", "users/resetPassword/" + userid + "");//e.g. 'domainname/products/' + productId
+});
+
+$('#reset-role').on('show.bs.modal', function(e) {
+    //get data-id attribute of the clicked element
+    var userid = $(e.relatedTarget).data('id');
+    var username = $(e.relatedTarget).data('name');
+    $("span#username").html(username);
+    $("#resetrole-form").attr("action", "users/" + userid + "");//e.g. 'domainname/products/' + productId
+});
 
 
 

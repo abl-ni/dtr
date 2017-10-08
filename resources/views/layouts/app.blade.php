@@ -18,10 +18,11 @@
     <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ secure_asset('css/custom.css') }}" rel="stylesheet"/>
     @endif
-<!--    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
 </head>
 <body>
     <div id="app">
@@ -30,7 +31,10 @@
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                    <button type="button" 
+                            class="navbar-toggle collapsed" 
+                            data-toggle="collapse"
+                            data-target="#app-navbar-collapse">
                         <span class="sr-only">Toggle Navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -38,7 +42,8 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="@guest{{ url('/') }}@else{{ url('/dashboard') }}@endguest">
+                    <a class="navbar-brand" 
+                       href="@guest {{url('/')}} @else {{url('/dashboard ')}} @endguest">
                         {{ config('app.name')}}
                     </a>
                 </div>
@@ -56,19 +61,29 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <a href="#" 
+                                   class="dropdown-toggle" 
+                                   data-toggle="dropdown" 
+                                   role="button" 
+                                   aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ route('logout') }}"
+                                        <a href="{{ url('resetpassword') }}">
+                                            Reset Password
+                                        </a>
+                                        <a  href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        <form id="logout-form" 
+                                              action="{{ route('logout') }}" 
+                                              method="POST" 
+                                              style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
@@ -79,7 +94,7 @@
                 </div>
             </div>
         </nav>
-
+        
         @yield('content')
     </div>
 
@@ -93,6 +108,7 @@
     @endif
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     @if (App::isLocal())
     <script src="{{ asset('js/custom.js') }}"></script>
     @else

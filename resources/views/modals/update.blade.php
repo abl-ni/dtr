@@ -1,36 +1,36 @@
-<div id="update-project" class="modal fade" tabindex="-1" role="dialog">
+<div id="updateProject-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Update Project</h4>
             </div>
-            <form action="post">
+            <form id="updateProject-form" method="post">
+                {{ csrf_field() }}
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Project Name</label>
-                        <input type="text" class="form-control" id="projectname-updated">
-                        <input type="hidden" id="id">
+                        <input name="projectname" type="text" class="form-control" id="projectname-updated">
+                        <input name="projectid" type="hidden" id="id">
                         <label>Project Manager</label>
                         <select name="pm" id="pm_list" class="form-control pm selectpicker" data-live-search="true">
                             @foreach ($allPM as $all)
-                            <option id="{{ $all->id }}" value="{{ $all->name }}">{{ $all->name }}</option>
+                            <option id="{{ $all->id }}" value="{{ $all->id }}">{{ $all->name }}</option>
                             @endforeach
                         </select>
                         <label>Team Leader</label>
                         <select name="dev" id="dev_list" class="form-control dev selectpicker" data-live-search="true">
                             @foreach ($dev as $dev)
-                            <option id="{{ $dev->id }}" value="{{ $dev->name }}">{{ $dev->name }}</option>
+                            <option id="{{ $dev->id }}" value="{{ $dev->id }}">{{ $dev->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-warning" id="project-update"  data-dismiss="modal">Save Changes</button>
+                    <button type="submit" value="submit" class="btn btn-warning" id="project-update">Save Changes</button>
                 </div>
             </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-{{ csrf_field() }}

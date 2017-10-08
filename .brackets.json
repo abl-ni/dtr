@@ -3,6 +3,8 @@
         "D:/wamp/www/DTR/public/js/custom.js",
         "D:/wamp/www/Timewave/resources/assets/js/app.js",
         "D:/wamp/www/Timewave/vendor/phpunit/php-code-coverage/src/Report/Html/Renderer/Template/js/respond.min.js",
-        "D:/wamp/www/Timewave/public/js/custom.js"
+        "D:/wamp/www/Timewave/public/js/custom.js",
+        "D:/wamp/www/timewave-dtr/public/js/app.js",
+        "D:/wamp/www/timewave-dtr/public/js/custom.js"
     ]
 }

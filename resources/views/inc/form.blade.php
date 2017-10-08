@@ -20,9 +20,13 @@
                                     <label for="project-name">Project Name</label>
                                 </div>
                                 <div class="col-md-9">
-                                    <select class="selectpicker form-control" id="selectProject" data-live-search="true">
+                                    <select class="selectpicker form-control" 
+                                            id="selectProject" 
+                                            data-live-search="true">
                                         @foreach($project as $project)
-                                        <option id="{{ $project->id }}" value="{{ $project->name }}">{{ $project->name }}</option>
+                                        <option id="{{ $project->id }}" value="{{ $project->name }}">
+                                            {{ $project->name }}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -64,13 +68,18 @@
                                 <div class="col-md-9">
                                     <input class="form-control" type="text" id="hours-rendered">
                                     <span class="" style="font-size:8pt; font-family: sans-serif">
-                                        <strong>Format: </strong>3:30 = 3 hours and 30 minutes = <span class="text-danger"><b>3.30</b></span><br>
+                                        <strong>Format: </strong>
+                                        3:30 = 3 hours and 30 minutes = 
+                                        <span class="text-danger"><b>3.30</b></span>
+                                        <br>
                                     </span>
                                 </div>
                             </div>
                             <br><br><br>
                             <div class="form-group">
-                                <button id="dtrSubmit-btn" type="button" class="btn btn-primary btn-submit col-md-12">
+                                <button id="dtrSubmit-btn" 
+                                        type="button" 
+                                        class="btn btn-primary btn-submit col-md-12">
                                     Submit
                                 </button>
                             </div>

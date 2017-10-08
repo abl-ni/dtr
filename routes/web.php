@@ -13,13 +13,15 @@
 
 Route::view('/','welcome');
 
-Route::group(['middleware' => 'auth'], function () {
+Auth::routes();
+
+Route::middleware(['auth'])->group(function () {
 
    
     Route::get('dashboard', 'ProjectController@getQuery'); 
     Route::post('addProject', 'ProjectController@addProject'); 
-    Route::post('updateProject', 'ProjectController@updateProject'); 
-    Route::post('deleteProject', 'ProjectController@deleteProject');
+    Route::post('updateProject/{id}', 'ProjectController@updateProject'); 
+    Route::post('deleteProject/{id}', 'ProjectController@deleteProject');
     Route::post('project', 'ProjectController@getProject');
     Route::post('getDev', 'ProjectController@getDev');
     Route::get('project/{id}', 'ProjectController@show');
@@ -32,8 +34,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('reports', 'FilterController@getQuery');
     Route::post('getFilter', 'FilterController@getFilter');
     
+    Route::put('users/resetPassword/{id}','UserController@resetPassword');
+    Route::resource('users','UserController');
     
     
-    });
+});
 
-Auth::routes();
+

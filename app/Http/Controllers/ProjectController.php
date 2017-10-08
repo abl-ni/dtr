@@ -29,22 +29,27 @@ class ProjectController extends Controller
         return view('project',compact('project', 'logs', 'tickets'));
     }
 
-    public function addProject(Request $request)
+    public function addProject(Request $request) //done
     { 
         $data = new Project();
-        $data->name = $request->name;
-        $data->added_by = $request->added_by;
-        $data->pm_id = $request->pm_id;
-        $data->tl_id = $request->tl_id;
+        $data->name = $request->projectname;
+        $data->added_by = Auth::id();
+        $data->pm_id = $request->pm;
+        $data->tl_id = $request->tl;
         $data->date_created = Carbon::now()->toDateString();
-        $data->save();
+        $projectsaved = $data->save();
         
         $dev = new Dev();
-        $dev->dev_id = $request->tl_id;
+        $dev->dev_id = $request->tl;
         $dev->proj_id = $data->id;
         $dev->date_created = Carbon::now()->toDateString();
-        $dev->save();
-        return response()->json($data);  
+        $devsaved = $dev->save();
+        
+        if(!$projectsaved || !$devsaved){
+            return back()->with('error', 'Something went wrong!');
+        }
+        
+        return back()->with('success', ucfirst($request->projectname).' successfully added!');
     }
     
     public function getQuery(Request $req)
@@ -71,19 +76,25 @@ class ProjectController extends Controller
         return view ('dashboard',compact('project', 'projectCount', 'dev', 'pm', 'allPM'));
     }
     
-    public function updateProject(Request $req) 
+    public function updateProject(Request $req, $id) //done
     {
-        $data = Project::find($req->id);
-        $data->name = $req->name;
-        $data->pm_id = $req->pm_id;
-        $data->tl_id = $req->tl_id;
-        $data->save();
-        return response()->json($data);
+        $data = Project::find($id);
+        $data->name = $req->projectname;
+        $data->pm_id = $req->pm;
+        $data->tl_id = $req->dev;
+        $saved = $data->save();
+        if(!$saved){
+            return back()->with('error', ucfirst($req->projectname).'Unsuccessful! Something went wrong!');
+        }
+        return back()->with('success', ucfirst($req->projectname).' successfully updated!');
     }
     
-    public function deleteProject(Request $req) {
-        Project::find($req->id)->delete();
-        return response()->json();
+    public function deleteProject($id) { //done
+        $projectname = Project::where('id', $id)
+                                ->pluck('name')
+                                ->first();
+        Project::find($id)->delete();
+        return back()->with('success', ucfirst($projectname).' successfully deleted!');
     }
     
     public function getProject(Request $req)
