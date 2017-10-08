@@ -64,7 +64,7 @@
                             <tr class="item{{$result->id}}">
                                 <td>{{$result->name}}</td>
                                 <td>{{$result->project_name}}</td>
-                                <td>{{$result->task_no}}</td>
+                                <td>{{$result->ticket_no}}</td>
                                 <td>{{$result->task_title}}</td>
                                 <td>{{$result->roadblock}}</td>
                                 <td>{{$result->date_created}}</td>
