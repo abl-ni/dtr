@@ -1,7 +1,6 @@
-////NEWWWWWW EDIT PROJECT
+//EDIT PROJECT
 $("select.selectpicker").selectpicker();
 $('#updateProject-modal').on('show.bs.modal', function(e) {
-    //get data-id attribute of the clicked element
     var projectid = $(e.relatedTarget).data('id');
     var projectname = $(e.relatedTarget).data('name');
     var pmid = $(e.relatedTarget).data('pm_id');
@@ -14,11 +13,9 @@ $('#updateProject-modal').on('show.bs.modal', function(e) {
      
     $("#updateProject-form").attr("action", "updateProject/" + projectid + "");
 });
-//////END NEWWW EDIT PROJECT
 
-////NEWWWWWW DELETE PROJECT
+// DELETE PROJECT
 $('#deleteProject-modal').on('show.bs.modal', function(e) {
-    //get data-id attribute of the clicked element
     var projectid = $(e.relatedTarget).data('id');
     var projectname = $(e.relatedTarget).data('name');
     
@@ -26,7 +23,37 @@ $('#deleteProject-modal').on('show.bs.modal', function(e) {
 
     $("#deleteProject-form").attr("action", "deleteProject/" + projectid + "");
 });
-//////END NEWWW DELETE PROJECT
+
+// REMOVE USER IN A PROJECT
+$('#confirmRemove-modal').on('show.bs.modal', function(e) {
+    var projectid = $(e.relatedTarget).data('project_id');
+    var userid = $(e.relatedTarget).data('user_id');
+    var projectname = $(e.relatedTarget).data('project');
+    var username = $(e.relatedTarget).data('user');
+
+    $('span#projectname').html(projectname);
+    $('span#username').html(username);
+    $('#userid').val(userid);
+
+    $("#removeUser-form").attr("action", "removeDev/" + projectid + "");
+});
+
+//RESET PASSWORD (ADMIN)
+$('#reset-password').on('show.bs.modal', function(e) {
+    var userid = $(e.relatedTarget).data('id');
+    var username = $(e.relatedTarget).data('name');
+    $("span#username").html(username);
+    $("#reset-form").attr("action", "users/resetPassword/" + userid + "");
+});
+
+//RESET ROLE TYPE (ADMIN)
+$('#reset-role').on('show.bs.modal', function(e) {
+    var userid = $(e.relatedTarget).data('id');
+    var username = $(e.relatedTarget).data('name');
+    $("span#username").html(username);
+    $("#resetrole-form").attr("action", "users/" + userid + "");
+});
+
 
 $('#select_devs').selectpicker(); 
 $(document).on('click', '.add-modal', function(e) {
@@ -119,87 +146,9 @@ $(document).ready(function(){
             }
         });    
     });
-    
-    $('.list_popover').on('click', function(){
-        $('.popover-content').append('<ul class="list-group"></ul>');
-        $.ajax({
-            type: 'post',
-            url: '/ListDev',
-            beforeSend: function (xhr) {
-                var token = $('meta[name="csrf_token"]').attr('content');
-                if (token) {
-                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                }},
-            data: {
-                '_token': $('input[name=_token]').val(),
-                'id': $(this).attr('id'),
-            },
-            success: function(data) {
-                $.each(data, function(key, value) {
-                    $('ul.list-group')
-                    .append($("<li></li>")
-                            .attr("class", "list-group-item")
-                            .text(value.name));
-                });
-            }
-        });
-        
-    });
+
 });
 
-//
-//$(document).on('click', '#dtrSubmit-btn', function() {
-//    var proj_id = $('select#selectProject option:selected').attr('id');
-//    var ticket_no = $('#ticket-number').val();
-//    var task_title = $('#task-title').val();
-//    var roadblock = $('#roadblock').val();
-//    var hrs_rendered = $('#hours-rendered').val();
-//
-//    $.ajax({
-//        type: 'post',
-//        url: '/Logs',
-//        beforeSend: function (xhr) {
-//            var token = $('meta[name="csrf_token"]').attr('content');
-//            if (token) {
-//                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-//            }},
-//        data: {
-//            '_token': $('input[name=_token]').val(),
-//            'proj_id' : proj_id,
-//            'ticket_no' : ticket_no,
-//            'task_title' : task_title,
-//            'roadblock' : roadblock,
-//            'hrs_rendered' : hrs_rendered
-//        },
-//        success: function(data) {
-//            $('.form-container')
-//            .append("<div id='success-alert' class='alert alert-success alert-dismissable fade in'>" +
-//                    "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
-//                    "Your Logs are added <strong>successfully!</strong>." +
-//                    "</div>");
-//            $("#success-alert").slideUp(500);
-//            
-//            $('#ticket-number').val('');
-//            $('#task-title').val('');
-//            $('#roadblock').val('');
-//            $('#hours-rendered').val('');
-//        }
-//    });
-//    
-//});
-
-
-////NEWWWWWW ADD LOGS (DTR)
-$('#deleteProject-modal').on('show.bs.modal', function(e) {
-    //get data-id attribute of the clicked element
-    var projectid = $(e.relatedTarget).data('id');
-    var projectname = $(e.relatedTarget).data('name');
-
-    $('span#projectname').html(projectname);
-
-    $("#deleteProject-form").attr("action", "deleteProject/" + projectid + "");
-});
-//////END NEWWW ADD LOGS (DTR)
 
 
 $('input[name="daterange"]').daterangepicker();
@@ -469,22 +418,6 @@ function appendElements(data, groupby){
     
 }
 
-
-$('#reset-password').on('show.bs.modal', function(e) {
-    //get data-id attribute of the clicked element
-    var userid = $(e.relatedTarget).data('id');
-    var username = $(e.relatedTarget).data('name');
-    $("span#username").html(username);
-    $("#reset-form").attr("action", "users/resetPassword/" + userid + "");//e.g. 'domainname/products/' + productId
-});
-
-$('#reset-role').on('show.bs.modal', function(e) {
-    //get data-id attribute of the clicked element
-    var userid = $(e.relatedTarget).data('id');
-    var username = $(e.relatedTarget).data('name');
-    $("span#username").html(username);
-    $("#resetrole-form").attr("action", "users/" + userid + "");//e.g. 'domainname/products/' + productId
-});
 
 
 

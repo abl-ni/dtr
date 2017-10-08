@@ -46,7 +46,7 @@ class ProjectController extends Controller
         $devsaved = $dev->save();
         
         if(!$projectsaved || !$devsaved){
-            return back()->with('error', 'Something went wrong!');
+            return back()->withErrors(['error', 'Something went wrong!']);
         }
         
         return back()->with('success', ucfirst($request->projectname).' successfully added!');
@@ -82,9 +82,15 @@ class ProjectController extends Controller
         $data->name = $req->projectname;
         $data->pm_id = $req->pm;
         $data->tl_id = $req->dev;
-        $saved = $data->save();
-        if(!$saved){
-            return back()->with('error', ucfirst($req->projectname).'Unsuccessful! Something went wrong!');
+        $projsaved = $data->save();
+        
+        $dev = Dev::where('proj_id', $id)->first();
+        $dev->dev_id = $req->dev;
+        $devsaved = $dev->save();
+
+        
+        if(!$projsaved || !$devsaved){
+            return back()->withErrors(['error', ucfirst($req->projectname).'Unsuccessful! Something went wrong!']);
         }
         return back()->with('success', ucfirst($req->projectname).' successfully updated!');
     }
@@ -95,15 +101,6 @@ class ProjectController extends Controller
                                 ->first();
         Project::find($id)->delete();
         return back()->with('success', ucfirst($projectname).' successfully deleted!');
-    }
-    
-    public function getProject(Request $req)
-    {
-        $projectItem = new Project();
-        $projectItem = Project::find( $req->id);
-        $projectItem->pm = $projectItem->PM->name;
-        $projectItem->tl = $projectItem->TL->name;
-        return (object)$projectItem;
     }
     
     public function getDev(Request $req)

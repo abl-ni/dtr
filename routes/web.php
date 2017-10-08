@@ -28,8 +28,9 @@ Route::middleware(['auth'])->group(function () {
     
     Route::post('addDev','ProjectDevsController@addDev');
     Route::post('ListDev','ProjectDevsController@getListDev');
+    Route::post('removeDev/{id}','ProjectDevsController@removeDev');
 
-    Route::post('Logs', 'DtrController@addLogs');
+    Route::post('addLogs', 'DtrController@addLogs');
     
     Route::get('reports', 'FilterController@getQuery');
     Route::post('getFilter', 'FilterController@getFilter');

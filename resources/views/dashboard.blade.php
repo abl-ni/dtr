@@ -7,6 +7,7 @@
 @include('modals.update')
 @include('modals.delete')
 @include('modals.dev')
+@include('modals.confirmRemove')
 
 @if (Auth::user()->type == 'Admin')
       
@@ -57,12 +58,28 @@
                                   <td>{{$project->TL()->first()->name}}</td>
                                   <td>
                                       <a  href="#" 
-                                          class="list_popover" 
-                                          id="{{$project->id}}" 
-                                          data-toggle="popover" 
-                                          title="Developers" 
-                                          data-html="true" 
-                                          data-content="">
+                                         class="list_popover" 
+                                         id="{{$project->id}}" 
+                                         data-toggle="popover" 
+                                         title="Developers" 
+                                         data-html="true" 
+                                         data-content="
+                                                       <ul class='list-group'>
+                                                       @foreach ($project->dev as $devs)
+                                                       <li class='list-group-item'>{{ ucwords($devs->user->name) }} 
+                                                       <a data-toggle='modal' 
+                                                       data-target='#confirmRemove-modal'
+                                                       data-project_id='{{$project->id}}' 
+                                                       data-user_id='{{$devs->user->id}}'
+                                                       data-project='{{$project->name}}' 
+                                                       data-user='{{$devs->user->name}}'  
+                                                       class='pull-right'>
+                                                       <span class='icon icon-close text-danger'></span>
+                                                       </a> 
+                                                       </li>
+                                                       @endforeach
+                                                       </ul>
+                                                       ">
                                           See List 
                                           <span class="badge">
                                               {{ count($project->dev) }}

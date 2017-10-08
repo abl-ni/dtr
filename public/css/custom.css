@@ -44,6 +44,10 @@ body {
     z-index:1000;
 }
 
+.popover {
+    z-index: 1000;
+}
+
 .popover-content {
     height: 200px;
     width: 250px;

@@ -18,17 +18,23 @@ class DtrController extends Controller
         $data = new Dtr ();
         
         $user_id = Auth::id();
-        $id = Dev::where('proj_id', $request->proj_id)
+        $id = Dev::where('proj_id', $request->projectid)
             ->where('dev_id', $user_id)
-            ->pluck('id');
+            ->pluck('id')
+            ->first();
        
-        $data->proj_devs_id = $id[0];
+        $data->proj_devs_id = $id;
         $data->task_title = $request->task_title;
-        $data->task_no = $request->ticket_no;
+        $data->task_no = $request->ticket_number;
         $data->roadblock = $request->roadblock;
         $data->hours_rendered = $request->hrs_rendered;
         $data->date_created = Carbon::now()->toDateString();
-        $data->save ();
-        return response()->json($data); 
+        $saved = $data->save ();
+        
+        if(!$saved){
+            return back()->withErrors(['error', 'Something went wrong!']);
+        }
+        
+        return back()->with('success', 'Logs successfully added!');
     }
 }
