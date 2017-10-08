@@ -17,7 +17,8 @@
                         <label>Project Name</label>
                         <input  type="text" 
                                 class="form-control" 
-                                name="projectname">
+                                name="projectname"
+                                required>
                     </div>
                     <div class="form-group">
                         <label>Project Manager</label>

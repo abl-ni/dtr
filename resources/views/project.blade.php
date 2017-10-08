@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+@include('modals.confirmRemove')
 
 <div class="container">
+    @include('inc.errors')
+    @include('inc.success')
     <div class="page-header col-md-12">
           <div class="col-md-6">
                 <h1>{{ $project->name }}</h1>
@@ -47,7 +50,14 @@
             <ul class="list-group">
                   @foreach ($project->dev as $devs)
                       <li class="list-group-item">{{ ucwords($devs->user->name) }} 
-                        <button class="pull-right btn btn-danger btn-sm" type="button">Remove</button> 
+                          <button class="pull-right btn btn-danger btn-sm" 
+                                  data-toggle="modal" 
+                                  data-target="#confirmRemove-modal"
+                                  data-project_id="{{$project->id}}" 
+                                  data-user_id="{{$devs->user->id}}"
+                                  data-project="{{$project->name}}" 
+                                  data-user="{{$devs->user->name}}"
+                                  type="button">Remove</button> 
                       </li>
                   @endforeach
             </ul>

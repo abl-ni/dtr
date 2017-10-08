@@ -19,7 +19,7 @@ class FilterController extends Controller
         $getDevsDtrs = DB::table('devs')->select('dev_id')->groupBy('dev_id')->get();
         
         $result = DB::table('users')
-            ->select('users.id','users.name', 'projects.name as project_name', 'dtrs.task_no', 
+            ->select('users.id','users.name', 'projects.name as project_name', 'dtrs.ticket_no', 
                      'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock', 'dtrs.hours_rendered')
             ->leftJoin('devs', 'users.id', '=', 'devs.dev_id')
             ->leftJoin('projects', 'devs.proj_id', '=', 'projects.id')
@@ -45,7 +45,7 @@ class FilterController extends Controller
             case 'Group by Developers' :
             
                 $result = DB::table('users')
-                    ->select('users.id','users.name', 'projects.name as project_name', 'dtrs.task_no', 
+                    ->select('users.id','users.name', 'projects.name as project_name', 'dtrs.ticket_no', 
                              'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock', 'dtrs.hours_rendered')
                     ->leftJoin('devs', 'users.id', '=', 'devs.dev_id')
                     ->leftJoin('projects', 'devs.proj_id', '=', 'projects.id')
@@ -63,7 +63,7 @@ class FilterController extends Controller
             case 'Group by Projects' :
             
                 $result = DB::table('users')
-                    ->select('projects.id','projects.name', 'users.name as username', 'dtrs.task_no', 
+                    ->select('projects.id','projects.name', 'users.name as username', 'dtrs.ticket_no', 
                              'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock', 'dtrs.hours_rendered')
                     ->leftJoin('devs', 'users.id', '=', 'devs.dev_id')
                     ->leftJoin('projects', 'devs.proj_id', '=', 'projects.id')
@@ -81,7 +81,7 @@ class FilterController extends Controller
             case 'Group by Tickets' :
             
                 $result = DB::table('users')
-                    ->select('dtrs.task_no as id','projects.name as project_name', 'users.name as username',
+                    ->select('dtrs.ticket_no as id','projects.name as project_name', 'users.name as username',
                              'dtrs.task_title as name', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock', 'dtrs.hours_rendered')
                     ->leftJoin('devs', 'users.id', '=', 'devs.dev_id')
                     ->leftJoin('projects', 'devs.proj_id', '=', 'projects.id')

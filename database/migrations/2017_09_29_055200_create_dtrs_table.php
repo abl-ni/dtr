@@ -18,8 +18,8 @@ class CreateDtrsTable extends Migration
             $table->increments('id');
             $table->integer('proj_devs_id')->unsigned();
             $table->string('task_title');
-            $table->string('task_no');
-            $table->string('roadblock');
+            $table->string('ticket_no');
+            $table->string('roadblock')->nullable();
             $table->string('hours_rendered');
             $table->foreign('proj_devs_id')
                 ->references('id')
