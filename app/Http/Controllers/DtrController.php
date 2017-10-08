@@ -25,7 +25,7 @@ class DtrController extends Controller
        
         $data->proj_devs_id = $id;
         $data->task_title = $request->task_title;
-        $data->task_no = $request->ticket_number;
+        $data->ticket_no = $request->ticket_number;
         $data->roadblock = $request->roadblock;
         $data->hours_rendered = $request->hrs_rendered;
         $data->date_created = Carbon::now()->toDateString();
