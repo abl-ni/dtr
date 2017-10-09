@@ -102,7 +102,7 @@ class ProjectController extends Controller
         return back()->with('success', ucfirst($req->projectname).' successfully updated!');
     }
     
-    public function deleteProject($id) { //done
+    public function deleteProject($id) {
         $projectname = Project::where('id', $id)
                                 ->pluck('name')
                                 ->first();
