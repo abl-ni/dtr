@@ -73,7 +73,8 @@ class ProjectController extends Controller
         $dev = User::where('type', 'Dev')->get();
         $pm = User::orderByRaw("id = $id DESC")->where('type', 'PM')->get();
         $allPM = User::where('type', 'PM')->get();
-        return view ('dashboard',compact('project', 'projectCount', 'dev', 'pm', 'allPM'));
+        $today = Dtr::where('date_created', Carbon::now()->toDateString())->count();
+        return view ('dashboard',compact('project', 'projectCount', 'dev', 'pm', 'allPM', 'today'));
     }
     
     public function updateProject(Request $req, $id) //done

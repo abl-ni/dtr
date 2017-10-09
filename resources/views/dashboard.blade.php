@@ -140,7 +140,7 @@
                         <h3 class="panel-title">Logs Today</h3>
                     </div>
                     <div class="panel-body">
-                        <h1 class="text-center"><strong>0</strong></h1>
+                        <h1 class="text-center"><strong>{{ $today }}</strong></h1>
                     </div>
                 </div>
             </div>
