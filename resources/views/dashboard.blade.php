@@ -55,7 +55,7 @@
                                       <a href="{{ action('ProjectController@show', $project->id)}}">{{$project->name}}</a>
                                   </td>
                                   <td>@if($project->pm){{$project->PM()->first()->name}}@else none @endif</td>
-                                  <td>@if($project->tl){{$project->PM()->first()->name}}@else none  @endif</td>
+                                  <td>@if($project->tl){{$project->TL()->first()->name}}@else none  @endif</td>
                                   <td>
                                       <a  href="#" 
                                          class="list_popover" 
