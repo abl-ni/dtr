@@ -54,8 +54,8 @@
                                   <td>
                                       <a href="{{ action('ProjectController@show', $project->id)}}">{{$project->name}}</a>
                                   </td>
-                                  <td>{{$project->PM()->first()->name}}</td>
-                                  <td>{{$project->TL()->first()->name}}</td>
+                                  <td>@if($project->pm){{$project->PM()->first()->name}}@else none @endif</td>
+                                  <td>@if($project->tl){{$project->PM()->first()->name}}@else none  @endif</td>
                                   <td>
                                       <a  href="#" 
                                          class="list_popover" 
@@ -65,6 +65,7 @@
                                          data-html="true" 
                                          data-content="
                                                        <ul class='list-group'>
+                                                       @if($project->dev)
                                                        @foreach ($project->dev as $devs)
                                                        <li class='list-group-item'>{{ ucwords($devs->user->name) }} 
                                                        <a data-toggle='modal' 
@@ -78,6 +79,7 @@
                                                        </a> 
                                                        </li>
                                                        @endforeach
+                                                       @endif
                                                        </ul>
                                                        ">
                                           See List 
@@ -98,8 +100,8 @@
                                           <button class="edit-modal btn btn-warning btn-sm" 
                                                   data-id="{{$project->id}}" 
                                                   data-name="{{$project->name}}" 
-                                                  data-pm_id="{{$project->pm->id}}" 
-                                                  data-tl_id="{{$project->tl->id}}" 
+                                                  data-pm_id="@if($project->pm){{$project->pm->id}}@endif" 
+                                                  data-tl_id="@if($project->tl){{$project->tl->id}}@endif" 
                                                   data-target="#updateProject-modal" 
                                                   data-toggle="modal">
                                               <span class="icons icon-pencil icon-modals"></span>
