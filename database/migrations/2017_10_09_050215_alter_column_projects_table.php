@@ -15,8 +15,8 @@ class AlterColumnProjectsTable extends Migration
     {
         //
         Schema::table('projects', function (Blueprint $table) {
-            $table->integer('pm_id')->nullable()->change();
-            $table->integer('tl_id')->nullable()->change();
+            $table->integer('pm_id')->default(null)->unsigned()->nullable()->change();
+            $table->integer('tl_id')->default(null)->unsigned()->nullable()->change();
         });
     }
 
