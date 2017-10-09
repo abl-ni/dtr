@@ -53,6 +53,7 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'type' => 'required|string|max:255', /**ADDED*/
         ]);
+
     }
 
     /**

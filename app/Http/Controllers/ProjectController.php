@@ -39,7 +39,6 @@ class ProjectController extends Controller
         $data->date_created = Carbon::now()->toDateString();
         $projectsaved = $data->save();
         
-
         if($request->tl != null)
         {
             $dev = new Dev();
@@ -90,11 +89,15 @@ class ProjectController extends Controller
         $data->pm_id = $req->pm;
         $data->tl_id = $req->dev;
         $projsaved = $data->save();
-        
-        $dev = Dev::where('proj_id', $id)->first();
-        $dev->dev_id = $req->dev;
-        $devsaved = $dev->save();
 
+        if($req->dev != null)
+        {
+            $dev = Dev::where('proj_id', $id)->first();
+            $dev->dev_id = $req->dev;
+            $devsaved = $dev->save();
+        }else{
+            $devsaved = false;
+        }
         
         if(!$projsaved || !$devsaved){
             return back()->withErrors(['error', ucfirst($req->projectname).'Unsuccessful! Something went wrong!']);
