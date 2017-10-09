@@ -39,11 +39,16 @@ class ProjectController extends Controller
         $data->date_created = Carbon::now()->toDateString();
         $projectsaved = $data->save();
         
-        $dev = new Dev();
-        $dev->dev_id = $request->tl;
-        $dev->proj_id = $data->id;
-        $dev->date_created = Carbon::now()->toDateString();
-        $devsaved = $dev->save();
+        
+        if($request->tl != null)
+        {
+            $dev = new Dev();
+            $dev->dev_id = $request->tl;
+            $dev->proj_id = $data->id;
+            $dev->date_created = Carbon::now()->toDateString();
+            $devsaved = $dev->save();
+        }
+        
         
         if(!$projectsaved || !$devsaved){
             return back()->withErrors(['error', 'Something went wrong!']);
