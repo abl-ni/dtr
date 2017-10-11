@@ -55,7 +55,7 @@
                                       <a href="{{ action('ProjectController@show', $project->id)}}">{{$project->name}}</a>
                                   </td>
                                   <td>@if($project->pm){{$project->PM()->first()->name}}@else none @endif</td>
-                                  <td>@if($project->tl){{$project->TL()->first()->name}}@else none  @endif</td>
+                                  <td>@if($project->tl){{$project->TL()->first()->name}}@else none @endif</td>
                                   <td>
                                       <a  href="#" 
                                          class="list_popover" 
@@ -66,19 +66,19 @@
                                          data-content="
                                                        <ul class='list-group'>
                                                        @if($project->dev)
-                                                       @foreach ($project->dev as $devs)
-                                                       <li class='list-group-item'>{{ ucwords($devs->user->name) }} 
-                                                       <a data-toggle='modal' 
-                                                       data-target='#confirmRemove-modal'
-                                                       data-project_id='{{$project->id}}' 
-                                                       data-user_id='{{$devs->user->id}}'
-                                                       data-project='{{$project->name}}' 
-                                                       data-user='{{$devs->user->name}}'  
-                                                       class='pull-right'>
-                                                       <span class='icon icon-close text-danger'></span>
-                                                       </a> 
-                                                       </li>
-                                                       @endforeach
+                                                         @foreach ($project->dev as $devs)
+                                                           <li class='list-group-item'>{{ ucwords($devs->user->name) }} 
+                                                           <a data-toggle='modal' 
+                                                           data-target='#confirmRemove-modal'
+                                                           data-project_id='{{$project->id}}' 
+                                                           data-user_id='{{$devs->user->id}}'
+                                                           data-project='{{$project->name}}' 
+                                                           data-user='{{$devs->user->name}}'  
+                                                           class='pull-right'>
+                                                           <span class='icon icon-close text-danger'></span>
+                                                           </a> 
+                                                           </li>
+                                                         @endforeach
                                                        @endif
                                                        </ul>
                                                        ">
