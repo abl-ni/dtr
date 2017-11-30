@@ -9,14 +9,13 @@
 @include('modals.dev')
 @include('modals.confirmRemove')
 
-@if (Auth::user()->type == 'Admin')
-      
+@if (Auth::user()->type == 'Admin')      
 <div class="row dash-nav">
-    <div class="dash-navbar col-md-4 col-md-offset-4">
-        <ul class="nav navbar-nav col-md-12 text-center">
-            <li class="col-md-4 ative"><a href="{{ url('dashboard') }}">Projects</a></li>
-            <li class="col-md-4"><a href="{{ url('reports') }}">Reports</a></li>
-            <li class="col-md-4"><a href="{{ url('users') }}">Users</a></li>
+    <div class="dash-navbar col-md-12">
+        <ul class="nav nav-pills nav-justified">
+            <li class="nav-item active"><a class="nav-link" href="{{ url('dashboard') }}">Projects</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('reports') }}">Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('users') }}">Users</a></li>
         </ul>
     </div>
 </div>
@@ -156,10 +155,10 @@
 
 @elseif (Auth::user()->type == 'Dev')
     <div class="row dash-nav">
-        <div class="dash-navbar col-md-12 text-center">
-            <ul class="nav navbar-nav col-md-12 text-center">
-                <li class="col-md-6 active"><a href="{{ url('dashboard') }}">Record Ticket</a></li>
-                <li class="col-md-6"><a href="{{ url('reports') }}">Reports</a></li>
+        <div class="dash-navbar col-md-12">
+            <ul class="nav nav-pills nav-justified">
+                <li class="nav-item active"><a class="nav-link" href="{{ url('dashboard') }}">Record Ticket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url('reports') }}">Reports</a></li>
             </ul>
         </div>
     </div>

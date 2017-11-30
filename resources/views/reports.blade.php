@@ -4,17 +4,17 @@
 
 <div class="row dash-nav">
     <div class="dash-navbar col-md-12">
-        <ul class="nav navbar-nav col-md-12 text-center">
-            @if (Auth::user()->type == 'Admin')
-            <li class="col-md-4 ative"><a href="{{ url('dashboard') }}">Projects</a></li>
-            <li class="col-md-4"><a href="{{ url('reports') }}">Reports</a></li>    
-            <li class="col-md-4"><a href="{{ url('users') }}">Users</a></li>
+        <ul class="nav nav-pills nav-justified">
+            @if (Auth::user()->type == 'Admin')            
+            <li class="nav-item"><a class="nav-link" href="{{ url('dashboard') }}">Projects</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url('reports') }}">Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('users') }}">Users</a></li>
             @elseif (Auth::user()->type == 'Dev')
-            <li class="col-md-6 active"><a href="{{ url('dashboard') }}">Record Ticket</a></li>
-            <li class="col-md-6"><a href="{{ url('reports') }}">Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('dashboard') }}">Record Ticket</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url('reports') }}">Reports</a></li>
             @elseif (Auth::user()->type == 'PM')
-            <li class="col-md-6 active"><a href="{{ url('dashboard') }}">Projects</a></li>
-            <li class="col-md-6"><a href="{{ url('reports') }}">Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('dashboard') }}">Projects</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url('reports') }}">Reports</a></li>
             @endif
         </ul>
     </div>

@@ -59,6 +59,7 @@ class FilterController extends Controller
 
             $result = $query->get();
             $data = array();
+            $graph = array();
 
             if($result){                
                 foreach ($result as $key => $value) {
