@@ -6,15 +6,15 @@
 @include('inc.form')
 @else
 <div class="row dash-nav">
-    <div class="dash-navbar col-md-4 col-md-offset-4">
-        <ul class="nav navbar-nav col-md-12 text-center">
+    <div class="dash-navbar col-md-12">
+        <ul class="nav nav-pills nav-justified">
             @if (Auth::user()->type == 'Admin')
-            <li class="col-md-4 ative"><a href="{{ url('dashboard') }}">Projects</a></li>
-            <li class="col-md-4"><a href="{{ url('reports') }}">Reports</a></li>    
-            <li class="col-md-4"><a href="{{ url('users') }}">Users</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('dashboard') }}">Projects</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url('reports') }}">Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('users') }}">Users</a></li>
             @else
-            <li class="col-md-6 ative"><a href="{{ url('dashboard') }}">Projects</a></li>
-            <li class="col-md-6"><a href="{{ url('reports') }}">Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('dashboard') }}">Projects</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url('reports') }}">Reports</a></li>
             @endif
         </ul>
     </div>

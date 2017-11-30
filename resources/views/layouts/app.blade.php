@@ -57,9 +57,10 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
+                        @auth
+                            @if( Auth::user()->type === 'Admin' )
+                                <li><a href="{{ route('register') }}">Add User</a></li>
+                            @endif
                             <li class="dropdown">
                                 <a href="#" 
                                    class="dropdown-toggle" 
@@ -86,7 +87,7 @@
                                     </li>
                                 </ul>
                             </li>
-                        @endguest
+                        @endauth
                     </ul>
                 </div>
             </div>

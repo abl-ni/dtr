@@ -1,12 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="row dash-nav">
+    <div class="dash-navbar col-md-12">
+        <ul class="nav nav-pills nav-justified">
+            <li class="nav-item"><a class="nav-link" href="{{ url('dashboard') }}">Projects</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('reports') }}">Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('users') }}">Users</a></li>
+        </ul>
+    </div>
+</div>
+<div class="dashboard-container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>
-
+                @include('inc.errors')
+                @include('inc.success')
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}

@@ -10,14 +10,13 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::view('/','welcome');
-
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/', function(){
+        return redirect('/dashboard');
+    });
 
-   
     Route::get('dashboard', 'ProjectController@getQuery'); 
     Route::post('addProject', 'ProjectController@addProject'); 
     Route::post('updateProject/{id}', 'ProjectController@updateProject'); 

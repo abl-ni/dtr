@@ -4,11 +4,11 @@
 @include('modals.resetpassword')
 @include('modals.resetrole')
 <div class="row dash-nav">
-    <div class="dash-navbar col-md-4 col-md-offset-4">
-        <ul class="nav navbar-nav col-md-12 text-center">
-            <li class="col-md-4 ative"><a href="{{ url('dashboard') }}">Projects</a></li>
-            <li class="col-md-4"><a href="{{ url('reports') }}">Reports</a></li>
-            <li class="col-md-4"><a href="{{ url('users') }}">Users</a></li>
+    <div class="dash-navbar col-md-12">
+        <ul class="nav nav-pills nav-justified">
+            <li class="nav-item"><a class="nav-link" href="{{ url('dashboard') }}">Projects</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('reports') }}">Reports</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url('users') }}">Users</a></li>
         </ul>
     </div>
 </div>
@@ -20,7 +20,6 @@
             <div class="panel panel-default">
                 <div class="panel-body" id="filter-body">
                     <table id="table" cellspacing="0" width="100%">
-
                         <thead>
                             <tr>
                                 <th class="col-md-1">ID</th>

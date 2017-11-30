@@ -12,6 +12,11 @@ use Carbon\Carbon;
 
 class FilterController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function getQuery(Request $request)
     {
         $getDtrIds = DB::table('dtrs')->pluck('proj_devs_id');
