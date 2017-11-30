@@ -19,7 +19,7 @@ class FilterController extends Controller
         $current_time = Carbon::now()->toDateString();
         $getDevsDtrs = DB::table('devs')->select('dev_id')->groupBy('dev_id')->get();
         $project = Project::all();
-        
+
         $query = DB::table('users')
             ->join('devs', 'users.id', '=', 'devs.dev_id')
             ->join('projects', 'devs.proj_id', '=', 'projects.id')
@@ -36,6 +36,12 @@ class FilterController extends Controller
                     'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
                     ->where('dtrs.date_created', $current_time)
                     ->where('users.id', Auth::id());
+            }else if(Auth::user()->type === 'PM' && $option === null){                
+                $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
+                    'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
+                    ->where('users.type', 'Dev')
+                    ->where('dtrs.date_created', $current_time)
+                    ->whereIn('devs.id', $getDtrIds);
             }
 
         if($option === null){
@@ -63,7 +69,7 @@ class FilterController extends Controller
             }
             
             if($data){
-                $bargraph = array(
+                $graph = array(
                     'data' => array(
                         'labels' => $data['labels'], 
                         'datasets' => array(
@@ -85,7 +91,7 @@ class FilterController extends Controller
                     );
             }
 
-            echo json_encode($bargraph);
+            echo json_encode($graph);
         }
     }
     

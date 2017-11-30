@@ -151,14 +151,15 @@ $(document).ready(function(){
 
     $('input[name="daterange"]').daterangepicker();
 
-        $(document).on('click', '#filterGo-btn', function() {
-
+    $(document).on('click', '#filterGo-btn', function() {
         var groupby = $('#groupBy').val();
         var start = $('#start').val();
         var end = $('#end').val();
 
-        myChart.destroy();
-        barGraphData(start, end);
+        if(document.getElementById("myChart")){
+            myChart.destroy();
+            barGraphData(start, end);
+        }
         
         $('#filter-body').html('');
         $.ajax({
@@ -194,7 +195,6 @@ $(document).ready(function(){
     });
 
     // Chart
-
     if(document.getElementById("myChart")){
         var ctx = document.getElementById("myChart").getContext('2d');
         var barGraphData = function (start = null, end = null){

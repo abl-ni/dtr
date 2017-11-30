@@ -1,5 +1,5 @@
 <div class="row dash-nav">
-    <div class="dash-navbar col-md-4 col-md-offset-4">
+    <div class="dash-navbar col-md-12">
         <ul class="nav navbar-nav col-md-12 text-center">
             <li class="col-md-6 ative"><a href="{{ url('dashboard') }}">Projects</a></li>
             <li class="col-md-6"><a href="{{ url('reports') }}">Reports</a></li>

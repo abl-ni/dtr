@@ -2,7 +2,6 @@
 
 @section('content')
 
-@if (Auth::user()->type == 'Dev' || Auth::user()->type == 'Admin')
 <div class="row dash-nav">
     <div class="dash-navbar col-md-12">
         <ul class="nav navbar-nav col-md-12 text-center">
@@ -12,6 +11,9 @@
             <li class="col-md-4"><a href="{{ url('users') }}">Users</a></li>
             @elseif (Auth::user()->type == 'Dev')
             <li class="col-md-6 active"><a href="{{ url('dashboard') }}">Record Ticket</a></li>
+            <li class="col-md-6"><a href="{{ url('reports') }}">Reports</a></li>
+            @elseif (Auth::user()->type == 'PM')
+            <li class="col-md-6 active"><a href="{{ url('dashboard') }}">Projects</a></li>
             <li class="col-md-6"><a href="{{ url('reports') }}">Reports</a></li>
             @endif
         </ul>
@@ -40,7 +42,9 @@
                             </div>
                             <div class="col-md-4 col-sm-12 pull-right">
                                 <select id="groupBy" class="selectpicker pull-right">
+                                    @if(Auth::user()->type !== 'Dev')
                                     <option data-icon="icon icon-user"> Group by Developers</option>
+                                    @endif
                                     <option data-icon="icon icon-folder"> Group by Projects</option>
                                     <option data-icon="icon icon-film"> Group by Tickets</option>
                                 </select>
@@ -85,12 +89,13 @@
             </div>
         </div>
     </div>
+    @if(Auth::user()->type === 'Dev')
     <div class="row">
         <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading col-md-12">
-                    <div class="col-md-2">
-                        <span class="panel-title font-weight-bold">Graphical Report</span>
+                    <div class="col-md-12">
+                        <span class="panel-title font-weight-bold">Total Hours per Project</span>
                     </div>
                 </div>
                 <div class="panel-body" id="filter-body">
@@ -101,6 +106,6 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
-@endif
 @endsection
