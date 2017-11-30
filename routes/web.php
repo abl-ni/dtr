@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('addLogs', 'DtrController@addLogs');
     
-    Route::get('reports', 'FilterController@getQuery');
+    Route::get('reports/{option?}', 'FilterController@getQuery');
     Route::post('getFilter', 'FilterController@getFilter');
     
     Route::put('users/resetPassword/{id}','UserController@resetPassword');

@@ -2,18 +2,16 @@
 
 @section('content')
 
-@if (Auth::user()->type == 'Dev')
-@include('inc.form')
-@else
+@if (Auth::user()->type == 'Dev' || Auth::user()->type == 'Admin')
 <div class="row dash-nav">
-    <div class="dash-navbar col-md-4 col-md-offset-4">
+    <div class="dash-navbar col-md-12">
         <ul class="nav navbar-nav col-md-12 text-center">
             @if (Auth::user()->type == 'Admin')
             <li class="col-md-4 ative"><a href="{{ url('dashboard') }}">Projects</a></li>
             <li class="col-md-4"><a href="{{ url('reports') }}">Reports</a></li>    
             <li class="col-md-4"><a href="{{ url('users') }}">Users</a></li>
-            @else
-            <li class="col-md-6 ative"><a href="{{ url('dashboard') }}">Projects</a></li>
+            @elseif (Auth::user()->type == 'Dev')
+            <li class="col-md-6 active"><a href="{{ url('dashboard') }}">Record Ticket</a></li>
             <li class="col-md-6"><a href="{{ url('reports') }}">Reports</a></li>
             @endif
         </ul>
@@ -25,14 +23,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading col-md-12">
                     <form method="post">
-                        <div class="col-md-2">
+                        <div class="col-md-2 col-sm-12">
                             <span class="panel-title font-weight-bold">Reports</span>
                         </div>
                         <div class="col-md-10">
-                            <div class="col-md-1 pull-right">
+                            <div class="col-md-1 col-sm-12 pull-right">
                                 <button type="button" class="form-control" id="filterGo-btn">Go</button>
                             </div>
-                            <div class="col-md-4 pull-right">
+                            <div class="col-md-4 col-sm-12 pull-right">
                                 <div id="reportrange" class="pull-right">
                                     <i class="icon icon-calendar"></i>&nbsp;
                                     <span></span> <b class="caret"></b>
@@ -40,7 +38,7 @@
                                     <input type="hidden" id="end">
                                 </div>    
                             </div>
-                            <div class="col-md-4 pull-right">
+                            <div class="col-md-4 col-sm-12 pull-right">
                                 <select id="groupBy" class="selectpicker pull-right">
                                     <option data-icon="icon icon-user"> Group by Developers</option>
                                     <option data-icon="icon icon-folder"> Group by Projects</option>
@@ -85,7 +83,22 @@
                     </table>
                 </div>
             </div>
-
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading col-md-12">
+                    <div class="col-md-2">
+                        <span class="panel-title font-weight-bold">Graphical Report</span>
+                    </div>
+                </div>
+                <div class="panel-body" id="filter-body">
+                    <div class="col-md-12">
+                        <canvas id="myChart" height="200px"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

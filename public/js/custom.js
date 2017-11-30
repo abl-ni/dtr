@@ -1,140 +1,7 @@
-//EDIT PROJECT
-$("select.selectpicker").selectpicker();
-$('#updateProject-modal').on('show.bs.modal', function(e) {
-    var projectid = $(e.relatedTarget).data('id');
-    var projectname = $(e.relatedTarget).data('name');
-    var pmid = $(e.relatedTarget).data('pm_id');
-    var tlid = $(e.relatedTarget).data('tl_id');
-    
-    $("input[name='projectname']").val(projectname);
-    $("input[name='projectid']").val(projectid);
-    $("select[name='pm'].selectpicker").selectpicker('val', pmid);
-    $("select[name='dev'].selectpicker").selectpicker('val', tlid);
-     
-    $("#updateProject-form").attr("action", "updateProject/" + projectid + "");
-});
-
-// DELETE PROJECT
-$('#deleteProject-modal').on('show.bs.modal', function(e) {
-    var projectid = $(e.relatedTarget).data('id');
-    var projectname = $(e.relatedTarget).data('name');
-    
-    $('span#projectname').html(projectname);
-
-    $("#deleteProject-form").attr("action", "deleteProject/" + projectid + "");
-});
-
-// REMOVE USER IN A PROJECT
-$('#confirmRemove-modal').on('show.bs.modal', function(e) {
-    var projectid = $(e.relatedTarget).data('project_id');
-    var userid = $(e.relatedTarget).data('user_id');
-    var projectname = $(e.relatedTarget).data('project');
-    var username = $(e.relatedTarget).data('user');
-
-    $('span#projectname').html(projectname);
-    $('span#username').html(username);
-    $('#userid').val(userid);
-
-    $("#removeUser-form").attr("action", "removeDev/" + projectid + "");
-});
-
-//RESET PASSWORD (ADMIN)
-$('#reset-password').on('show.bs.modal', function(e) {
-    var userid = $(e.relatedTarget).data('id');
-    var username = $(e.relatedTarget).data('name');
-    $("span#username").html(username);
-    $("#reset-form").attr("action", "users/resetPassword/" + userid + "");
-});
-
-//RESET ROLE TYPE (ADMIN)
-$('#reset-role').on('show.bs.modal', function(e) {
-    var userid = $(e.relatedTarget).data('id');
-    var username = $(e.relatedTarget).data('name');
-    $("span#username").html(username);
-    $("#resetrole-form").attr("action", "users/" + userid + "");
-});
-
-
-$('#select_devs').selectpicker(); 
-$(document).on('click', '.add-modal', function(e) {
-
-    var id = $(this).data('id');
-
-    $.ajax({
-        type: 'post',
-        url: '/getDev', 
-        beforeSend: function (xhr) {
-            var token = $('meta[name="csrf_token"]').attr('content');
-            if (token) {
-                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-            }
-        },
-        data: {
-            '_token': $('input[name=_token]').val(),
-            'id': id,
-        },
-        success: function(data) {
-            
-            if (!$.trim(data)){   
-                $('select#select_devs').append($("<option></option>")
-                                       .attr("disabled", "disabled")
-                                       .text("No Available"))
-                .selectpicker('refresh');
-            }
-            else {
-                
-                $.each(data, function(key, value) {
-                    $('select#select_devs')
-                            .append($("<option></option>")
-                            .attr("id", value.id)
-                            .attr("value", value.id)
-                            .text(value.name))
-                    .selectpicker('refresh');
-                });   
-            }    
-        }
-    });
-
-    $('select#select_devs').html('');
-
-});
-
-$(document).on('click', '.add-modal', function(){
-    $('#project_id').val($(this).data('id'));
-});
-
-
-$(document).on('click', '#add_devs_btn', function(e) {
-    
-    var ids = new Array();
-    $( "select#select_devs" ).change(function() {
-                $( "select#select_devs option:selected" ).each(function() {
-                    ids.push($( this ).attr('id'));
-                });
-            })
-        .trigger( "change" );
-
-    $.ajax({
-        type: 'post',
-        url: '/addDev',
-        beforeSend: function (xhr) {
-            var token = $('meta[name="csrf_token"]').attr('content');
-                if (token) {
-                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                }},
-        data: {
-            '_token': $('input[name=_token]').val(),
-            'id': $('#project_id').val(),
-            'data': ids,
-        },
-        success: function(data) {
-            location.reload();
-        }
-    });
-    
-});
-
 $(document).ready(function(){
+    $('table#table').DataTable();
+    var myChart;
+
     $('[data-toggle="popover"]').popover();  
     
     $('body').on('click', function (e) {
@@ -147,11 +14,210 @@ $(document).ready(function(){
         });    
     });
 
+    //EDIT PROJECT
+    $("select.selectpicker").selectpicker();
+    $('#updateProject-modal').on('show.bs.modal', function(e) {
+        var projectid = $(e.relatedTarget).data('id');
+        var projectname = $(e.relatedTarget).data('name');
+        var pmid = $(e.relatedTarget).data('pm_id');
+        var tlid = $(e.relatedTarget).data('tl_id');
+        
+        $("input[name='projectname']").val(projectname);
+        $("input[name='projectid']").val(projectid);
+        $("select[name='pm'].selectpicker").selectpicker('val', pmid);
+        $("select[name='dev'].selectpicker").selectpicker('val', tlid);
+         
+        $("#updateProject-form").attr("action", "updateProject/" + projectid + "");
+    });
+
+    // DELETE PROJECT
+    $('#deleteProject-modal').on('show.bs.modal', function(e) {
+        var projectid = $(e.relatedTarget).data('id');
+        var projectname = $(e.relatedTarget).data('name');
+        
+        $('span#projectname').html(projectname);
+
+        $("#deleteProject-form").attr("action", "deleteProject/" + projectid + "");
+    });
+
+    // REMOVE USER IN A PROJECT
+    $('#confirmRemove-modal').on('show.bs.modal', function(e) {
+        var projectid = $(e.relatedTarget).data('project_id');
+        var userid = $(e.relatedTarget).data('user_id');
+        var projectname = $(e.relatedTarget).data('project');
+        var username = $(e.relatedTarget).data('user');
+
+        $('span#projectname').html(projectname);
+        $('span#username').html(username);
+        $('#userid').val(userid);
+
+        $("#removeUser-form").attr("action", "removeDev/" + projectid + "");
+    });
+
+    //RESET PASSWORD (ADMIN)
+    $('#reset-password').on('show.bs.modal', function(e) {
+        var userid = $(e.relatedTarget).data('id');
+        var username = $(e.relatedTarget).data('name');
+        $("span#username").html(username);
+        $("#reset-form").attr("action", "users/resetPassword/" + userid + "");
+    });
+
+    //RESET ROLE TYPE (ADMIN)
+    $('#reset-role').on('show.bs.modal', function(e) {
+        var userid = $(e.relatedTarget).data('id');
+        var username = $(e.relatedTarget).data('name');
+        $("span#username").html(username);
+        $("#resetrole-form").attr("action", "users/" + userid + "");
+    });
+
+
+    $('#select_devs').selectpicker(); 
+    $(document).on('click', '.add-modal', function(e) {
+
+        var id = $(this).data('id');
+
+        $.ajax({
+            type: 'post',
+            url: '/getDev', 
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'id': id,
+            },
+            success: function(data) {
+                
+                if (!$.trim(data)){   
+                    $('select#select_devs').append($("<option></option>")
+                                           .attr("disabled", "disabled")
+                                           .text("No Available"))
+                    .selectpicker('refresh');
+                }
+                else {
+                    
+                    $.each(data, function(key, value) {
+                        $('select#select_devs')
+                                .append($("<option></option>")
+                                .attr("id", value.id)
+                                .attr("value", value.id)
+                                .text(value.name))
+                        .selectpicker('refresh');
+                    });   
+                }    
+            }
+        });
+
+        $('select#select_devs').html('');
+
+    });
+
+    $(document).on('click', '.add-modal', function(){
+        $('#project_id').val($(this).data('id'));
+    });
+
+    $(document).on('click', '#add_devs_btn', function(e) {
+        
+        var ids = new Array();
+        $( "select#select_devs" ).change(function() {
+                    $( "select#select_devs option:selected" ).each(function() {
+                        ids.push($( this ).attr('id'));
+                    });
+                })
+            .trigger( "change" );
+
+        $.ajax({
+            type: 'post',
+            url: '/addDev',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                    if (token) {
+                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }},
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'id': $('#project_id').val(),
+                'data': ids,
+            },
+            success: function(data) {
+                location.reload();
+            }
+        });
+        
+    });
+
+    $('input[name="daterange"]').daterangepicker();
+
+        $(document).on('click', '#filterGo-btn', function() {
+
+        var groupby = $('#groupBy').val();
+        var start = $('#start').val();
+        var end = $('#end').val();
+
+        myChart.destroy();
+        barGraphData(start, end);
+        
+        $('#filter-body').html('');
+        $.ajax({
+            type: 'post',
+            url: '/getFilter',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }},
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'groupby' : groupby,
+                'starts' : start,
+                'ends' : end,
+            },
+            success: function(data) {
+                
+                if (!$.trim(data)){ 
+
+                    $('#filter-body')
+                    .append("<h3 style='padding-top:50px' class='text-center'>No Results Found.</h3>");
+
+                }else {
+                    
+                    sortArray(data, groupby);
+                
+                }
+                
+            }
+        });
+        
+    });
+
+    // Chart
+
+    if(document.getElementById("myChart")){
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var barGraphData = function (start = null, end = null){
+            $.ajax({
+                method: 'GET',
+                data: {'start':start, 'end':end},
+                async: true,
+                url: '/reports/total_hours_per_project',
+                success: function(data){
+                    var data = JSON.parse(data);
+                    myChart = new Chart(ctx, {
+                        'type': 'pie',
+                        'data': data.data,
+                        'options': data.options
+                    });
+                }
+            })
+        }
+
+        barGraphData();     
+    }
+    // End Chart
 });
-
-
-
-$('input[name="daterange"]').daterangepicker();
 
 $(function() {
 
@@ -178,52 +244,6 @@ $(function() {
     }, cb);
 
     cb(start, end);
-
-});
-
-
-$(document).ready(function() {
-    $('table#table').DataTable();
-} );
-
-
-$(document).on('click', '#filterGo-btn', function() {
-
-    var groupby = $('#groupBy').val();
-    var start = $('#start').val();
-    var end = $('#end').val();
-    
-    $('#filter-body').html('');
-    $.ajax({
-        type: 'post',
-        url: '/getFilter',
-        beforeSend: function (xhr) {
-            var token = $('meta[name="csrf_token"]').attr('content');
-            if (token) {
-                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-            }},
-        data: {
-            '_token': $('input[name=_token]').val(),
-            'groupby' : groupby,
-            'starts' : start,
-            'ends' : end,
-        },
-        success: function(data) {
-            
-            if (!$.trim(data)){ 
-
-                $('#filter-body')
-                .append("<h3 style='padding-top:50px' class='text-center'>No Results Found.</h3>");
-
-            }else {
-                
-                sortArray(data, groupby);
-            
-            }
-            
-        }
-    });
-    
 });
 
 function sortArray(data, groupby){
@@ -246,8 +266,7 @@ function sortArray(data, groupby){
         }
         data.push({id: id, name: groups[id][0]['name'], total: formatTotalHours(count.toFixed(2)), query: groups[id]});
     }
-    
-    console.log(data);
+
     return appendElements(data, groupby);
 }
 
@@ -330,6 +349,7 @@ function appendElements(data, groupby){
                     "</div>");
             break;
     }
+
     
     $.each(data, function(key, value) {
         
@@ -350,7 +370,7 @@ function appendElements(data, groupby){
                    .append("<tr class='item' style='border-bottom: 1px solid #f5f5f5;'>" +
                            "<td class='col-md-1'></td>" +
                            "<td class='col-md-1'>" + innerValue.project_name + "</td>" +
-                           "<td class='col-md-1'>" + innerValue.task_no + "</td>" +
+                           "<td class='col-md-1'>" + innerValue.ticket_no + "</td>" +
                            "<td class='col-md-1'>" + innerValue.task_title + "</td>" +
                            "<td class='col-md-2'>" + innerValue.roadblock + "</td>" +
                            "<td class='col-md-1'>" + innerValue.date_created + "</td>" +
@@ -375,7 +395,7 @@ function appendElements(data, groupby){
                    .append("<tr class='item' style='border-bottom: 1px solid #f5f5f5;'>" +
                            "<td class='col-md-1'></td>" +
                            "<td class='col-md-1'>" + innerValue.username + "</td>" +
-                           "<td class='col-md-1'>" + innerValue.task_no + "</td>" +
+                           "<td class='col-md-1'>" + innerValue.ticket_no + "</td>" +
                            "<td class='col-md-1'>" + innerValue.task_title + "</td>" +
                            "<td class='col-md-2'>" + innerValue.roadblock + "</td>" +
                            "<td class='col-md-1'>" + innerValue.date_created + "</td>" +
@@ -415,9 +435,6 @@ function appendElements(data, groupby){
        }
         
     });
-    
+ 
+
 }
-
-
-
-

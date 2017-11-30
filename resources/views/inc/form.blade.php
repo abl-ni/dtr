@@ -1,4 +1,4 @@
-<div class="container">
+<div class="dashboard-container">
     <div class="row">
         <div class="form-container col-md-8 col-md-offset-2">
             @include('inc.errors')

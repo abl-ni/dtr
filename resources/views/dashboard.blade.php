@@ -154,8 +154,15 @@
 
     @include('inc.projects')
 
-@else
-
+@elseif (Auth::user()->type == 'Dev')
+    <div class="row dash-nav">
+        <div class="dash-navbar col-md-12 text-center">
+            <ul class="nav navbar-nav col-md-12 text-center">
+                <li class="col-md-6 active"><a href="{{ url('dashboard') }}">Record Ticket</a></li>
+                <li class="col-md-6"><a href="{{ url('reports') }}">Reports</a></li>
+            </ul>
+        </div>
+    </div>
     @include('inc.form')
 
 @endif
