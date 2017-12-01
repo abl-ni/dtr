@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('project', 'ProjectController@getProject');
     Route::post('getDev', 'ProjectController@getDev');
     Route::get('project/{id}', 'ProjectController@show');
+    Route::get('projectList', 'ProjectController@projectList');
     
     Route::post('addDev','ProjectDevsController@addDev');
     Route::post('ListDev','ProjectDevsController@getListDev');
@@ -35,9 +36,11 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('reports/{option?}', 'FilterController@getQuery');
     Route::post('getFilter', 'FilterController@getFilter');
+    Route::get('reportList', 'FilterController@reportList');
     
     Route::put('users/resetPassword/{id}','UserController@resetPassword');
     Route::resource('users','UserController');
+    Route::get('userList','UserController@userList');
     
     
 });

@@ -17,7 +17,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
         $users = User::where('id', '!=', Auth::id())->get();
         return view('users', compact('users'));
     }
@@ -119,5 +118,31 @@ class UserController extends Controller
         $user->save();
         return back()->with('success', 'Password reset successfully!');
 
+    }
+
+    public function userList(){
+        $data = array();
+        
+        if(Auth::user()->type === "Admin"){
+            $users = User::where('id', '!=', Auth::id())->get();
+
+            if($users)
+                foreach ($users as $key => $value) {
+                    $data[$key][] = $users[$key]->id;
+                    $data[$key][] = $users[$key]->name;
+                    $data[$key][] = $users[$key]->email;
+                    $data[$key][] = $users[$key]->type;
+                    $data[$key][] = $users[$key]->id;
+                }
+        }
+
+        $table_data = array(
+            "draw" => 1,
+            "recordsTotal" => count($data),
+            "recordsFiltered" => count($data),
+            'data' => $data, 
+            );
+
+        echo json_encode($table_data);
     }
 }

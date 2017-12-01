@@ -81,6 +81,43 @@ class ProjectController extends Controller
         $today = Dtr::where('date_created', Carbon::now()->toDateString())->count();
         return view ('dashboard',compact('project', 'projectCount', 'dev', 'pm', 'allPM', 'today'));
     }
+
+    public function projectList(){        
+        $id = Auth::id();
+        
+        if (User::find($id)->type == 'Dev')
+        {
+            $projects = Dev::where('dev_id', $id)->get();
+            $projDevArray = [];
+            $projDevArray = array_pluck($project, 'proj_id');
+            $project = Project::whereIn('id', $projDevArray)->get();
+        }
+        else 
+        {
+            $projects = Project::all();
+        }
+
+        $data = array();
+
+        if($projects)
+            foreach ($projects as $key => $value) {
+                $data[$key][] = $projects[$key]->id;
+                $data[$key][] = $projects[$key]->name;
+                $data[$key][] = $projects[$key]->PM()->first()->name;
+                $data[$key][] = $projects[$key]->TL()->first()->name;
+                $data[$key][] = $projects[$key]->dev;
+                $data[$key][] = $projects[$key]->id;
+            }
+
+            $table_data = array(
+                "draw" => 1,
+                "recordsTotal" => count($data),
+                "recordsFiltered" => count($data),
+                'data' => $data, 
+                );
+
+            echo json_encode($table_data);
+    }
     
     public function updateProject(Request $req, $id) //done
     {

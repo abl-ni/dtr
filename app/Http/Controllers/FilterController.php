@@ -13,36 +13,16 @@ use App\Project;
 
 class FilterController extends Controller
 {
+    public function __construct() {
+        $this->getDtrIds = DB::table('dtrs')->pluck('proj_devs_id');
+        $this->current_time = Carbon::now()->toDateString();
+        $this->getDevsDtrs = DB::table('devs')->select('dev_id')->groupBy('dev_id')->get();
+        $this->project = Project::all();
+    }
+
     public function getQuery(Request $request, $option = null)
     {
-        $getDtrIds = DB::table('dtrs')->pluck('proj_devs_id');
-        $current_time = Carbon::now()->toDateString();
-        $getDevsDtrs = DB::table('devs')->select('dev_id')->groupBy('dev_id')->get();
-        $project = Project::all();
-
-        $query = DB::table('users')
-            ->join('devs', 'users.id', '=', 'devs.dev_id')
-            ->join('projects', 'devs.proj_id', '=', 'projects.id')
-            ->leftJoin('dtrs', 'devs.id', '=', 'dtrs.proj_devs_id');
-
-            if(Auth::user()->type === 'Admin' && $option === null){                
-                $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
-                    'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
-                    ->where('users.type', 'Dev')
-                    ->where('dtrs.date_created', $current_time)
-                    ->whereIn('devs.id', $getDtrIds);
-            }else if(Auth::user()->type === 'Dev' && $option === null){     
-                $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
-                    'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
-                    ->where('dtrs.date_created', $current_time)
-                    ->where('users.id', Auth::id());
-            }else if(Auth::user()->type === 'PM' && $option === null){                
-                $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
-                    'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
-                    ->where('users.type', 'Dev')
-                    ->where('dtrs.date_created', $current_time)
-                    ->whereIn('devs.id', $getDtrIds);
-            }
+        $query = $this->get('report', $option);
 
         if($option === null){
             $result = $query->get();
@@ -55,7 +35,7 @@ class FilterController extends Controller
 
             if($request->start && $request->end){
                 $query->whereBetween('dtrs.date_created', [$request->start, $request->end]);
-            }else $query->where('dtrs.date_created', $current_time);
+            }else $query->where('dtrs.date_created', $this->current_time);
 
             $result = $query->get();
             $data = array();
@@ -185,7 +165,69 @@ class FilterController extends Controller
     
     }
 
-    function random_color_part() {
+    // Retrieving reports
+    public function get($value = null, $option = null){
+        if($value === 'report'){
+            $query = DB::table('users')
+            ->join('devs', 'users.id', '=', 'devs.dev_id')
+            ->join('projects', 'devs.proj_id', '=', 'projects.id')
+            ->leftJoin('dtrs', 'devs.id', '=', 'dtrs.proj_devs_id');
+
+            if(Auth::user()->type === 'Admin' && $option === null){                
+                $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
+                    'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
+                    ->where('users.type', 'Dev')
+                    ->where('dtrs.date_created', $this->current_time)
+                    ->whereIn('devs.id', $this->getDtrIds);
+            }else if(Auth::user()->type === 'Dev' && $option === null){     
+                $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
+                    'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
+                    ->where('dtrs.date_created', $this->current_time)
+                    ->where('users.id', Auth::id());
+            }else if(Auth::user()->type === 'PM' && $option === null){                
+                $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
+                    'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
+                    ->where('users.type', 'Dev')
+                    ->where('dtrs.date_created', $this->current_time)
+                    ->whereIn('devs.id', $this->getDtrIds);
+            }
+
+            return $query;
+        }
+    }
+    //End Retrieving reports
+
+    //DataTable server-side data retrieving
+    public function reportList(){
+        $query = $this->get('report');
+        $result = $query->get();
+        $data = array();
+
+        if($result){
+            foreach ($result as $key => $value) {
+                $data[$key][] = $result[$key]->id;
+                $data[$key][] = $result[$key]->name;
+                $data[$key][] = $result[$key]->project_name;
+                $data[$key][] = $result[$key]->ticket_no;
+                $data[$key][] = $result[$key]->task_title;
+                $data[$key][] = $result[$key]->roadblock;
+                $data[$key][] = $result[$key]->date_created;
+                $data[$key][] = $result[$key]->hours_rendered;
+            }
+        }
+
+        $table_data = array(
+            "draw" => 1,
+            "recordsTotal" => count($data),
+            "recordsFiltered" => count($data),
+            'data' => $data, 
+            );
+
+        echo json_encode($table_data);
+    }
+    // End DataTable server-side data retrieving
+    
+    public function random_color_part() {
         return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
     }
 

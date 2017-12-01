@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowgroup/1.0.2/css/rowGroup.dataTables.min.css" />
 </head>
 <body>
     <div id="app">
@@ -107,6 +108,43 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/rowgroup/1.0.2/js/dataTables.rowGroup.min.js"></script>
+    <script type="text/javascript">
+
+    if(document.getElementById('report-list'))
+    $.fn.dataTableExt.afnFiltering.push(
+        function( oSettings, aData, iDataIndex ) {
+            var iFini = $('#start').val();
+            var iFfin = $('#end').val();
+            var iStartDateCol = 6;
+            var iEndDateCol = 6;
+     
+            iFini=iFini.substring(6,10) + iFini.substring(3,5)+ iFini.substring(0,2);
+            iFfin=iFfin.substring(6,10) + iFfin.substring(3,5)+ iFfin.substring(0,2);
+     
+            var datofini=aData[iStartDateCol].substring(6,10) + aData[iStartDateCol].substring(3,5)+ aData[iStartDateCol].substring(0,2);
+            var datoffin=aData[iEndDateCol].substring(6,10) + aData[iEndDateCol].substring(3,5)+ aData[iEndDateCol].substring(0,2);
+     
+            if ( iFini === "" && iFfin === "" )
+            {
+                return true;
+            }
+            else if ( iFini <= datofini && iFfin === "")
+            {
+                return true;
+            }
+            else if ( iFfin >= datoffin && iFini === "")
+            {
+                return true;
+            }
+            else if (iFini <= datofini && iFfin >= datoffin)
+            {
+                return true;
+            }
+            return false;
+        }
+    );
+    </script>
     @if (App::isLocal())
     <script src="{{ asset('js/custom.js') }}"></script>
     @else

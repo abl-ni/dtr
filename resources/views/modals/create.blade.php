@@ -10,7 +10,7 @@
                 </button>
                 <h4 class="modal-title">Add Project</h4>
             </div>
-           <form id="addProject-form" method="post" action="addProject">
+            <form id="addProject-form" method="post" action="addProject">
                {{ csrf_field() }}
                <div class="modal-body">
                     <div class="form-group">
@@ -59,7 +59,7 @@
                             Add
                    </button>
                </div>
-           </form>
+            </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

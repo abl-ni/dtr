@@ -19,8 +19,7 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body" id="filter-body">
-                    <table id="table" cellspacing="0" width="100%">
-
+                    <table id="user-list" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th class="col-md-1">ID</th>
@@ -30,32 +29,15 @@
                                 <th class="col-md-1">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="table-body">
-                            @foreach ($users as $user)
-                            <tr class="item">
-                                <td>{{ $user->id}}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->type }}</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm" 
-                                            data-id="{{$user->id}}" 
-                                            data-name="{{$user->name}}" 
-                                            data-target="#reset-password" 
-                                            data-toggle="modal">
-                                        Reset Password
-                                    </button>
-                                    <button class="add-modal btn btn-info btn-sm" 
-                                            data-id="{{$user->id}}" 
-                                            data-name="{{$user->name}}" 
-                                            data-target="#reset-role" 
-                                            data-toggle="modal">
-                                        Change Role Type
-                                    </button>
-                                </td>  
+                        <tfoot>
+                            <tr>
+                                <th class="col-md-1">ID</th>
+                                <th class="col-md-1">Name</th>
+                                <th class="col-md-1">Email</th>
+                                <th class="col-md-1">Role</th>
+                                <th class="col-md-1">Action</th>
                             </tr>
-                            @endforeach
-                        </tbody>   
+                        </tfoot>
                     </table>
                 </div>
             </div>
