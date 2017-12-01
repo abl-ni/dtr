@@ -80,8 +80,7 @@
             </div>
         </div>
     </div>
-
-    @if($result->isNotEmpty() && Auth::user()->type === 'Dev')    
+    @if($result->isNotEmpty())    
         <div class="row">
             <div class="col-lg-6">
                 <div class="panel panel-default">
@@ -99,6 +98,5 @@
             </div>
         </div>
     @endif
-    
 </div>
 @endsection
