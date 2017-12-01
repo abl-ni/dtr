@@ -89,7 +89,6 @@
             </div>
         </div>
     </div>
-    @if(Auth::user()->type === 'Dev')
     <div class="row">
         <div class="col-lg-6">
             <div class="panel panel-default">
@@ -106,6 +105,5 @@
             </div>
         </div>
     </div>
-    @endif
 </div>
 @endsection

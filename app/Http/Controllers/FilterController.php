@@ -49,9 +49,14 @@ class FilterController extends Controller
             return view('reports', compact('result', 'getDevsDtrs', 'project'));
         } else if($option === 'total_hours_per_project'){
             $query->select('users.id', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
-                'dtrs.task_title', DB::raw('SUM(dtrs.hours_rendered) as hours_rendered'), 'dtrs.date_created', 'dtrs.roadblock')
-                ->where('users.id', Auth::id())
-                ->groupby('users.id', 'projects.id');
+                'dtrs.task_title', DB::raw('SUM(dtrs.hours_rendered) as hours_rendered'), 'dtrs.date_created', 'dtrs.roadblock');
+
+            if(Auth::user()->type === 'Dev'){
+                $query->where('users.id', Auth::id())
+                    ->groupby('users.id', 'projects.id');
+            } else {
+                $query->groupby('projects.id');
+            }
 
             if($request->start && $request->end){
                 $query->whereBetween('dtrs.date_created', [$request->start, $request->end]);
