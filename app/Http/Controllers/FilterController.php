@@ -14,13 +14,14 @@ use App\Project;
 class FilterController extends Controller
 {
     public function __construct() {
+        $this->middleware('auth');
         $this->getDtrIds = DB::table('dtrs')->pluck('proj_devs_id');
         $this->current_time = Carbon::now()->toDateString();
         $this->getDevsDtrs = DB::table('devs')->select('dev_id')->groupBy('dev_id')->get();
         $this->project = Project::all();
     }
 
-    public function getQuery(Request $request, $option = null)
+    public function getQuery(Request $request, $option = null)    
     {
         $query = $this->get('report', $option);
 

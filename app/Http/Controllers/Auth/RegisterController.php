@@ -6,6 +6,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -36,7 +38,14 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+            if($this->user->type !== "Admin"){
+                return redirect('/dashboard');
+            }
+            return $next($request);
+        });
     }
 
     /**
@@ -51,7 +60,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'type' => 'required|string|max:255', /**ADDED*/
+            'type' => 'required|string|max:255',
         ]);
 
     }
@@ -64,11 +73,37 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'type' => $data['type'],
         ]);
+
+        return $user;
+    }
+
+     /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $validator = $this->validator($request->all());
+        if ($validator->fails())
+        {
+           return back()->withErrors($validator);
+        }
+
+        $this->create($request->all());
+
+        // return redirect('/users');
+        // if(!$saved){
+        //     return back()->withErrors(['error', 'Something went wrong!']);
+        // }
+        
+        return back()->with('success', 'User has been successfully added!');
     }
 }

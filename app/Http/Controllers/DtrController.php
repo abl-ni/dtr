@@ -12,7 +12,6 @@ use Carbon\Carbon;
 
 class DtrController extends Controller
 {
-    
     public function addLogs(Request $request)
     {
         $this->validate($request, [
