@@ -17,7 +17,10 @@
     </div>
 </div>
 <div class="dashboard-container">
-    <div class="row">
+    @if($result->isNotEmpty())
+    <div class="row col-md-8">
+    @else <div class="row">
+    @endif
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading col-md-12">
@@ -25,7 +28,7 @@
                         <div class="col-md-2 col-sm-12">
                             <span class="panel-title font-weight-bold">Reports</span>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-10 col-sm-12">
                             <div class="col-md-1 col-sm-12 pull-right">
                                 <button type="button" class="form-control" id="filterGo-btn">Go</button>
                             </div>
@@ -81,8 +84,8 @@
         </div>
     </div>
     @if($result->isNotEmpty())    
-        <div class="row">
-            <div class="col-lg-6">
+        <div class="row col-md-4">
+            <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading col-md-12">
                         <div class="col-md-12">
@@ -91,7 +94,7 @@
                     </div>
                     <div class="panel-body" id="filter-body">
                         <div class="col-md-12">
-                            <canvas id="myChart" height="200px"></canvas>
+                            <canvas id="myChart"></canvas>
                         </div>
                     </div>
                 </div>
