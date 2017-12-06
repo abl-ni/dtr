@@ -77,10 +77,6 @@ $(document).ready(function(){
                 "visible": false,
                 "searchable": false
             },
-            // {
-            //     "targets": [ 1 ],
-            //     "visible": false
-            // },
             {
                 "targets": [ 7 ],
                 render: function ( data, type, row, meta ) {
