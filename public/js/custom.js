@@ -12,10 +12,26 @@ $(document).ready(function(){
                 "visible": false,
                 "searchable": false
             },
-            // {
-            //     "targets": [ 1 ],
-            //     "visible": false
-            // },
+            {
+                "targets": [ 4 ],
+                createdCell: function(td, cellData, rowData, row, col){
+                    var tmp = "";
+                    for (var a = 0; a < cellData.length; a++) {                           
+                        tmp +="<li class='list-group-item'>"+cellData[a].username+
+                        "<a data-toggle='modal' data-target='#confirmRemove-modal' data-project_id='"+rowData[0]+
+                        "' data-user_id='"+cellData[a].userid+" ' data-project='"+rowData[1]+"' data-user='"+cellData[a].username+"' class='pull-right'>"+
+                        "<span class='icon icon-close text-danger'></span></a></li>";
+                    };
+
+                    var a = $(td).find(">:first-child");
+                    a.attr("id", rowData[0]);
+                    a.attr("data-content", "<ul class='list-group'>"+tmp+"</ul>");
+                },
+                render: function ( data, type, row, meta ) {
+                    return '<a href="#" class="list_popover" data-toggle="popover" '+
+                    'title="Developers" data-html="true">See List <span class="badge">'+data[0].count+'</span></a>';
+                }
+            },
             {
                 "targets": [ 5 ],
                 createdCell: function(td, cellData, rowData, row, col){
@@ -44,6 +60,10 @@ $(document).ready(function(){
                 }
             }
         ]
+    });
+
+    projectList.on('draw.dt', function () {
+        $("[data-toggle=popover]").popover();
     });
     //End Project List DataTable
 
