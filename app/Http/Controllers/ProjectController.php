@@ -101,12 +101,14 @@ class ProjectController extends Controller
 
         if($projects)
             foreach ($projects as $key => $value) {
-                $data[$key][] = $projects[$key]->id;
-                $data[$key][] = $projects[$key]->name;
-                $data[$key][] = $projects[$key]->PM()->first()->name;
-                $data[$key][] = $projects[$key]->TL()->first()->name;
-                $data[$key][] = $projects[$key]->dev;
-                $data[$key][] = $projects[$key]->id;
+                $data[$key][0][] = $projects[$key]->id;
+                $data[$key][1][] = $projects[$key]->name;
+                $data[$key][2][] = $projects[$key]->PM()->first()->name;
+                $data[$key][3][] = $projects[$key]->TL()->first()->name;
+                foreach ($dev = $projects[$key]->dev()->get() as $key1 => $value) {
+                    $data[$key][4][] = array('username' => ucwords($dev[$key1]->user->name), 'userid' => $dev[$key1]->user->id, 'count' => count($dev));
+                }   
+                $data[$key][5][] = $projects[$key]->id; 
             }
 
             $table_data = array(
