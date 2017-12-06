@@ -183,18 +183,18 @@ class FilterController extends Controller
                 $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
                     'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
                     ->where('users.type', 'Dev')
-                    ->where('dtrs.date_created', $this->current_time)
+                    // ->where('dtrs.date_created', $this->current_time)
                     ->whereIn('devs.id', $this->getDtrIds);
             }else if(Auth::user()->type === 'Dev' && $option === null){     
                 $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
                     'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
-                    ->where('dtrs.date_created', $this->current_time)
+                    // ->where('dtrs.date_created', $this->current_time)
                     ->where('users.id', Auth::id());
             }else if(Auth::user()->type === 'PM' && $option === null){                
                 $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
                     'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
                     ->where('users.type', 'Dev')
-                    ->where('dtrs.date_created', $this->current_time)
+                    // ->where('dtrs.date_created', $this->current_time)
                     ->whereIn('devs.id', $this->getDtrIds);
             }
 
