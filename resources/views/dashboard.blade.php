@@ -1,6 +1,5 @@
 @extends('layouts.app')
-    
-    
+
 @section('content')
 
 @include('modals.create')
@@ -9,93 +8,179 @@
 @include('modals.dev')
 @include('modals.confirmRemove')
 
-@if (Auth::user()->type == 'Admin')      
-<div class="row dash-nav">
-    <div class="dash-navbar col-md-12">
-        <ul class="nav nav-pills nav-justified">
-            <li class="nav-item active"><a class="nav-link" href="{{ url('dashboard') }}">Projects</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url('reports') }}">Reports</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url('users') }}">Users</a></li>
-        </ul>
-    </div>
-</div>
-<div class="dashboard-container">
-    @include('inc.errors')
-    @include('inc.success')
+@if(Auth::user()->type == 'Admin') 
+    <!-- Sidebar -->
+    @section('sidebar_menu')
+    <li class="active">
+        <a href="{{ url('dashboard') }}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+    </li>
+    <li class="">
+        <a href="{{ url('reports') }}">
+            <i class="fa fa-files-o"></i> <span>Report</span>
+        </a>
+    </li>
+    <li class="">
+        <a href="{{ url('users') }}">
+            <i class="fa fa-users"></i> <span>User</span>
+        </a>
+    </li>
+    @endsection
+    <!-- End Sidebar -->
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Projects
+        <small>advanced tables</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
     <div class="row">
-        <div class="col-lg-12">
-            <div class="col-md-9">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <span class="panel-title font-weight-bold">Projects</span>
-                        <button type="button" 
-                                class="btn btn-primary btn-sm pull-right" 
-                                data-toggle="modal" 
-                                data-target="#addProject-modal">Add Project</button>
-                    </div>
-                    <div class="panel-body col-lg-12 bg-white padding-none">
-                        <table id="project-list" class="table table-borderless table-responsive" width="100%">
-                            <thead>
-                                <tr>
-                                    <th class="col-md-1">ID</th>
-                                    <th class="col-md-3">Name</th>
-                                    <th class="col-md-2">Project Manager</th>
-                                    <th class="col-md-2">Team Leader</th>
-                                    <th class="col-md-2">Developers</th>
-                                    <th class="col-md-2">Actions</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th class="col-md-1">ID</th>
-                                    <th class="col-md-3">Name</th>
-                                    <th class="col-md-2">Project Manager</th>
-                                    <th class="col-md-2">Team Leader</th>
-                                    <th class="col-md-2">Developers</th>
-                                    <th class="col-md-2">Actions</th>
-                                </tr>
-                            </tfoot>
-                        </table>                                   
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading ">
-                        <h3 class="panel-title">TOTAL PROJECTS</h3>
-                    </div>
-                    <div class="panel-body">
-                        <h1 class="text-center"><strong>{{ $projectCount }}</strong></h1>
-                    </div>
-                </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>{{ $projectCount }}</h3>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Logs Today</h3>
-                    </div>
-                    <div class="panel-body">
-                        <h1 class="text-center"><strong>{{ $today }}</strong></h1>
-                    </div>
-                </div>
+              <p>Total Projects</p>
             </div>
+            <div class="icon">
+              <i class="ion ion-arrow-graph-up-right"></i>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3>{{ $today }}</h3>
 
+              <p>Logs Today</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-calendar"></i>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>   
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header with-border">
+                <button type="button" 
+                        class="btn btn-primary btn-sm" 
+                        data-toggle="modal" 
+                        data-target="#addProject-modal">Add Project</button>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                @include('inc.projects')                
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
 @elseif (Auth::user()->type == 'PM')
+    <!-- Sidebar -->
+    @section('sidebar_menu')
+    <li class="active">
+        <a href="{{ url('dashboard') }}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+    </li>
+    <li class="">
+        <a href="{{ url('reports') }}">
+            <i class="fa fa-files-o"></i> <span>Report</span>
+        </a>
+    </li>
+    @endsection
+    <!-- End Sidebar -->
 
-    @include('inc.projects')
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Projects
+        <small>advanced tables</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            @include('inc.errors')
+            @include('inc.success')
+            <div class="box-header with-border">
+                <button type="button" 
+                        class="btn btn-primary btn-sm" 
+                        data-toggle="modal" 
+                        data-target="#addProject-modal">Add Project</button>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                @include('inc.projects')
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
 
 @elseif (Auth::user()->type == 'Dev')
-    <div class="row dash-nav">
-        <div class="dash-navbar col-md-12">
-            <ul class="nav nav-pills nav-justified">
-                <li class="nav-item active"><a class="nav-link" href="{{ url('dashboard') }}">Record Ticket</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url('reports') }}">Reports</a></li>
-            </ul>
-        </div>
-    </div>
-    @include('inc.form')
+    @section('sidebar_menu')
+    <li class="active">
+        <a href="{{ url('dashboard') }}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+    </li>
+    <li class="">
+        <a href="{{ url('reports') }}">
+            <i class="fa fa-files-o"></i> <span>Report</span>
+        </a>
+    </li>
+    @endsection
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Daily Log
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+            @include('inc.form')
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
 
 @endif
 
