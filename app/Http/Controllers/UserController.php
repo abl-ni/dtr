@@ -10,6 +10,16 @@ use Hash;
 
 class UserController extends Controller
 {
+    function __construct() {
+        $this->middleware(function ($request, $next) {
+           $user= auth()->user();
+
+           if($user->type != 'Admin'){
+                return redirect()->back();
+           }
+           return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      *
