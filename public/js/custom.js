@@ -113,13 +113,13 @@ $(document).ready(function(){
                 "targets": [ 0 ],
                 "visible": false,
                 "searchable": false
+            },{
+                "targets": [ 3 ],
+                "width": "10%"
             },
-            // {
-            //     "targets": [ 1 ],
-            //     "visible": false
-            // },
             {
                 "targets": [ 4 ],
+                "width": "20%",
                 createdCell: function(td, cellData, rowData, row, col){
                     var a = $(td).find(".reset");
                         a.attr("data-id", cellData);
@@ -134,8 +134,8 @@ $(document).ready(function(){
                         b.attr("data-toggle", 'modal');
                 },
                 render: function ( data, type, row, meta ) {
-                    return '<button class="reset btn btn-warning btn-sm">Reset Password</button>'+
-                    '<button class="update btn btn-info btn-sm">Change Role</button>';
+                    return '<div class="btn-group"><button type="button" class="reset btn btn-danger">Reset Password</button>'+
+                    '<button type="button" class="update btn btn-warning">Change Role</button></div>';
                 }
             }
         ]

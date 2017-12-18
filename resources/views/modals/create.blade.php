@@ -55,7 +55,7 @@
                    </button>
                    <button  type="submit"
                             value="submit"
-                            class="btn btn-primary">
+                            class="btn btn-warning">
                             Add
                    </button>
                </div>

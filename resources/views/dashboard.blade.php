@@ -33,7 +33,7 @@
     <section class="content-header">
       <h1>
         Projects
-        <small>advanced tables</small>
+        <small>Data Table</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -75,7 +75,7 @@
       </div>   
       <div class="row">
         <div class="col-xs-12">
-          <div class="box">
+          <div class="box box-warning">
             <div class="box-header with-border">
                 <button type="button" 
                         class="btn btn-primary btn-sm" 
@@ -115,7 +115,7 @@
     <section class="content-header">
       <h1>
         Projects
-        <small>advanced tables</small>
+        <small>Data Table</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -126,7 +126,7 @@
     <section class="content">
       <div class="row">
         <div class="col-xs-12">
-          <div class="box">
+          <div class="box box-warning">
             @include('inc.errors')
             @include('inc.success')
             <div class="box-header with-border">
@@ -167,6 +167,7 @@
     <section class="content-header">
       <h1>
         Daily Log
+        <small>Form</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -185,4 +186,3 @@
 @endif
 
 @endsection
-

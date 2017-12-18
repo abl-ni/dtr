@@ -103,10 +103,6 @@
               </li>
             </ul>
           </li>
-          <!-- Control Sidebar Toggle Button -->
-          <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li>
         </ul>
       </div>
     </nav>
@@ -137,7 +133,15 @@
         <div class="content-wrapper">
         @yield('content')
         </div>
+        <footer class="main-footer">
+          <div class="pull-right hidden-xs">
+            <b>Version</b> 2.4.0
+          </div>
+          <strong>Copyright © 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+          reserved.
+        </footer>
     </div>
+
 
     <!-- Scripts -->
     @if (App::isLocal())
