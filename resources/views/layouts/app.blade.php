@@ -13,21 +13,12 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     
     <!-- Styles -->
-    @if (App::isLocal())
     <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('vendor/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
-    @else
-    <link href="{{ secure_asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
-    <link href="{{ secure_asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
-    <link href="{{ secure_asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
-    <link href="{{ secure_asset('vendor/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet"/>
-    <link href="{{ secure_asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
-    <link href="{{ secure_asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
-    @endif
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,7 +28,7 @@
     <![endif]-->
 
     <!-- Google Font -->
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
@@ -144,7 +135,6 @@
 
 
     <!-- Scripts -->
-    @if (App::isLocal())
     <!-- jQuery 3 -->
     <script src="{{ asset('vendor/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap 3.3.7 -->
@@ -158,21 +148,6 @@
     <script src="{{ asset('vendor/fastclick/lib/fastclick.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
-    @else
-    <!-- jQuery 3 -->
-    <script src="{{ secure_asset('vendor/jquery/dist/jquery.min.js')}}"></script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="{{ secure_asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-    <!-- DataTables -->
-    <script src="{{ secure_asset('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{ secure_asset('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-    <!-- SlimScroll -->
-    <script src="{{ secure_asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
-    <!-- FastClick -->
-    <script src="{{ secure_asset('vendor/fastclick/lib/fastclick.js')}}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ secure_asset('vendor/dist/js/adminlte.min.js')}}"></script>
-    @endif
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
@@ -214,11 +189,11 @@
         }
     );
     </script>
-    @if (App::isLocal())
+    <!-- @if (App::isLocal()) -->
     <script src="{{ asset('js/custom.js') }}"></script>
-    @else
+   <!--  @else
     <script src="{{ secure_asset('js/custom.js') }}"></script>
-    @endif
+    @endif -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
