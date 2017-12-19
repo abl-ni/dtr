@@ -80,7 +80,7 @@
 
                 <p>
                   {{ ucwords(Auth::user()->name) }}
-                  <small>Member since {{ date('d M Y', Auth::user()->created_at) }}</small>
+                  <small>Member since {{ date('d M Y', Auth::user()->created_at ) }}</small>
                 </p>
               </li>
                 <!-- /.row -->
@@ -163,6 +163,9 @@
     <script src="{{ secure_asset('vendor/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="{{ secure_asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+    <!-- DataTables -->
+    <script src="{{ secure_asset('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ secure_asset('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
     <!-- SlimScroll -->
     <script src="{{ secure_asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
     <!-- FastClick -->
