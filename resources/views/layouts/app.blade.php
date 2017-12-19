@@ -11,14 +11,23 @@
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    
+
     <!-- Styles -->
+    @if (!Request::secure())
     <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('vendor/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
+    @else
+    <link href="{{ secure_asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ secure_asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
+    <link href="{{ secure_asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
+    <link href="{{ secure_asset('vendor/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ secure_asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
+    <link href="{{ secure_asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
+    @endif
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -62,7 +71,11 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{ asset('vendor/dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
-              <span class="hidden-xs">{{ ucwords(Auth::user()->name) }}</span>
+              <span class="hidden-xs">
+                @if(Auth::user()->name)
+                  {{ ucwords(Auth::user()->name) }}
+                @endif
+              </span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -70,8 +83,10 @@
                 <img src="{{ asset('vendor/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
 
                 <p>
-                  {{ ucwords(Auth::user()->name) }}
-                  <small>Member since {{ date('d M Y', Auth::user()->created_at ) }}</small>
+                  @if(Auth::user()->name)
+                    {{ ucwords(Auth::user()->name) }}
+                  @endif
+                  <small>@if(Auth::user()->type) {{ Auth::user()->type }} @endif</small>
                 </p>
               </li>
                 <!-- /.row -->
@@ -108,7 +123,11 @@
           <img src="{{ asset('vendor/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p>
+            @if(Auth::user()->name)
+              {{ ucwords(Auth::user()->name) }}
+            @endif
+          </p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -133,8 +152,9 @@
         </footer>
     </div>
 
+
     <!-- Scripts -->
-    
+    @if (!Request::secure())
     <!-- jQuery 3 -->
     <script src="{{ asset('vendor/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap 3.3.7 -->
@@ -148,49 +168,66 @@
     <script src="{{ asset('vendor/fastclick/lib/fastclick.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
+    @else
+    <!-- jQuery 3 -->
+    <script src="{{ secure_asset('vendor/jquery/dist/jquery.min.js')}}"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="{{ secure_asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+    <!-- SlimScroll -->
+    <script src="{{ secure_asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
+    <!-- FastClick -->
+    <script src="{{ secure_asset('vendor/fastclick/lib/fastclick.js')}}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ secure_asset('vendor/dist/js/adminlte.min.js')}}"></script>
+    @endif
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/rowgroup/1.0.2/js/dataTables.rowGroup.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script type="text/javascript">
-      if(document.getElementById('report-list'))
-      $.fn.dataTableExt.afnFiltering.push(
-          function( oSettings, aData, iDataIndex ) {
-              var iFini = $('#start').val();
-              var iFfin = $('#end').val();
-              var iStartDateCol = 6;
-              var iEndDateCol = 6;
-       
-              iFini=iFini.substring(6,10) + iFini.substring(3,5)+ iFini.substring(0,2);
-              iFfin=iFfin.substring(6,10) + iFfin.substring(3,5)+ iFfin.substring(0,2);
-       
-              var datofini=aData[iStartDateCol].substring(6,10) + aData[iStartDateCol].substring(3,5)+ aData[iStartDateCol].substring(0,2);
-              var datoffin=aData[iEndDateCol].substring(6,10) + aData[iEndDateCol].substring(3,5)+ aData[iEndDateCol].substring(0,2);
-       
-              if ( iFini === "" && iFfin === "" )
-              {
-                  return true;
-              }
-              else if ( iFini <= datofini && iFfin === "")
-              {
-                  return true;
-              }
-              else if ( iFfin >= datoffin && iFini === "")
-              {
-                  return true;
-              }
-              else if (iFini <= datofini && iFfin >= datoffin)
-              {
-                  return true;
-              }
-              return false;
-          }
-      );
-    </script>
 
+    if(document.getElementById('report-list'))
+    $.fn.dataTableExt.afnFiltering.push(
+        function( oSettings, aData, iDataIndex ) {
+            var iFini = $('#start').val();
+            var iFfin = $('#end').val();
+            var iStartDateCol = 6;
+            var iEndDateCol = 6;
+     
+            iFini=iFini.substring(6,10) + iFini.substring(3,5)+ iFini.substring(0,2);
+            iFfin=iFfin.substring(6,10) + iFfin.substring(3,5)+ iFfin.substring(0,2);
+     
+            var datofini=aData[iStartDateCol].substring(6,10) + aData[iStartDateCol].substring(3,5)+ aData[iStartDateCol].substring(0,2);
+            var datoffin=aData[iEndDateCol].substring(6,10) + aData[iEndDateCol].substring(3,5)+ aData[iEndDateCol].substring(0,2);
+     
+            if ( iFini === "" && iFfin === "" )
+            {
+                return true;
+            }
+            else if ( iFini <= datofini && iFfin === "")
+            {
+                return true;
+            }
+            else if ( iFfin >= datoffin && iFini === "")
+            {
+                return true;
+            }
+            else if (iFini <= datofini && iFfin >= datoffin)
+            {
+                return true;
+            }
+            return false;
+        }
+    );
+    </script>
+    @if (!Request::secure())
     <script src="{{ asset('js/custom.js') }}"></script>
+    @else
+    <script src="{{ secure_asset('js/custom.js') }}"></script>
+    @endif
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
 </body>
 </html>
