@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} | Home</title>
+    <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -37,13 +37,6 @@
       <link href="{{ secure_asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
       @endif
     @endif
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -175,8 +168,12 @@
       <script src="{{ asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
       <!-- FastClick -->
       <script src="{{ asset('vendor/fastclick/lib/fastclick.js')}}"></script>
+      <!-- PNotify -->
+      <script type="text/javascript" src="{{ asset('vendor/pnotify/pnotify.custom.min.js')}} "></script>
       <!-- AdminLTE App -->
       <script src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
+      <!-- Custom JS -->
+      <script src="{{ asset('js/custom.js') }}"></script>
     @else
       @if (Request::server('HTTP_X_FORWARDED_PROTO') == 'http')
       <!-- jQuery 3 -->
@@ -190,8 +187,12 @@
       <script src="{{ asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
       <!-- FastClick -->
       <script src="{{ asset('vendor/fastclick/lib/fastclick.js')}}"></script>
+      <!-- PNotify -->
+      <script type="text/javascript" src="{{ asset('vendor/pnotify/pnotify.custom.min.js')}} "></script>
       <!-- AdminLTE App -->
       <script src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
+      <!-- Custom JS -->
+      <script src="{{ asset('js/custom.js') }}"></script>
       @else
       <!-- jQuery 3 -->
       <script src="{{ secure_asset('vendor/jquery/dist/jquery.min.js')}}"></script>
@@ -201,8 +202,12 @@
       <script src="{{ secure_asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
       <!-- FastClick -->
       <script src="{{ secure_asset('vendor/fastclick/lib/fastclick.js')}}"></script>
+      <!-- PNotify -->
+      <script type="text/javascript" src="{{ secure_asset('pnotify/pnotify.custom.min.jslick "></script>
       <!-- AdminLTE App -->
       <script src="{{ secure_asset('vendor/dist/js/adminlte.min.js')}}"></script>
+      <!-- Custom JS -->
+      <script src="{{ secure_asset('js/custom.js') }}"></script>
       @endif
     @endif
 
@@ -210,53 +215,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/rowgroup/1.0.2/js/dataTables.rowGroup.min.js"></script>
-    <script type="text/javascript">
-
-    if(document.getElementById('report-list'))
-    $.fn.dataTableExt.afnFiltering.push(
-        function( oSettings, aData, iDataIndex ) {
-            var iFini = $('#start').val();
-            var iFfin = $('#end').val();
-            var iStartDateCol = 6;
-            var iEndDateCol = 6;
-     
-            iFini=iFini.substring(6,10) + iFini.substring(3,5)+ iFini.substring(0,2);
-            iFfin=iFfin.substring(6,10) + iFfin.substring(3,5)+ iFfin.substring(0,2);
-     
-            var datofini=aData[iStartDateCol].substring(6,10) + aData[iStartDateCol].substring(3,5)+ aData[iStartDateCol].substring(0,2);
-            var datoffin=aData[iEndDateCol].substring(6,10) + aData[iEndDateCol].substring(3,5)+ aData[iEndDateCol].substring(0,2);
-     
-            if ( iFini === "" && iFfin === "" )
-            {
-                return true;
-            }
-            else if ( iFini <= datofini && iFfin === "")
-            {
-                return true;
-            }
-            else if ( iFfin >= datoffin && iFini === "")
-            {
-                return true;
-            }
-            else if (iFini <= datofini && iFfin >= datoffin)
-            {
-                return true;
-            }
-            return false;
-        }
-    );
-    </script>
-    @if (App::isLocal())
-      <script src="{{ asset('js/custom.js') }}"></script>
-    @else
-      @if (Request::server('HTTP_X_FORWARDED_PROTO') == 'http')
-      <script src="{{ asset('js/custom.js') }}"></script>
-      @else
-      <script src="{{ secure_asset('js/custom.js') }}"></script>
-      @endif
-    @endif
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-
+    <script type="text/javascript">
+      if(document.getElementById('report-list'))
+      $.fn.dataTableExt.afnFiltering.push(
+          function( oSettings, aData, iDataIndex ) {
+              var iFini = $('#start').val();
+              var iFfin = $('#end').val();
+              var iStartDateCol = 6;
+              var iEndDateCol = 6;
+       
+              iFini=iFini.substring(6,10) + iFini.substring(3,5)+ iFini.substring(0,2);
+              iFfin=iFfin.substring(6,10) + iFfin.substring(3,5)+ iFfin.substring(0,2);
+       
+              var datofini=aData[iStartDateCol].substring(6,10) + aData[iStartDateCol].substring(3,5)+ aData[iStartDateCol].substring(0,2);
+              var datoffin=aData[iEndDateCol].substring(6,10) + aData[iEndDateCol].substring(3,5)+ aData[iEndDateCol].substring(0,2);
+       
+              if ( iFini === "" && iFfin === "" )
+              {
+                  return true;
+              }
+              else if ( iFini <= datofini && iFfin === "")
+              {
+                  return true;
+              }
+              else if ( iFfin >= datoffin && iFini === "")
+              {
+                  return true;
+              }
+              else if (iFini <= datofini && iFfin >= datoffin)
+              {
+                  return true;
+              }
+              return false;
+          }
+      );
+    </script>
 </body>
 </html>

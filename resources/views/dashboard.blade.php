@@ -1,7 +1,8 @@
 @extends('layouts.app')
-
+@section('title')
+Home
+@endsection
 @section('content')
-
 @include('modals.create')
 @include('modals.update')
 @include('modals.delete')
@@ -83,7 +84,7 @@
                         data-target="#addProject-modal">Add Project</button>
             </div>
             <!-- /.box-header -->
-            <div class="box-body">
+            <div class="box-body table-responsive">
                 @include('inc.projects')                
             </div>
             <!-- /.box-body -->

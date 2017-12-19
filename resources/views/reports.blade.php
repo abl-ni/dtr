@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Report
+@endsection
+
 @section('content')
     <!-- Sidebar -->
     @section('sidebar_menu')

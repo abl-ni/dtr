@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Project
+@endsection
+
 @section('content')
 @include('modals.confirmRemove')
 

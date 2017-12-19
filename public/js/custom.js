@@ -2,6 +2,7 @@ $(document).ready(function(){
     $('table#table').DataTable();
     var myChart;
 
+    // Project Page JS
     // Project List DataTable
     var projectList = $('table#project-list').DataTable({
         processing: true,
@@ -20,7 +21,7 @@ $(document).ready(function(){
                         tmp +="<li class='list-group-item'>"+cellData[a].username+
                         "<a data-toggle='modal' data-target='#confirmRemove-modal' data-project_id='"+rowData[0]+
                         "' data-user_id='"+cellData[a].userid+" ' data-project='"+rowData[1]+"' data-user='"+cellData[a].username+"' class='pull-right'>"+
-                        "<span class='icon icon-close text-danger'></span></a></li>";
+                        "<i class='icon icon-close text-danger'></i></a></li>";
                     };
 
                     var a = $(td).find(">:first-child");
@@ -28,7 +29,7 @@ $(document).ready(function(){
                     a.attr("data-content", "<ul class='list-group'>"+tmp+"</ul>");
                 },
                 render: function ( data, type, row, meta ) {
-                    return '<a href="#" class="list_popover" data-toggle="popover" '+
+                    return '<a href="javascript:void(0)" class="list_popover" data-toggle="popover" '+
                     'title="Developers" data-html="true">See List <span class="badge">'+data[0].count+'</span></a>';
                 }
             },
@@ -66,6 +67,27 @@ $(document).ready(function(){
         $("[data-toggle=popover]").popover();
     });
     //End Project List DataTable
+
+    $('#addProject-form').submit(function(e){
+        e.preventDefault();
+
+        $.ajax({
+            url: "/addProject",
+            type: "POST",
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(data){
+                if(data.success){
+                    
+                }
+            },
+            error: function(error){
+                console.log(error);
+            }
+        })
+    });
+
+    // End Project Page JS
 
     // Reports DataTable
     var reportList = $('table#report-list').DataTable({
@@ -259,8 +281,7 @@ $(document).ready(function(){
         $('#project_id').val($(this).data('id'));
     });
 
-    $(document).on('click', '#add_devs_btn', function(e) {
-        
+    $(document).on('click', '#add_devs_btn', function(e) {        
         var ids = new Array();
         $( "select#select_devs" ).change(function() {
                     $( "select#select_devs option:selected" ).each(function() {
@@ -290,7 +311,6 @@ $(document).ready(function(){
     });
 
     $('input[name="daterange"]').daterangepicker();
-
     $(document).on('click', '#filterGo-btn', function() {
         var groupby = $('#groupBy').find('option:selected').data('group');
         var start = $('#start').val();

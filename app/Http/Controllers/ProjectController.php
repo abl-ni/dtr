@@ -30,7 +30,19 @@ class ProjectController extends Controller
     }
 
     public function addProject(Request $request) //done
-    { 
+    {
+        $validator = $request->validate([
+            'projectname' => 'required|unique:projects,name',
+            'pm' => 'required',
+            'tl' => 'required',
+            ],[
+            'projectname.required' => 'Project Name field is required.',
+            'projectname.unique' => 'Project Name has already been added.',
+            'pm.required' => 'Project Manager option is required.',
+            'tl.required' => 'Team Leader option is required.'
+            ]
+        );
+
         $data = new Project();
         $data->name = $request->projectname;
         $data->added_by = Auth::id();
@@ -51,10 +63,19 @@ class ProjectController extends Controller
         }
         
         if(!$projectsaved && !$devsaved){
-            return back()->withErrors(['error', 'Something went wrong!']);
+            $check = array(
+                'success' => false, 
+                'message' => 'Something went wrong!');
+
+            echo json_encode($check);
+            return;
         }
-        
-        return back()->with('success', ucfirst($request->projectname).' successfully added!');
+
+        $check = array(
+            'success' => true, 
+            'message' => ucfirst($request->projectname).' successfully added!');
+
+        echo json_encode($check);
     }
     
     public function getQuery(Request $req)

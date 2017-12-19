@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Account
+@endsection
+
 @section('content')
 @include('modals.resetpassword')
 @include('modals.resetrole')
