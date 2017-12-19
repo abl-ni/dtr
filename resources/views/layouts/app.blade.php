@@ -11,22 +11,31 @@
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-{{ dd(Request::server('HTTP_X_FORWARDED_PROTO')) }}
+    
     <!-- Styles -->
-    @if (!Request::secure())
-    <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('vendor/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
+    @if (App::isLocal())
+      <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('vendor/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
     @else
-    <link href="{{ secure_asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
-    <link href="{{ secure_asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
-    <link href="{{ secure_asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
-    <link href="{{ secure_asset('vendor/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet"/>
-    <link href="{{ secure_asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
-    <link href="{{ secure_asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
+      @if (Request::server('HTTP_X_FORWARDED_PROTO') == 'http')
+      <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('vendor/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
+      @else
+      <link href="{{ secure_asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
+      <link href="{{ secure_asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
+      <link href="{{ secure_asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
+      <link href="{{ secure_asset('vendor/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet"/>
+      <link href="{{ secure_asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
+      <link href="{{ secure_asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
+      @endif
     @endif
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -154,31 +163,47 @@
 
 
     <!-- Scripts -->
-    @if (!Request::secure())
-    <!-- jQuery 3 -->
-    <script src="{{ asset('vendor/jquery/dist/jquery.min.js')}}"></script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-    <!-- DataTables -->
-    <script src="{{ asset('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{ asset('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-    <!-- SlimScroll -->
-    <script src="{{ asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
-    <!-- FastClick -->
-    <script src="{{ asset('vendor/fastclick/lib/fastclick.js')}}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
+    @if (App::isLocal())
+      <!-- jQuery 3 -->
+      <script src="{{ asset('vendor/jquery/dist/jquery.min.js')}}"></script>
+      <!-- Bootstrap 3.3.7 -->
+      <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+      <!-- DataTables -->
+      <script src="{{ asset('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+      <script src="{{ asset('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+      <!-- SlimScroll -->
+      <script src="{{ asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
+      <!-- FastClick -->
+      <script src="{{ asset('vendor/fastclick/lib/fastclick.js')}}"></script>
+      <!-- AdminLTE App -->
+      <script src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
     @else
-    <!-- jQuery 3 -->
-    <script src="{{ secure_asset('vendor/jquery/dist/jquery.min.js')}}"></script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="{{ secure_asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-    <!-- SlimScroll -->
-    <script src="{{ secure_asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
-    <!-- FastClick -->
-    <script src="{{ secure_asset('vendor/fastclick/lib/fastclick.js')}}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ secure_asset('vendor/dist/js/adminlte.min.js')}}"></script>
+      @if (Request::server('HTTP_X_FORWARDED_PROTO') == 'http')
+      <!-- jQuery 3 -->
+      <script src="{{ asset('vendor/jquery/dist/jquery.min.js')}}"></script>
+      <!-- Bootstrap 3.3.7 -->
+      <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+      <!-- DataTables -->
+      <script src="{{ asset('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+      <script src="{{ asset('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+      <!-- SlimScroll -->
+      <script src="{{ asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
+      <!-- FastClick -->
+      <script src="{{ asset('vendor/fastclick/lib/fastclick.js')}}"></script>
+      <!-- AdminLTE App -->
+      <script src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
+      @else
+      <!-- jQuery 3 -->
+      <script src="{{ secure_asset('vendor/jquery/dist/jquery.min.js')}}"></script>
+      <!-- Bootstrap 3.3.7 -->
+      <script src="{{ secure_asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+      <!-- SlimScroll -->
+      <script src="{{ secure_asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
+      <!-- FastClick -->
+      <script src="{{ secure_asset('vendor/fastclick/lib/fastclick.js')}}"></script>
+      <!-- AdminLTE App -->
+      <script src="{{ secure_asset('vendor/dist/js/adminlte.min.js')}}"></script>
+      @endif
     @endif
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -221,10 +246,14 @@
         }
     );
     </script>
-    @if (!Request::secure())
-    <script src="{{ asset('js/custom.js') }}"></script>
+    @if (App::isLocal())
+      <script src="{{ asset('js/custom.js') }}"></script>
     @else
-    <script src="{{ secure_asset('js/custom.js') }}"></script>
+      @if (Request::server('HTTP_X_FORWARDED_PROTO') == 'http')
+      <script src="{{ asset('js/custom.js') }}"></script>
+      @else
+      <script src="{{ secure_asset('js/custom.js') }}"></script>
+      @endif
     @endif
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>

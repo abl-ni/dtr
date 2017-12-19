@@ -12,19 +12,27 @@
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         
-        <!-- Styles -->
-        @if (!Request::secure())
-        <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
-        <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
-        <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
-        <link href="{{ asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
-        <link href="{{ asset('vendor/plugins/iCheck/square/blue.css') }}" rel="stylesheet"/>
+        <!-- Styles -->        
+        @if (App::isLocal())
+            <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
+            <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
+            <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
+            <link href="{{ asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
+            <link href="{{ asset('vendor/plugins/iCheck/square/blue.css') }}" rel="stylesheet"/>
         @else
-        <link href="{{ secure_asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
-        <link href="{{ secure_asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
-        <link href="{{ secure_asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
-        <link href="{{ secure_asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
-        <link href="{{ secure_asset('vendor/plugins/iCheck/square/blue.css') }}" rel="stylesheet"/>
+            @if (Request::server('HTTP_X_FORWARDED_PROTO') == 'http')
+            <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
+            <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
+            <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
+            <link href="{{ asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
+            <link href="{{ asset('vendor/plugins/iCheck/square/blue.css') }}" rel="stylesheet"/>
+            @else
+            <link href="{{ secure_asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
+            <link href="{{ secure_asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
+            <link href="{{ secure_asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
+            <link href="{{ secure_asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
+            <link href="{{ secure_asset('vendor/plugins/iCheck/square/blue.css') }}" rel="stylesheet"/>
+            @endif
         @endif
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -98,12 +106,21 @@
         <!-- iCheck -->
         <script src="{{ asset('vendor/plugins/iCheck/icheck.min.js')}}"></script>
         @else
-        <!-- jQuery 3 -->
-        <script src="{{ secure_asset('vendor/jquery/dist/jquery.min.js')}}"></script>
-        <!-- Bootstrap 3.3.7 -->
-        <script src="{{ secure_asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-        <!-- iCheck -->
-        <script src="{{ secure_asset('vendor/plugins/iCheck/icheck.min.js')}}"></script>
+            @if (Request::server('HTTP_X_FORWARDED_PROTO') == 'http')
+                <!-- jQuery 3 -->
+                <script src="{{ asset('vendor/jquery/dist/jquery.min.js')}}"></script>
+                <!-- Bootstrap 3.3.7 -->
+                <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+                <!-- iCheck -->
+                <script src="{{ asset('vendor/plugins/iCheck/icheck.min.js')}}"></script>
+            @else
+                <!-- jQuery 3 -->
+                <script src="{{ secure_asset('vendor/jquery/dist/jquery.min.js')}}"></script>
+                <!-- Bootstrap 3.3.7 -->
+                <script src="{{ secure_asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+                <!-- iCheck -->
+                <script src="{{ secure_asset('vendor/plugins/iCheck/icheck.min.js')}}"></script>
+            @endif
         @endif
         <script>
           $(function () {
