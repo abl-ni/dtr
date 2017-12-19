@@ -11,7 +11,7 @@
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
+{{ dd(Request::server('HTTP_X_FORWARDED_PROTO')) }}
     <!-- Styles -->
     @if (!Request::secure())
     <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
