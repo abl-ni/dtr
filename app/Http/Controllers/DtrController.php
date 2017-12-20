@@ -15,7 +15,8 @@ class DtrController extends Controller
     public function addLogs(Request $request)
     {
         $this->validate($request, [
-                'ticket_number' => 'required|max:255',
+                'projectid' => 'required',
+                'ticket_number' => 'required|numeric',
                 'task_title' => 'required|max:255',
                 'hrs_rendered' => 'required|numeric|max:255',
             ]);
@@ -35,11 +36,17 @@ class DtrController extends Controller
         $data->hours_rendered = $request->hrs_rendered;
         $data->date_created = Carbon::now()->toDateString();
         $saved = $data->save ();
-        
+
         if(!$saved){
-            return back()->withErrors(['error', 'Something went wrong!']);
+            $check = array(
+                'success' => false, 
+                'message' => 'Something went wrong!');
+        } else {
+            $check = array(
+                'success' => true, 
+                'message' => 'Logs has been added successfully.');
         }
-        
-        return back()->with('success', 'Logs successfully added!');
+
+        echo json_encode($check);
     }
 }

@@ -18,8 +18,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('dashboard', 'ProjectController@getQuery'); 
     Route::post('addProject', 'ProjectController@addProject'); 
-    Route::post('updateProject/{id}', 'ProjectController@updateProject'); 
-    Route::post('deleteProject/{id}', 'ProjectController@deleteProject');
+    Route::post('updateProject', 'ProjectController@updateProject'); 
+    Route::post('deleteProject', 'ProjectController@deleteProject');
     Route::post('project', 'ProjectController@getProject');
     Route::post('getDev', 'ProjectController@getDev');
     Route::get('project/{id}', 'ProjectController@show');
@@ -27,7 +27,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::post('addDev','ProjectDevsController@addDev');
     Route::post('ListDev','ProjectDevsController@getListDev');
-    Route::post('removeDev/{id}','ProjectDevsController@removeDev');
+    Route::post('removeDev','ProjectDevsController@removeDev');
     Route::post('project/removeDev/{id}','ProjectDevsController@removeDev');
 
     Route::post('addLogs', 'DtrController@addLogs');
@@ -36,11 +36,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('getFilter', 'FilterController@getFilter');
     Route::get('reportList', 'FilterController@reportList');
     
-    Route::put('users/resetPassword/{id}','UserController@resetPassword');
+    Route::put('users/reset/{option?}','UserController@resetPassword');
     Route::resource('users','UserController');
     Route::get('userList','UserController@userList');
-    
-    
+     
 });
-
-

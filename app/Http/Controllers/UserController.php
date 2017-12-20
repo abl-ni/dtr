@@ -107,27 +107,68 @@ class UserController extends Controller
         //
     }
     
-    public function resetPassword(Request $request, $id)
+    public function resetPassword(Request $request, $option = null)
     {
-        //
-        $user = User::where('id', $id)->first();
-        
-        $validator = Validator::make($request->all(), [
-            'password'              => 'required|min:6',
-            'password_confirmation' => 'required|same:password'
-        ]);
+        if($option === 'password'){
+            $validator = Validator::make($request->all(), [
+                'userid'                => 'required',
+                'password'              => 'required|min:6',
+                'password_confirmation' => 'required|same:password'
+            ]);
 
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput();
+            if ($validator->fails()) {
+                $check = array(
+                    'success' => false, 
+                    'message' => $validator->errors());
+            } else {
+                $user = User::where('id', $request->userid)->first();
+
+                if($user) {            
+                    $user->password = Hash::make($request->password);
+                    $user->save();
+
+                    $check = array(
+                        'success' => true, 
+                        'message' => 'Password reset successfully!');
+                } else {
+                    $check = array(
+                        'success' => false, 
+                        'message' => 'Something went wrong. Try reloading the page.');
+                }         
+            }
+
+            echo json_encode($check);
+
+        } else if($option === 'role') {
+            $validator = Validator::make($request->all(), [
+                'userid'                => 'required',
+                'updatedRole'              => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                $check = array(
+                    'success' => false, 
+                    'message' => $validator->errors());
+            } else {
+                $user = User::where('id', $request->userid)->first();
+
+                if($user) {            
+                    $user->type = $request->updatedRole;
+                    $user->save();
+
+                    $check = array(
+                        'success' => true, 
+                        'message' => 'Role reset successfully!');
+                } else {
+                    $check = array(
+                        'success' => false, 
+                        'message' => 'Something went wrong. Try reloading the page.');
+                }         
+            }
+
+            echo json_encode($check);
+
         }
-        
-        
-        $user->password = Hash::make($request->password);
-        $user->save();
-        return back()->with('success', 'Password reset successfully!');
-
     }
 
     public function userList(){

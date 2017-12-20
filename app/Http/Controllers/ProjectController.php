@@ -31,13 +31,14 @@ class ProjectController extends Controller
 
     public function addProject(Request $request) //done
     {
+        $check = array();
         $validator = $request->validate([
             'projectname' => 'required|unique:projects,name',
             'pm' => 'required',
             'tl' => 'required',
             ],[
             'projectname.required' => 'Project Name field is required.',
-            'projectname.unique' => 'Project Name has already been added.',
+            'projectname.unique' => 'Project Name already exists.',
             'pm.required' => 'Project Manager option is required.',
             'tl.required' => 'Team Leader option is required.'
             ]
@@ -66,14 +67,11 @@ class ProjectController extends Controller
             $check = array(
                 'success' => false, 
                 'message' => 'Something went wrong!');
-
-            echo json_encode($check);
-            return;
+        } else {
+            $check = array(
+                'success' => true, 
+                'message' => ucfirst($request->projectname).' successfully added.');
         }
-
-        $check = array(
-            'success' => true, 
-            'message' => ucfirst($request->projectname).' successfully added!');
 
         echo json_encode($check);
     }
@@ -142,35 +140,79 @@ class ProjectController extends Controller
             echo json_encode($table_data);
     }
     
-    public function updateProject(Request $req, $id) //done
+    public function updateProject(Request $request) //done
     {
-        $data = Project::find($id);
-        $data->name = $req->projectname;
-        $data->pm_id = $req->pm;
-        $data->tl_id = $req->dev;
+        $check = array();
+        $validator = $request->validate([
+            'projectname' => 'required',
+            'projectid' => 'required',
+            'pm' => 'required',
+            'dev' => 'required',
+            ],[
+            'projectname.required' => 'Project Name field is required.',
+            'projectid.required' => 'Something went wrong. Try refreshing the page.',
+            'pm.required' => 'Project Manager option is required.',
+            'dev.required' => 'Team Leader option is required.'
+            ]
+        );
+
+        $data = Project::find($request->projectid);
+        $data->name = $request->projectname;
+        $data->pm_id = $request->pm;
+        $data->tl_id = $request->dev;
         $projsaved = $data->save();
 
-        if($req->dev != null)
-        {
-            $dev = Dev::where('proj_id', $id)->first();
-            $dev->dev_id = $req->dev;
-            $devsaved = $dev->save();
-        }else{
-            $devsaved = false;
+        $exists = Dev::where('proj_id', $request->projectid)
+            ->where('dev_id', $request->dev)
+            ->first()?true:false;
+
+        if(!$exists) {
+            $devDB = new Dev();
+            $devDB->dev_id = $request->dev;
+            $devDB->proj_id = $request->projectid;
+            $devDB->date_created = Carbon::now()->toDateString();
+            $devDB->save();
         }
         
-        if(!$projsaved || !$devsaved){
-            return back()->withErrors(['error', ucfirst($req->projectname).'Unsuccessful! Something went wrong!']);
+        if(!$projsaved){
+            $check = array(
+                'success' => false, 
+                'message' => 'Something went wrong!');
+        } else {
+            $check = array(
+                'success' => true, 
+                'message' => 'Project has been updated successfully.');
         }
-        return back()->with('success', ucfirst($req->projectname).' successfully updated!');
+
+        echo json_encode($check);
     }
     
-    public function deleteProject($id) {
-        $projectname = Project::where('id', $id)
+    public function deleteProject(Request $request) {
+        $check = array();
+        $validator = $request->validate([
+            'projectid' => 'required'
+            ],[
+            'projectid.required' => 'Please select a project to delete.'
+            ]
+        );
+
+        $projectname = Project::where('id', $request->projectid)
                                 ->pluck('name')
                                 ->first();
-        Project::find($id)->delete();
-        return back()->with('success', ucfirst($projectname).' successfully deleted!');
+
+        if($projectname){
+            Project::find($request->projectid)->delete();
+
+            $check = array(
+                'success' => true, 
+                'message' => ucfirst($projectname).' successfully deleted!');
+        } else {
+            $check = array(
+                'success' => false, 
+                'message' => 'Something went wrong!');
+        }
+
+        echo json_encode($check);
     }
     
     public function getDev(Request $req)

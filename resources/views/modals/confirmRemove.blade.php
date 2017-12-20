@@ -7,6 +7,7 @@
             </div>
             <form id="removeUser-form" method="post">
                 {{ csrf_field() }}
+                <input type="hidden" name="projectid">
                 <div class="modal-body">
                     <div class="form-group">
                         Are you sure you want to delete <strong> <span id="username" class="text-danger"></span></strong> in  <strong> <span id="projectname" class="text-uppercase"></span></strong> project? 

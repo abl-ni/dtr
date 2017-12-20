@@ -14,10 +14,11 @@
                 </div>
             
                 <input type="hidden" name="_method" value="put">
+                <input type="hidden" name="userid">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" class="form-control">
+                        <input type="password" id="rpassword" name="password" class="form-control" required>
                         @if ($errors->has('password'))
                         <span class="help-block">
                             <strong>{{ $errors->first('password') }}</strong>
@@ -26,7 +27,7 @@
                     </div> 
                    <div class="form-group">
                         <label for="password">Confirm Password</label>
-                       <input type="password" id="c-password" name="password_confirmation" class="form-control">
+                       <input type="password" id="c-password" name="password_confirmation" class="form-control" required>
                        @if ($errors->has('password_confirmation'))
                        <span class="help-block">
                            <strong>{{ $errors->first('password_confirmation') }}</strong>

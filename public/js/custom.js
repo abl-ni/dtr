@@ -67,7 +67,9 @@ $(document).ready(function(){
         $("[data-toggle=popover]").popover();
     });
     //End Project List DataTable
+    // End Project Page JS
 
+    // Modal Forms JS
     $('#addProject-form').submit(function(e){
         e.preventDefault();
 
@@ -78,16 +80,466 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(data){
                 if(data.success){
-                    
+                    pnotify(data.message, true);
+                    projectList.ajax.reload();
+                }else{
+                    pnotify(data.message, false);
                 }
             },
             error: function(error){
-                console.log(error);
+                var text = "<ul>";
+
+                $.each( error.responseJSON.errors, function( key, value ) {
+                    text += "<li>"+value+"</li>";
+                });
+
+                text += "</ul>";
+                
+                pnotify(text, false);
             }
         })
     });
 
-    // End Project Page JS
+    $('#addDev').submit(function(e){
+        e.preventDefault();
+
+        var ids = new Array();
+
+        $( "select#select_devs option:selected" ).each(function() {
+            ids.push($( this ).attr('id'));
+        });
+
+        $.ajax({
+            type: 'post',
+            url: '/addDev',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'id': $('#project_id').val(),
+                'data': ids,
+            },
+            dataType: 'json',
+            success: function(data) {
+                if(data.success){
+                    pnotify(data.message, true);
+                    projectList.ajax.reload();
+                    $('#add-dev').modal('hide');
+                }else{
+                    pnotify(data.message, false);
+                }
+            },
+            error: function(error) {
+                var text = "<ul>";
+
+                $.each( error.responseJSON.errors, function( key, value ) {
+                    text += "<li>"+value+"</li>";
+                });
+
+                text += "</ul>";
+                
+                pnotify(text, false);
+            }
+        });
+    });
+
+    $('#add-dev').on('show.bs.modal', function(e) {
+        var projectid = $(e.relatedTarget).data('id');
+
+        $('#addDev input[name="projectid"]').val(projectid);
+
+        $.ajax({
+            type: 'post',
+            url: '/getDev', 
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'id': projectid,
+            },
+            success: function(data) {
+                
+                if (!$.trim(data)){   
+                    $('select#select_devs').html($("<option></option>")
+                                           .attr("disabled", "disabled")
+                                           .text("No Available"))
+                                           .selectpicker('refresh');
+                }
+                else {
+                    
+                    $.each(data, function(key, value) {
+                        $('select#select_devs')
+                                .append($("<option></option>")
+                                .attr("id", value.id)
+                                .attr("value", value.id)
+                                .text(value.name))
+                                .selectpicker('refresh');
+                    });   
+                }    
+            }
+        });
+
+        $('select#select_devs').html('');
+    });
+
+    $('#add-dev').on('hidden.bs.modal', function(e) {
+        $('select#select_devs').html($("<option></option>")
+                               .attr("disabled", "disabled")
+                               .text("No Available"))
+                               .selectpicker('refresh');
+    });
+
+    $('#updateProject-form').submit(function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'post',
+            url: '/updateProject',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(data) {
+                if(data.success){
+                    pnotify(data.message, true);
+                    projectList.ajax.reload();
+                    $('#updateProject-modal').modal('hide');
+                } else {
+                    pnotify(data.message, false);
+                }
+            },
+            error: function(error) {
+                var text = "<ul>";
+
+                $.each( error.responseJSON.errors, function( key, value ) {
+                    text += "<li>"+value+"</li>";
+                });
+
+                text += "</ul>";
+                
+                pnotify(text, false);
+            }
+        });
+    });
+
+    //EDIT PROJECT
+    $("select.selectpicker").selectpicker();
+    $('#updateProject-modal').on('show.bs.modal', function(e) {
+        var projectid = $(e.relatedTarget).data('id');
+        var projectname = $(e.relatedTarget).data('name');
+        var pmid = $(e.relatedTarget).data('pm_id');
+        var tlid = $(e.relatedTarget).data('tl_id');
+        
+        $("input[name='projectname']").val(projectname);
+        $("input[name='projectid']").val(projectid);
+        $("select[name='pm'].selectpicker").selectpicker('val', pmid);
+        $("select[name='dev'].selectpicker").selectpicker('val', tlid);
+    });
+
+    $('#updateProject-modal').on('hidden.bs.modal', function(e) {
+        $("input[name='projectname']").val('');
+        $("input[name='projectid']").val('');
+    });
+
+    // DELETE PROJECT
+    $('#deleteProject-modal').on('show.bs.modal', function(e) {
+        var projectid = $(e.relatedTarget).data('id');
+        var projectname = $(e.relatedTarget).data('name');
+        
+        $('span#projectname').html(projectname);
+        $('#deleteProject-form input[name="projectid"]').val(projectid);
+    });
+
+    $('#deleteProject-modal').on('hidden.bs.modal', function(e) {        
+        $('span#projectname').html('');
+        $('#deleteProject-form input[name="projectid"]').val('');
+    });
+
+    $('#deleteProject-form').submit(function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'post',
+            url: '/deleteProject',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(data) {
+                if(data.success){
+                    pnotify(data.message, true);
+                    projectList.ajax.reload();
+                    $('#deleteProject-modal').modal('hide');
+                } else {
+                    pnotify(data.message, false);
+                }
+            },
+            error: function(error) {
+                var text = "<ul>";
+
+                $.each( error.responseJSON.errors, function( key, value ) {
+                    text += "<li>"+value+"</li>";
+                });
+
+                text += "</ul>";
+                
+                pnotify(text, false);
+            }
+        });
+    });
+
+    // REMOVE USER IN A PROJECT
+    $('#confirmRemove-modal').on('show.bs.modal', function(e) {
+        var projectid = $(e.relatedTarget).data('project_id');
+        var userid = $(e.relatedTarget).data('user_id');
+        var projectname = $(e.relatedTarget).data('project');
+        var username = $(e.relatedTarget).data('user');
+
+        $('span#projectname').html(projectname);
+        $('span#username').html(username);
+        $('#removeUser-form input[name="userid"]').val(userid);
+        $('#removeUser-form input[name="projectid"]').val(projectid);
+    });
+
+    $('#confirmRemove-modal').on('hidden.bs.modal', function(e) {
+        $('span#projectname').html('');
+        $('span#username').html('');
+        $('#removeUser-form input[name="userid"]').val('');
+        $('#removeUser-form input[name="projectid"]').val('');
+    });
+
+    $("#removeUser-form").submit(function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'post',
+            url: '/removeDev',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(data) {
+                if(data.success){
+                    pnotify(data.message, true);
+                    projectList.ajax.reload();
+                    $('#confirmRemove-modal').modal('hide');
+                } else {
+                    pnotify(data.message, false);
+                }
+            },
+            error: function(error) {
+                var text = "<ul>";
+
+                $.each( error.responseJSON.errors, function( key, value ) {
+                    text += "<li>"+value+"</li>";
+                });
+
+                text += "</ul>";
+                
+                pnotify(text, false);
+            }
+        });
+    });
+
+    $('#addUser-modal').on('hidden.bs.modal', function(e) {
+        $('.register-user')[0].reset();
+    });
+
+    $('.register-user').submit(function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'post',
+            url: '/register',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(data) {
+                if(data.success){
+                    pnotify(data.message, true);
+                    userList.ajax.reload();
+                    $('#addUser-modal').modal('hide');
+                } else {
+                    var text = "<ul>";
+
+                    $.each( data.message, function( key, value ) {
+                        text += "<li>"+value+"</li>";
+                    });
+
+                    text += "</ul>";
+                    
+                    pnotify(text, false);
+                }
+            },
+            error: function(error) {                
+                pnotify('Something went wrong.', false);
+            }
+        });
+    });
+
+    //RESET PASSWORD (ADMIN)
+    $('#reset-password').on('show.bs.modal', function(e) {
+        var userid = $(e.relatedTarget).data('id');
+        var username = $(e.relatedTarget).data('name');
+        $("span#username").html(username);
+        $("#reset-form input[name='userid']").val(userid);
+    });
+
+    $('#reset-password').on('hidden.bs.modal', function(e) {
+        $("#reset-form")[0].reset();
+        $("span#username").html('');
+        $("#reset-form input[name='userid']").val('');
+    });
+
+    $("#reset-form").submit(function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'post',
+            url: '/users/reset/password',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(data) {
+                if(data.success){
+                    pnotify(data.message, true);
+                    userList.ajax.reload();
+                    $('#reset-password').modal('hide');
+                } else {
+                    var text = "<ul>";
+
+                    $.each( data.message, function( key, value ) {
+                        text += "<li>"+value+"</li>";
+                    });
+
+                    text += "</ul>";
+                    
+                    pnotify(text, false);
+                }
+            },
+            error: function(error) {                
+                pnotify('Something went wrong.', false);
+            }
+        });
+    })
+
+    //RESET ROLE TYPE (ADMIN)
+    $('#reset-role').on('show.bs.modal', function(e) {
+        var userid = $(e.relatedTarget).data('id');
+        var username = $(e.relatedTarget).data('name');
+        $("span#username").html(username);
+        $("#resetrole-form input[name='userid']").val(userid);
+    });
+
+    $('#reset-role').on('hidden.bs.modal', function(e) {
+        $("span#username").html('');
+        $("#resetrole-form input[name='userid']").val('');
+    });
+
+    $("#resetrole-form").submit(function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'post',
+            url: '/users/reset/role',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(data) {
+                if(data.success){
+                    pnotify(data.message, true);
+                    userList.ajax.reload();
+                    $('#reset-role').modal('hide');
+                } else {
+                    var text = "<ul>";
+
+                    $.each( data.message, function( key, value ) {
+                        text += "<li>"+value+"</li>";
+                    });
+
+                    text += "</ul>";
+                    
+                    pnotify(text, false);
+                }
+            },
+            error: function(error) {                
+                pnotify('Something went wrong.', false);
+            }
+        });
+    })
+
+    $('.add-log').submit(function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'post',
+            url: '/addLogs',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(data) {
+                if(data.success){
+                    pnotify(data.message, true);
+                    $('.add-log')[0].reset();
+                } else {                    
+                    pnotify(data.message, false);
+                }
+            },
+            error: function(error) {
+                var text = "<ul>";
+
+                $.each( error.responseJSON.errors, function( key, value ) {
+                    text += "<li>"+value+"</li>";
+                });
+
+                text += "</ul>";
+                
+                pnotify(text, false);
+            }
+        });
+    })
+
+    // End Modal Forms JS
 
     // Reports DataTable
     var reportList = $('table#report-list').DataTable({
@@ -176,140 +628,7 @@ $(document).ready(function(){
         });    
     });
 
-    //EDIT PROJECT
-    $("select.selectpicker").selectpicker();
-    $('#updateProject-modal').on('show.bs.modal', function(e) {
-        var projectid = $(e.relatedTarget).data('id');
-        var projectname = $(e.relatedTarget).data('name');
-        var pmid = $(e.relatedTarget).data('pm_id');
-        var tlid = $(e.relatedTarget).data('tl_id');
-        
-        $("input[name='projectname']").val(projectname);
-        $("input[name='projectid']").val(projectid);
-        $("select[name='pm'].selectpicker").selectpicker('val', pmid);
-        $("select[name='dev'].selectpicker").selectpicker('val', tlid);
-         
-        $("#updateProject-form").attr("action", "updateProject/" + projectid + "");
-    });
-
-    // DELETE PROJECT
-    $('#deleteProject-modal').on('show.bs.modal', function(e) {
-        var projectid = $(e.relatedTarget).data('id');
-        var projectname = $(e.relatedTarget).data('name');
-        
-        $('span#projectname').html(projectname);
-
-        $("#deleteProject-form").attr("action", "deleteProject/" + projectid + "");
-    });
-
-    // REMOVE USER IN A PROJECT
-    $('#confirmRemove-modal').on('show.bs.modal', function(e) {
-        var projectid = $(e.relatedTarget).data('project_id');
-        var userid = $(e.relatedTarget).data('user_id');
-        var projectname = $(e.relatedTarget).data('project');
-        var username = $(e.relatedTarget).data('user');
-
-        $('span#projectname').html(projectname);
-        $('span#username').html(username);
-        $('#userid').val(userid);
-
-        $("#removeUser-form").attr("action", "removeDev/" + projectid + "");
-    });
-
-    //RESET PASSWORD (ADMIN)
-    $('#reset-password').on('show.bs.modal', function(e) {
-        var userid = $(e.relatedTarget).data('id');
-        var username = $(e.relatedTarget).data('name');
-        $("span#username").html(username);
-        $("#reset-form").attr("action", "users/resetPassword/" + userid + "");
-    });
-
-    //RESET ROLE TYPE (ADMIN)
-    $('#reset-role').on('show.bs.modal', function(e) {
-        var userid = $(e.relatedTarget).data('id');
-        var username = $(e.relatedTarget).data('name');
-        $("span#username").html(username);
-        $("#resetrole-form").attr("action", "users/" + userid + "");
-    });
-
-
     $('#select_devs').selectpicker(); 
-    $(document).on('click', '.add-modal', function(e) {
-
-        var id = $(this).data('id');
-
-        $.ajax({
-            type: 'post',
-            url: '/getDev', 
-            beforeSend: function (xhr) {
-                var token = $('meta[name="csrf_token"]').attr('content');
-                if (token) {
-                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                }
-            },
-            data: {
-                '_token': $('input[name=_token]').val(),
-                'id': id,
-            },
-            success: function(data) {
-                
-                if (!$.trim(data)){   
-                    $('select#select_devs').append($("<option></option>")
-                                           .attr("disabled", "disabled")
-                                           .text("No Available"))
-                    .selectpicker('refresh');
-                }
-                else {
-                    
-                    $.each(data, function(key, value) {
-                        $('select#select_devs')
-                                .append($("<option></option>")
-                                .attr("id", value.id)
-                                .attr("value", value.id)
-                                .text(value.name))
-                        .selectpicker('refresh');
-                    });   
-                }    
-            }
-        });
-
-        $('select#select_devs').html('');
-
-    });
-
-    $(document).on('click', '.add-modal', function(){
-        $('#project_id').val($(this).data('id'));
-    });
-
-    $(document).on('click', '#add_devs_btn', function(e) {        
-        var ids = new Array();
-        $( "select#select_devs" ).change(function() {
-                    $( "select#select_devs option:selected" ).each(function() {
-                        ids.push($( this ).attr('id'));
-                    });
-                })
-            .trigger( "change" );
-
-        $.ajax({
-            type: 'post',
-            url: '/addDev',
-            beforeSend: function (xhr) {
-                var token = $('meta[name="csrf_token"]').attr('content');
-                    if (token) {
-                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                    }},
-            data: {
-                '_token': $('input[name=_token]').val(),
-                'id': $('#project_id').val(),
-                'data': ids,
-            },
-            success: function(data) {
-                location.reload();
-            }
-        });
-        
-    });
-
     $('input[name="daterange"]').daterangepicker();
     $(document).on('click', '#filterGo-btn', function() {
         var groupby = $('#groupBy').find('option:selected').data('group');
@@ -356,6 +675,38 @@ $(document).ready(function(){
     }
     // End Chart
 });
+
+var pnotify = function(str, success){
+    PNotify.desktop.permission();
+
+    if(success){            
+        (new PNotify({
+            title: 'Success',
+            text: str,
+            type: 'success',
+            buttons: {
+                sticker: false
+            },
+            desktop: {
+                desktop: true,
+            },
+            mobile: true
+        }));
+    } else {
+        (new PNotify({
+            title: 'Error',
+            text: str,
+            type: 'error',
+            buttons: {
+                sticker: false
+            },
+            desktop: {
+                desktop: true,
+            },
+            mobile: true
+        }));
+    }
+}
 
 $(function() {
 

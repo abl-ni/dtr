@@ -14,6 +14,7 @@
                 </div>
 
                 <input type="hidden" name="_method" value="put">
+                <input type="hidden" name="userid" value="put">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="password">Select Role:</label>

@@ -18,6 +18,7 @@
       <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('vendor/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('vendor/pnotify/pnotify.custom.min.css') }}" media="all" rel="stylesheet" type="text/css" />
       <link href="{{ asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
     @else
@@ -26,6 +27,7 @@
       <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('vendor/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('vendor/pnotify/pnotify.custom.min.css') }}" media="all" rel="stylesheet" type="text/css" />
       <link href="{{ asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
       @else
@@ -33,6 +35,7 @@
       <link href="{{ secure_asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
       <link href="{{ secure_asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
       <link href="{{ secure_asset('vendor/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet"/>
+      <link href="{{ secure_asset('pnotify/pnotify.custom.min.css') }}" media="all" rel="stylesheet" type="text/css" />
       <link href="{{ secure_asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
       <link href="{{ secure_asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
       @endif
@@ -158,64 +161,64 @@
     <!-- Scripts -->
     @if (App::isLocal())
       <!-- jQuery 3 -->
-      <script src="{{ asset('vendor/jquery/dist/jquery.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/jquery/dist/jquery.min.js')}}"></script>
       <!-- Bootstrap 3.3.7 -->
-      <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
       <!-- DataTables -->
-      <script src="{{ asset('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-      <script src="{{ asset('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
       <!-- SlimScroll -->
-      <script src="{{ asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
       <!-- FastClick -->
-      <script src="{{ asset('vendor/fastclick/lib/fastclick.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/fastclick/lib/fastclick.js')}}"></script>
       <!-- PNotify -->
       <script type="text/javascript" src="{{ asset('vendor/pnotify/pnotify.custom.min.js')}} "></script>
       <!-- AdminLTE App -->
-      <script src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
       <!-- Custom JS -->
-      <script src="{{ asset('js/custom.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
     @else
       @if (Request::server('HTTP_X_FORWARDED_PROTO') == 'http')
       <!-- jQuery 3 -->
-      <script src="{{ asset('vendor/jquery/dist/jquery.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/jquery/dist/jquery.min.js')}}"></script>
       <!-- Bootstrap 3.3.7 -->
-      <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
       <!-- DataTables -->
-      <script src="{{ asset('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-      <script src="{{ asset('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
       <!-- SlimScroll -->
-      <script src="{{ asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
       <!-- FastClick -->
-      <script src="{{ asset('vendor/fastclick/lib/fastclick.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/fastclick/lib/fastclick.js')}}"></script>
       <!-- PNotify -->
       <script type="text/javascript" src="{{ asset('vendor/pnotify/pnotify.custom.min.js')}} "></script>
       <!-- AdminLTE App -->
-      <script src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
       <!-- Custom JS -->
-      <script src="{{ asset('js/custom.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
       @else
       <!-- jQuery 3 -->
-      <script src="{{ secure_asset('vendor/jquery/dist/jquery.min.js')}}"></script>
+      <script type="text/javascript" src="{{ secure_asset('vendor/jquery/dist/jquery.min.js')}}"></script>
       <!-- Bootstrap 3.3.7 -->
-      <script src="{{ secure_asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+      <script type="text/javascript" src="{{ secure_asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
       <!-- SlimScroll -->
-      <script src="{{ secure_asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
+      <script type="text/javascript" src="{{ secure_asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
       <!-- FastClick -->
-      <script src="{{ secure_asset('vendor/fastclick/lib/fastclick.js')}}"></script>
+      <script type="text/javascript" src="{{ secure_asset('vendor/fastclick/lib/fastclick.js')}}"></script>
       <!-- PNotify -->
-      <script type="text/javascript" src="{{ secure_asset('pnotify/pnotify.custom.min.jslick "></script>
+      <script type="text/javascript" src="{{ secure_asset('pnotify/pnotify.custom.min.js')}} "></script>
       <!-- AdminLTE App -->
-      <script src="{{ secure_asset('vendor/dist/js/adminlte.min.js')}}"></script>
+      <script type="text/javascript" src="{{ secure_asset('vendor/dist/js/adminlte.min.js')}}"></script>
       <!-- Custom JS -->
-      <script src="{{ secure_asset('js/custom.js') }}"></script>
+      <script type="text/javascript" src="{{ secure_asset('js/custom.js') }}"></script>
       @endif
     @endif
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/rowgroup/1.0.2/js/dataTables.rowGroup.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script type="text/javascript">
       if(document.getElementById('report-list'))
       $.fn.dataTableExt.afnFiltering.push(

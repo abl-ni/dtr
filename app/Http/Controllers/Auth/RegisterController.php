@@ -58,7 +58,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
             'type' => 'required|string|max:255',
         ]);
@@ -94,16 +94,17 @@ class RegisterController extends Controller
         $validator = $this->validator($request->all());
         if ($validator->fails())
         {
-           return back()->withErrors($validator);
+            $check = array(
+                'success' => false, 
+                'message' => $validator->errors());
+        } else {
+            $this->create($request->all());
+
+            $check = array(
+                'success' => true, 
+                'message' => 'User account has been added successfully.');
         }
 
-        $this->create($request->all());
-
-        // return redirect('/users');
-        // if(!$saved){
-        //     return back()->withErrors(['error', 'Something went wrong!']);
-        // }
-        
-        return back()->with('success', 'User has been successfully added!');
+        echo json_encode($check);
     }
 }

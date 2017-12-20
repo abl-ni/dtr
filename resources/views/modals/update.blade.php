@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Update Project</h4>
             </div>
-            <form id="updateProject-form" method="post">
+            <form id="updateProject-form">
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <div class="form-group">

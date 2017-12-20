@@ -57,10 +57,11 @@ Report
                     </div>
                 </div>
             </div>
+            <div class="col-md-9">
     @else
         <div class="row">
+            <div class="col-md-12">
     @endif
-            <div class="col-md-9">
                 <div class="box box-warning">
                     <div class="box-header with-border">
                         <form method="post">

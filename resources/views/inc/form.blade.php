@@ -5,11 +5,7 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form method="post" action="addLogs">
-            <div class="box-header">
-                @include('inc.errors')
-                @include('inc.success')
-            </div>
+        <form class="add-log" method="post">
             <div class="box-body">
                 {{ csrf_field() }}
                 <div class="form-group">
@@ -54,8 +50,7 @@
                         <label for="roadblock">Roadblock</label>
                     </div>
                     <div class="col-md-9">
-                        <textarea name="roadblock" class="form-control" type="text" row="3">
-                        </textarea>
+                        <textarea name="roadblock" class="form-control" type="text" row="3"></textarea>
                     </div>
                 </div>
                 <br><br><br>

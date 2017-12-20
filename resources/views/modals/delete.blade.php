@@ -5,8 +5,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Delete Project</h4>
             </div>
-            <form id="deleteProject-form" method="post">
+            <form id="deleteProject-form">
                 {{ csrf_field() }}
+                <input type="hidden" name="projectid">
                 <div class="modal-body">
                     <div class="form-group">
                         Are you Sure you want to delete <strong> <span id="projectname" class="text-uppercase"></span></strong> ? 
