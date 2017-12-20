@@ -733,6 +733,7 @@ $(function() {
     }, cb);
 
     cb(start, end);
+    
 });
 
 function formatTotalHours(count){
