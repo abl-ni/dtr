@@ -47,13 +47,13 @@
     </head>
     <body class="hold-transition login-page">
         <div class="login-box">
-            <div class="login-logo">
-                <a href="../../index2.html"><b>Time</b>wave</a>
-            </div>
-
             <div class="login-box-body">
-                <div class="col-md-12">
-                    <img class="col-xs-12" src="{{asset('images/bywave_logo.png')}}">
+                <div class="login-logo">
+                    <div class="col-md-12">
+                        <a href="/">
+                            <img class="col-xs-12" src="{{asset('images/bywave_logo.png')}}">
+                        </a>
+                    </div>
                 </div>
                 <p class="login-box-msg">Sign in</p>
 
