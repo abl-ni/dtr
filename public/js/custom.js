@@ -29,8 +29,8 @@ $(document).ready(function(){
                     a.attr("data-content", "<ul class='list-group'>"+tmp+"</ul>");
                 },
                 render: function ( data, type, row, meta ) {
-                    return '<a href="javascript:void(0)" class="list_popover" data-toggle="popover" '+
-                    'title="Developers" data-html="true">See List <span class="badge">'+data[0].count+'</span></a>';
+                    // return '<a href="javascript:void(0)" class="list_popover" data-toggle="popover" '+
+                    // 'title="Developers" data-html="true">See List <span class="badge">'+data[0].count+'</span></a>';
                 }
             },
             {
