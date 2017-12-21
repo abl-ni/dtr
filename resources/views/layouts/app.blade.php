@@ -99,11 +99,11 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">                  
-                    <a class="btn btn-danger btn-flat" href="{{ route('logout') }}"
+                    <button class="btn btn-danger" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();">
                         Sign out
-                    </a>
+                    </button>
                     <form id="logout-form" 
                           action="{{ route('logout') }}" 
                           method="POST" 

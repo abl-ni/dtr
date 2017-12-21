@@ -28,7 +28,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" value="submit" class="btn btn-warning" id="project-update">Save Changes</button>
+                    <button type="submit" value="submit" class="btn btn-warning" id="project-update">
+                        <i class="fa fa-fw fa-spinner fa-spin hidden"></i> Save Changes
+                    </button>
                 </div>
             </form>
         </div><!-- /.modal-content -->

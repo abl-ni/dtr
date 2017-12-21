@@ -78,12 +78,26 @@ $(document).ready(function(){
             type: "POST",
             data: $(this).serialize(),
             dataType: 'json',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+
+                if($('#addProject-form [type="submit"] i').hasClass('hidden')) {
+                    $('#addProject-form [type="submit"] i').removeClass('hidden');
+                }
+            },
             success: function(data){
                 if(data.success){
                     pnotify(data.message, true);
                     projectList.ajax.reload();
                 }else{
                     pnotify(data.message, false);
+                }
+
+                if(!$('#addProject-form [type="submit"] i').hasClass('hidden')) {
+                    $('#addProject-form [type="submit"] i').addClass('hidden');
                 }
             },
             error: function(error){
@@ -96,6 +110,10 @@ $(document).ready(function(){
                 text += "</ul>";
                 
                 pnotify(text, false);
+
+                if(!$('#addProject-form [type="submit"] i').hasClass('hidden')) {
+                    $('#addProject-form [type="submit"] i').addClass('hidden');
+                }
             }
         })
     });
@@ -117,6 +135,10 @@ $(document).ready(function(){
                 if (token) {
                     return xhr.setRequestHeader('X-CSRF-TOKEN', token);
                 }
+
+                if($('#addDev [type="submit"] i').hasClass('hidden')) {
+                    $('#addDev [type="submit"] i').removeClass('hidden');
+                }
             },
             data: {
                 '_token': $('input[name=_token]').val(),
@@ -132,6 +154,10 @@ $(document).ready(function(){
                 }else{
                     pnotify(data.message, false);
                 }
+
+                if(!$('#addDev [type="submit"] i').hasClass('hidden')) {
+                    $('#addDev [type="submit"] i').addClass('hidden');
+                }
             },
             error: function(error) {
                 var text = "<ul>";
@@ -143,6 +169,10 @@ $(document).ready(function(){
                 text += "</ul>";
                 
                 pnotify(text, false);
+
+                if(!$('#addDev [type="submit"] i').hasClass('hidden')) {
+                    $('#addDev [type="submit"] i').addClass('hidden');
+                }
             }
         });
     });
@@ -208,6 +238,10 @@ $(document).ready(function(){
                 if (token) {
                     return xhr.setRequestHeader('X-CSRF-TOKEN', token);
                 }
+
+                if($('#updateProject-form [type="submit"] i').hasClass('hidden')) {
+                    $('#updateProject-form [type="submit"] i').removeClass('hidden');
+                }
             },
             data: $(this).serialize(),
             dataType: 'json',
@@ -218,6 +252,10 @@ $(document).ready(function(){
                     $('#updateProject-modal').modal('hide');
                 } else {
                     pnotify(data.message, false);
+                }
+
+                if(!$('#updateProject-form [type="submit"] i').hasClass('hidden')) {
+                    $('#updateProject-form [type="submit"] i').addClass('hidden');
                 }
             },
             error: function(error) {
@@ -230,6 +268,10 @@ $(document).ready(function(){
                 text += "</ul>";
                 
                 pnotify(text, false);
+
+                if(!$('#updateProject-form [type="submit"] i').hasClass('hidden')) {
+                    $('#updateProject-form [type="submit"] i').addClass('hidden');
+                }
             }
         });
     });
@@ -278,6 +320,10 @@ $(document).ready(function(){
                 if (token) {
                     return xhr.setRequestHeader('X-CSRF-TOKEN', token);
                 }
+
+                if($('#deleteProject-form [type="submit"] i').hasClass('hidden')) {
+                    $('#deleteProject-form [type="submit"] i').removeClass('hidden');
+                }
             },
             data: $(this).serialize(),
             dataType: 'json',
@@ -288,6 +334,10 @@ $(document).ready(function(){
                     $('#deleteProject-modal').modal('hide');
                 } else {
                     pnotify(data.message, false);
+                }
+
+                if(!$('#deleteProject-form [type="submit"] i').hasClass('hidden')) {
+                    $('#deleteProject-form [type="submit"] i').addClass('hidden');
                 }
             },
             error: function(error) {
@@ -300,6 +350,10 @@ $(document).ready(function(){
                 text += "</ul>";
                 
                 pnotify(text, false);
+
+                if(!$('#deleteProject-form [type="submit"] i').hasClass('hidden')) {
+                    $('#deleteProject-form [type="submit"] i').addClass('hidden');
+                }
             }
         });
     });
@@ -335,6 +389,10 @@ $(document).ready(function(){
                 if (token) {
                     return xhr.setRequestHeader('X-CSRF-TOKEN', token);
                 }
+
+                if($('#removeUser-form [type="submit"] i').hasClass('hidden')) {
+                    $('#removeUser-form [type="submit"] i').removeClass('hidden');
+                }
             },
             data: $(this).serialize(),
             dataType: 'json',
@@ -345,6 +403,10 @@ $(document).ready(function(){
                     $('#confirmRemove-modal').modal('hide');
                 } else {
                     pnotify(data.message, false);
+                }
+
+                if(!$('#removeUser-form [type="submit"] i').hasClass('hidden')) {
+                    $('#removeUser-form [type="submit"] i').addClass('hidden');
                 }
             },
             error: function(error) {
@@ -357,6 +419,10 @@ $(document).ready(function(){
                 text += "</ul>";
                 
                 pnotify(text, false);
+
+                if(!$('#removeUser-form [type="submit"] i').hasClass('hidden')) {
+                    $('#removeUser-form [type="submit"] i').addClass('hidden');
+                }
             }
         });
     });
@@ -375,6 +441,10 @@ $(document).ready(function(){
                 var token = $('meta[name="csrf_token"]').attr('content');
                 if (token) {
                     return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+
+                if($('.register-user [type="submit"] i').hasClass('hidden')) {
+                    $('.register-user [type="submit"] i').removeClass('hidden');
                 }
             },
             data: $(this).serialize(),
@@ -395,9 +465,17 @@ $(document).ready(function(){
                     
                     pnotify(text, false);
                 }
+
+                if(!$('.register-user [type="submit"] i').hasClass('hidden')) {
+                    $('.register-user [type="submit"] i').addClass('hidden');
+                }
             },
             error: function(error) {                
                 pnotify('Something went wrong.', false);
+
+                if(!$('.register-user [type="submit"] i').hasClass('hidden')) {
+                    $('.register-user [type="submit"] i').addClass('hidden');
+                }
             }
         });
     });
@@ -427,6 +505,10 @@ $(document).ready(function(){
                 if (token) {
                     return xhr.setRequestHeader('X-CSRF-TOKEN', token);
                 }
+
+                if($('#reset-form [type="submit"] i').hasClass('hidden')) {
+                    $('#reset-form [type="submit"] i').removeClass('hidden');
+                }
             },
             data: $(this).serialize(),
             dataType: 'json',
@@ -446,9 +528,17 @@ $(document).ready(function(){
                     
                     pnotify(text, false);
                 }
+
+                if(!$('#reset-form [type="submit"] i').hasClass('hidden')) {
+                    $('#reset-form [type="submit"] i').addClass('hidden');
+                }
             },
             error: function(error) {                
                 pnotify('Something went wrong.', false);
+
+                if(!$('#reset-form [type="submit"] i').hasClass('hidden')) {
+                    $('#reset-form [type="submit"] i').addClass('hidden');
+                }
             }
         });
     })
@@ -477,6 +567,10 @@ $(document).ready(function(){
                 if (token) {
                     return xhr.setRequestHeader('X-CSRF-TOKEN', token);
                 }
+
+                if($('#resetrole-form [type="submit"] i').hasClass('hidden')) {
+                    $('#resetrole-form [type="submit"] i').removeClass('hidden');
+                }
             },
             data: $(this).serialize(),
             dataType: 'json',
@@ -496,9 +590,17 @@ $(document).ready(function(){
                     
                     pnotify(text, false);
                 }
+
+                if(!$('#resetrole-form [type="submit"] i').hasClass('hidden')) {
+                    $('#resetrole-form [type="submit"] i').addClass('hidden');
+                }
             },
             error: function(error) {                
                 pnotify('Something went wrong.', false);
+
+                if(!$('#resetrole-form [type="submit"] i').hasClass('hidden')) {
+                    $('#resetrole-form [type="submit"] i').addClass('hidden');
+                }
             }
         });
     })
@@ -514,6 +616,10 @@ $(document).ready(function(){
                 if (token) {
                     return xhr.setRequestHeader('X-CSRF-TOKEN', token);
                 }
+
+                if($('.add-log [type="submit"] i').hasClass('hidden')) {
+                    $('.add-log [type="submit"] i').removeClass('hidden');
+                }
             },
             data: $(this).serialize(),
             dataType: 'json',
@@ -523,6 +629,10 @@ $(document).ready(function(){
                     $('.add-log')[0].reset();
                 } else {                    
                     pnotify(data.message, false);
+                }
+
+                if(!$('.add-log [type="submit"] i').hasClass('hidden')) {
+                    $('.add-log [type="submit"] i').addClass('hidden');
                 }
             },
             error: function(error) {
@@ -535,6 +645,10 @@ $(document).ready(function(){
                 text += "</ul>";
                 
                 pnotify(text, false);
+
+                if(!$('.add-log [type="submit"] i').hasClass('hidden')) {
+                    $('.add-log [type="submit"] i').addClass('hidden');
+                }
             }
         });
     })

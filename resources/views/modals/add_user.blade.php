@@ -87,7 +87,7 @@
                            Cancel
                     </button>
                     <button type="submit" class="btn btn-warning pull-right">
-                        Register
+                        <i class="fa fa-fw fa-spinner fa-spin hidden"></i> Register
                     </button>
                 </div>
             </form>

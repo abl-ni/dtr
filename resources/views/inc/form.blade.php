@@ -75,7 +75,7 @@
                     <button value="submit" 
                             type="submit" 
                             class="btn btn-primary btn-submit col-md-12">
-                        Submit
+                        <i class="fa fa-fw fa-spinner fa-spin hidden"></i> Submit
                     </button>
             </div>
         </form>

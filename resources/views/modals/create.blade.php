@@ -56,7 +56,7 @@
                    <button  type="submit"
                             value="submit"
                             class="btn btn-warning">
-                            Add
+                            <i class="fa fa-fw fa-spinner fa-spin hidden"></i> Add
                    </button>
                </div>
             </form>
