@@ -22,7 +22,6 @@ class ProjectDevsController extends Controller
         );
         $check = array();
         $devsaved = false;
-        $devDB = new Dev();
         $dataSet = [];
 
         foreach($request->data as $dev){
@@ -31,6 +30,7 @@ class ProjectDevsController extends Controller
                     ->first()?false:true;
 
             if($unique) {
+                $devDB = new Dev();
                 $devDB->dev_id = $dev;
                 $devDB->proj_id = $request->id;
                 $devDB->date_created = Carbon::now()->toDateString();

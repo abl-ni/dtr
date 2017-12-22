@@ -767,6 +767,8 @@ $(document).ready(function(){
         var start = $('#start').val();
         var end = $('#end').val();
 
+        alert(start+' - '+end);
+
         if(document.getElementById("myChart")){
             myChart.destroy();
             barGraphData(start, end);
