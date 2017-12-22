@@ -167,7 +167,6 @@ class UserController extends Controller
             }
 
             echo json_encode($check);
-
         }
     }
 
@@ -180,8 +179,8 @@ class UserController extends Controller
             if($users)
                 foreach ($users as $key => $value) {
                     $data[$key][] = $users[$key]->id;
-                    $data[$key][] = $users[$key]->name;
-                    $data[$key][] = $users[$key]->email;
+                    $data[$key][] = ucwords(htmlentities($users[$key]->name));
+                    $data[$key][] = htmlentities($users[$key]->email);
                     $data[$key][] = $users[$key]->type;
                     $data[$key][] = $users[$key]->id;
                 }

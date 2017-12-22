@@ -14,13 +14,31 @@ $(document).ready(function(){
                 "searchable": false
             },
             {
+                "targets": [ 1 ],
+                render: function ( data, type, row, meta ) {
+                    return data[0].htmlentities;
+                }
+            },
+            {
+                "targets": [ 2 ],
+                render: function ( data, type, row, meta ) {
+                    return data[0].htmlentities;
+                }
+            },
+            {
+                "targets": [ 3 ],
+                render: function ( data, type, row, meta ) {
+                    return data[0].htmlentities;
+                }
+            },
+            {
                 "targets": [ 4 ],
                 createdCell: function(td, cellData, rowData, row, col){
                     var tmp = "";
                     for (var a = 0; a < cellData.length; a++) {                           
-                        tmp +="<li class='list-group-item'>"+cellData[a].username+
+                        tmp +="<li class='list-group-item'>"+cellData[a].username.htmlentities+
                         "<a data-toggle='modal' data-target='#confirmRemove-modal' data-project_id='"+rowData[0]+
-                        "' data-user_id='"+cellData[a].userid+" ' data-project='"+rowData[1]+"' data-user='"+cellData[a].username+"' class='pull-right'>"+
+                        "' data-user_id='"+cellData[a].userid+" ' data-project='"+rowData[1][0].htmlentities+"' data-user='"+cellData[a].username.htmlentities+"' class='pull-right'>"+
                         "<i class='icon icon-close text-danger'></i></a></li>";
                     };
 
@@ -38,19 +56,19 @@ $(document).ready(function(){
                 createdCell: function(td, cellData, rowData, row, col){
                     var a = $(td).find(".add-modal");
                         a.attr("data-id", rowData[0]);
-                        a.attr("data-name", rowData[1]);
+                        a.attr("data-name", rowData[1][0].normal);
                         a.attr("data-target", '#add-dev');
                         a.attr("data-toggle", 'modal');
 
                     var b = $(td).find(".edit-modal");
                         b.attr("data-id", rowData[0]);
-                        b.attr("data-name", rowData[1]);
+                        b.attr("data-name", rowData[1][0].normal);
                         b.attr("data-target", '#updateProject-modal');
                         b.attr("data-toggle", 'modal');
 
                     var c = $(td).find(".delete-modal");
                         c.attr("data-id", rowData[0]);
-                        c.attr("data-name", rowData[1]);
+                        c.attr("data-name", rowData[1][0].normal);
                         c.attr("data-target", '#deleteProject-modal');
                         c.attr("data-toggle", 'modal');
                 },
@@ -300,7 +318,7 @@ $(document).ready(function(){
         var projectid = $(e.relatedTarget).data('id');
         var projectname = $(e.relatedTarget).data('name');
         
-        $('span#projectname').html(projectname);
+        $('span#projectname').text(projectname);
         $('#deleteProject-form input[name="projectid"]').val(projectid);
     });
 
@@ -365,8 +383,8 @@ $(document).ready(function(){
         var projectname = $(e.relatedTarget).data('project');
         var username = $(e.relatedTarget).data('user');
 
-        $('span#projectname').html(projectname);
-        $('span#username').html(username);
+        $('span#projectname').text(projectname);
+        $('span#username').text(username);
         $('#removeUser-form input[name="userid"]').val(userid);
         $('#removeUser-form input[name="projectid"]').val(projectid);
     });

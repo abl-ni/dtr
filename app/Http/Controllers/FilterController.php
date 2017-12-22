@@ -212,11 +212,11 @@ class FilterController extends Controller
         if($result){
             foreach ($result as $key => $value) {
                 $data[$key][] = $result[$key]->id;
-                $data[$key][] = $result[$key]->name;
-                $data[$key][] = $result[$key]->project_name;
-                $data[$key][] = $result[$key]->ticket_no;
-                $data[$key][] = $result[$key]->task_title;
-                $data[$key][] = $result[$key]->roadblock;
+                $data[$key][] = ucwords(htmlentities($result[$key]->name));
+                $data[$key][] = ucwords(htmlentities($result[$key]->project_name));
+                $data[$key][] = htmlentities($result[$key]->ticket_no);
+                $data[$key][] = ucwords(htmlentities($result[$key]->task_title));
+                $data[$key][] = ucfirst(htmlentities($result[$key]->roadblock));
                 $data[$key][] = $result[$key]->date_created;
                 $data[$key][] = $result[$key]->hours_rendered;
             }

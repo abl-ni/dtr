@@ -15,13 +15,13 @@
                         <label>Project Manager</label>
                         <select name="pm" id="pm_list" class="form-control pm selectpicker" data-live-search="true">
                             @foreach ($allPM as $all)
-                            <option id="{{ $all->id }}" value="{{ $all->id }}">{{ $all->name }}</option>
+                            <option id="{{ $all->id }}" value="{{ $all->id }}">{{ ucwords(htmlentities($all->name)) }}</option>
                             @endforeach
                         </select>
                         <label>Team Leader</label>
                         <select name="dev" id="dev_list" class="form-control dev selectpicker" data-live-search="true">
                             @foreach ($dev as $dev)
-                            <option id="{{ $dev->id }}" value="{{ $dev->id }}">{{ $dev->name }}</option>
+                            <option id="{{ $dev->id }}" value="{{ $dev->id }}">{{ ucwords(htmlentities($dev->name)) }}</option>
                             @endforeach
                         </select>
                     </div>

@@ -70,7 +70,7 @@ class ProjectController extends Controller
         } else {
             $check = array(
                 'success' => true, 
-                'message' => ucfirst($request->projectname).' successfully added.');
+                'message' => ucfirst(htmlentities($request->projectname)).' successfully added.');
         }
 
         echo json_encode($check);
@@ -121,11 +121,11 @@ class ProjectController extends Controller
         if($projects)
             foreach ($projects as $key => $value) {
                 $data[$key][0][] = $projects[$key]->id;
-                $data[$key][1][] = $projects[$key]->name;
-                $data[$key][2][] = $projects[$key]->PM()->first()->name;
-                $data[$key][3][] = $projects[$key]->TL()->first()->name;
+                $data[$key][1][] = array('htmlentities' => htmlentities($projects[$key]->name), 'normal' => $projects[$key]->name);
+                $data[$key][2][] = array('htmlentities' => ucwords(htmlentities($projects[$key]->PM()->first()->name)), 'normal' => ucwords($projects[$key]->PM()->first()->name));
+                $data[$key][3][] = array('htmlentities' => ucwords(htmlentities($projects[$key]->TL()->first()->name)), 'normal' => ucwords($projects[$key]->TL()->first()->name));
                 foreach ($dev = $projects[$key]->dev()->get() as $key1 => $value) {
-                    $data[$key][4][] = array('username' => ucwords($dev[$key1]->user->name), 'userid' => $dev[$key1]->user->id, 'count' => count($dev));
+                    $data[$key][4][] = array('username' => array('htmlentities' => ucwords(htmlentities($dev[$key1]->user->name)), 'normal' => ucwords($dev[$key1]->user->name)), 'userid' => $dev[$key1]->user->id, 'count' => count($dev));
                 }   
                 $data[$key][5][] = $projects[$key]->id; 
             }
@@ -205,7 +205,7 @@ class ProjectController extends Controller
 
             $check = array(
                 'success' => true, 
-                'message' => ucfirst($projectname).' successfully deleted!');
+                'message' => ucfirst(htmlentities($projectname)).' successfully deleted!');
         } else {
             $check = array(
                 'success' => false, 

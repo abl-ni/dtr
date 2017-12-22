@@ -19,7 +19,7 @@
                                 data-live-search="true">
                             @foreach($project as $project)
                             <option id="{{ $project->id }}" value="{{ $project->id }}">
-                                {{ $project->name }}
+                                {{ ucwords(htmlentities($project->name)) }}
                             </option>
                             @endforeach
                         </select>

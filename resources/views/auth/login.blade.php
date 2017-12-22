@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+    <?php
+        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+    ?>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,9 +16,10 @@
 
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        
+
         <!-- Styles -->        
         @if (App::isLocal())
+            <link href="{{ asset('images/bywave_icon.ico') }}" rel="shortcut icon"/>
             <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
             <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
             <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
@@ -21,12 +27,14 @@
             <link href="{{ asset('vendor/plugins/iCheck/square/blue.css') }}" rel="stylesheet"/>
         @else
             @if (Request::server('HTTP_X_FORWARDED_PROTO') == 'http')
+            <link href="{{ asset('images/bywave_icon.ico') }}" rel="shortcut icon"/>
             <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
             <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
             <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
             <link href="{{ asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
             <link href="{{ asset('vendor/plugins/iCheck/square/blue.css') }}" rel="stylesheet"/>
             @else
+            <link href="{{ secure_asset('images/bywave_icon.ico') }}" rel="shortcut icon"/>
             <link href="{{ secure_asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
             <link href="{{ secure_asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
             <link href="{{ secure_asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>

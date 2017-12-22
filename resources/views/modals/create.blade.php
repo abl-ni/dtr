@@ -28,7 +28,7 @@
                                 data-live-search="true">
                            @foreach ($pm as $pm)
                             <option id="{{ $pm->id }}" value="{{ $pm->id }}">
-                                    {{ $pm->name }}
+                                    {{ ucwords(htmlentities($pm->name)) }}
                                 </option>
                             @endforeach
                         </select>
@@ -41,7 +41,7 @@
                                 data-live-search="true">
                             @foreach ($dev as $dev)
                             <option  id="{{ $dev->id }}" value="{{ $dev->id }}">
-                                    {{ $dev->name }}
+                                    {{ ucwords(htmlentities($dev->name)) }}
                                 </option>
                             @endforeach
                         </select>
