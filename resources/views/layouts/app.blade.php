@@ -114,7 +114,7 @@
                     </button>
                     <form id="logout-form" 
                           action="{{ route('logout') }}" 
-                          method="POST" 
+                          method="GET" 
                           style="display: none;">
                         {{ csrf_field() }}
                     </form>
