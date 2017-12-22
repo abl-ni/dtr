@@ -177,7 +177,7 @@ class FilterController extends Controller
             $query = DB::table('users')
             ->join('devs', 'users.id', '=', 'devs.dev_id')
             ->join('projects', 'devs.proj_id', '=', 'projects.id')
-            ->leftJoin('dtrs', 'devs.id', '=', 'dtrs.proj_devs_id');
+            ->join('dtrs', 'devs.id', '=', 'dtrs.proj_devs_id');
 
             if(Auth::user()->type === 'Admin' && $option === null){                
                 $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
