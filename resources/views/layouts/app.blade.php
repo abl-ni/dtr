@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <?php
-    header("Cache-Control: private, must-revalidate, max-age=0");
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
     header("Pragma: no-cache");
-    header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // A date in the past
-
-    echo time();
 ?>
 <head>
     <meta charset="utf-8">
