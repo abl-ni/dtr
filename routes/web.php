@@ -16,6 +16,14 @@ Route::middleware(['auth'])->group(function () {
         return redirect('/dashboard');
     });
 
+    $this->get('logout', function(){
+        Auth::logout();
+
+        Session::flush();
+
+        return redirect('/');
+    })->name('logout');
+
     Route::get('dashboard', 'ProjectController@getQuery'); 
     Route::post('addProject', 'ProjectController@addProject'); 
     Route::post('updateProject', 'ProjectController@updateProject'); 
