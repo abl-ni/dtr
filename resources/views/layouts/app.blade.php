@@ -19,6 +19,7 @@
     
     <!-- Styles -->
     @if (App::isLocal())
+      <link href="{{ asset('images/bywave_icon.ico') }}" rel="shortcut icon"/>
       <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
@@ -28,6 +29,7 @@
       <link href="{{ asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
     @else
       @if (Request::server('HTTP_X_FORWARDED_PROTO') == 'http')
+      <link href="{{ asset('images/bywave_icon.ico') }}" rel="shortcut icon"/>
       <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
@@ -36,6 +38,7 @@
       <link href="{{ asset('vendor/dist/css/AdminLTE.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('vendor/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet"/>
       @else
+      <link href="{{ secure_asset('images/bywave_icon.ico') }}" rel="shortcut icon"/>
       <link href="{{ secure_asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"/>
       <link href="{{ secure_asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
       <link href="{{ secure_asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
