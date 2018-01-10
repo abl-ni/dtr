@@ -62,8 +62,8 @@
                         <input class="form-control" type="text" name="hrs_rendered" required>
                         <span class="" style="font-size:8pt; font-family: sans-serif">
                             <strong>Format: </strong>
-                            3:30 = 3 hours and 30 minutes = 
-                            <span class="text-danger"><b>3.30</b></span>
+                            3 hours and 30 minutes = 
+                            <span class="text-danger"><b> 3.5</b></span>
                             <br>
                         </span>
                     </div>
