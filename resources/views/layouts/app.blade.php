@@ -158,10 +158,10 @@
         </div>
         <footer class="main-footer">
           <div class="pull-right hidden-xs">
-            <b>Version</b> 2.4.0
+           <p style="font-size: 10px;">Version 2.4.0</p> 
           </div>
-          <strong>Copyright © 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-          reserved.
+          <strong style="font-size: 10px;">Copyright © 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>. All rights
+          reserved.</strong> 
         </footer>
     </div>
 
