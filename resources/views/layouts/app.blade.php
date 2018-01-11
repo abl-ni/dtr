@@ -108,6 +108,11 @@
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
+                <div class="pull-left">                  
+                    <a class="btn btn-default" href="{{ url('profile') }}">
+                        Profile
+                    </a>
+                </div>
                 <div class="pull-right">                  
                     <button class="btn btn-danger" href="{{ route('logout') }}"
                         onclick="event.preventDefault();

@@ -195,4 +195,9 @@ class UserController extends Controller
 
         echo json_encode($table_data);
     }
+
+    public function profile(){
+        $users = User::where('id', '!=', Auth::id())->get();
+        return view('profile', compact('users'));
+    }
 }
