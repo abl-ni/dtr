@@ -675,7 +675,21 @@ $(document).ready(function(){
 
     // Reports DataTable
     var reportList = $('table#report-list').DataTable({
-        processing: true,
+        processing: true,  
+        dom: 'Bfrtip',
+        buttons: [            
+            {
+                text: '<i class="fa fa-print"></i> Export CSV',
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                },
+                filename: function(){
+                    return 'Bywave Logs (' + $('#reportrange span').text() +')';
+                }
+            },
+            "pageLength",
+        ],
         ajax: '/reportList',
         'columnDefs': [
             {
