@@ -30,12 +30,10 @@ Report
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Reports
+        <i class="fa fa-files-o"></i> Reports
         <small>Data Table</small>
       </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-      </ol>
+       
     </section>
 
 

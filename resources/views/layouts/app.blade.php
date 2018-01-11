@@ -136,12 +136,13 @@
           <img src="{{ asset('vendor/dist/img/avatar5.png')}}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>
-            @if(Auth::user()->name)
-              {{ ucwords(Auth::user()->name) }}
-            @endif
-          </p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+         <p>
+                  @if(Auth::user()->name)
+                    {{ ucwords(Auth::user()->name) }}
+                  @endif
+                 
+                </p>
+                 <small>@if(Auth::user()->type) {{ Auth::user()->type }} @endif</small>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
