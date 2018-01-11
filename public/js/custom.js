@@ -44,7 +44,7 @@ $(document).ready(function(){
 
                     var a = $(td).find(">:first-child");
                     a.attr("id", rowData[0]);
-                    a.attr("data-content", "<ul class='list-group'>"+tmp+"</ul>");
+                    a.attr("data-content", "<ul class='list-group' style='width: 250px; height: 120px; overflow: auto'>"+tmp+"</ul>");
                 },
                 render: function ( data, type, row, meta ) {
                     return '<a href="javascript:void(0)" class="list_popover" data-toggle="popover" '+
