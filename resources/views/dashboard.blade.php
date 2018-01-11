@@ -113,12 +113,10 @@ Home
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Projects
-        <small>Data Table</small>
+        <i class="fa fa-tasks"></i> <span>Projects</span>
+         
       </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-      </ol>
+      
     </section>
 
     <!-- Main content -->
