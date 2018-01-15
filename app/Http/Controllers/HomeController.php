@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -26,4 +28,8 @@ class HomeController extends Controller
         return view('dashboard');
     }
 
+    public function profile(){
+        $users = User::where('id', Auth::id())->get();
+        return view('profile', compact('users'));
+    }
 }
