@@ -121,6 +121,7 @@ class UserController extends Controller
                     'success' => false, 
                     'message' => $validator->errors());
             } else {
+                
                 $user = User::where('id', $request->userid)->first();
 
                 if($user) {            

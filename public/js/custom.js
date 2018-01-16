@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    $('#changePassword').on('click',function(){
+      $('#change-password').modal('show');
+    });
     $('table#table').DataTable();
     var myChart;
 
@@ -511,6 +514,66 @@ $(document).ready(function(){
         $("span#username").html('');
         $("#reset-form input[name='userid']").val('');
     });
+    $('#change-password').on('hidden.bs.modal', function(e) {
+        $("#changePasswordForm")[0].reset();
+       
+    });
+
+$("#changePasswordForm").submit(function(e){
+        e.preventDefault();
+
+        
+        $.ajax({
+            type: 'post',
+            url: '/users/change/password',
+             beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+
+                if($('#changePasswordForm [type="submit"] i').hasClass('hidden')) {
+                    $('#changePasswordForm [type="submit"] i').removeClass('hidden');
+                }
+            },
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+                if(data.success){
+                    pnotify(data.message, true);
+                    
+                    $('#change-password').modal('hide');
+                    // $('#Opassword').val("");
+                    //  $('#Npassword').val("");
+                    //   $('#Npassword_confirmation').val("");
+
+                } else {
+                    var text = "<ul>";
+ 
+                    $.each( data.message, function( key, value ) {
+                        text += "<li>"+value+"</li>";
+                    });
+
+                    text += "</ul>";
+                    
+                    pnotify(text, false);
+                }
+
+                if(!$('#changePassword-form [type="submit"] i').hasClass('hidden')) {
+                    $('#changePassword-form [type="submit"] i').addClass('hidden');
+                }
+            },
+            error: function(error) {                
+                pnotify('Incorrect Current Password .', false);
+
+                if(!$('#changePassword-form [type="submit"] i').hasClass('hidden')) {
+                    $('#changePassword-form [type="submit"] i').addClass('hidden');
+                }
+            }
+        });
+    })
+     
 
     $("#reset-form").submit(function(e){
         e.preventDefault();

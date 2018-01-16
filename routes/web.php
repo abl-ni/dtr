@@ -45,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reportList', 'FilterController@reportList');
     
     Route::put('users/reset/{option?}','UserController@resetPassword');
+    Route::put('users/change/{option?}','HomeController@changePassword');
     Route::get('profile','HomeController@profile');
     Route::resource('users','UserController');
     Route::get('userList','UserController@userList');
