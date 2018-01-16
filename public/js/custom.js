@@ -560,15 +560,15 @@ $("#changePasswordForm").submit(function(e){
                     pnotify(text, false);
                 }
 
-                if(!$('#changePassword-form [type="submit"] i').hasClass('hidden')) {
-                    $('#changePassword-form [type="submit"] i').addClass('hidden');
+                if(!$('#changePasswordForm [type="submit"] i').hasClass('hidden')) {
+                    $('#changePasswordForm [type="submit"] i').addClass('hidden');
                 }
             },
             error: function(error) {                
                 pnotify('Incorrect Current Password .', false);
 
-                if(!$('#changePassword-form [type="submit"] i').hasClass('hidden')) {
-                    $('#changePassword-form [type="submit"] i').addClass('hidden');
+                if(!$('#changePasswordForm [type="submit"] i').hasClass('hidden')) {
+                    $('#changePasswordForm [type="submit"] i').addClass('hidden');
                 }
             }
         });
