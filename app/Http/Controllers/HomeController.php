@@ -50,7 +50,7 @@ class HomeController extends Controller
             if ($validator->fails()) {
                 $check = array(
                     'success' => false, 
-                    'message' => $validator->errors());
+                    'message' => 'New Password Does not Match!');
             } else if(Hash::check($request->Opassword, $request->OpasswordCheck)) {
                 
                 $user = User::where('id', $request->userid)->first();
@@ -67,6 +67,10 @@ class HomeController extends Controller
                         'success' => false, 
                         'message' => 'Something went wrong. Try reloading the page.');
                 }         
+            }else{
+                  $check = array(
+                        'success' => false, 
+                        'message' => 'Incorrect Current Password!');
             }
 
             echo json_encode($check);

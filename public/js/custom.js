@@ -516,13 +516,12 @@ $(document).ready(function(){
     });
     $('#change-password').on('hidden.bs.modal', function(e) {
         $("#changePasswordForm")[0].reset();
+
        
     });
 
 $("#changePasswordForm").submit(function(e){
-        e.preventDefault();
-
-        
+        e.preventDefault();        
         $.ajax({
             type: 'post',
             url: '/users/change/password',
@@ -539,25 +538,17 @@ $("#changePasswordForm").submit(function(e){
             data: $(this).serialize(),
             dataType: 'json',
             success: function(data) {
-                console.log(data);
+                
                 if(data.success){
                     pnotify(data.message, true);
                     
                     $('#change-password').modal('hide');
-                    // $('#Opassword').val("");
-                    //  $('#Npassword').val("");
-                    //   $('#Npassword_confirmation').val("");
-
                 } else {
-                    var text = "<ul>";
- 
-                    $.each( data.message, function( key, value ) {
-                        text += "<li>"+value+"</li>";
-                    });
+                    pnotify(data.message, false);
+                     if(!$('#changePasswordForm [type="submit"] i').hasClass('hidden')) {
+                    $('#changePasswordForm [type="submit"] i').addClass('hidden');
+                }
 
-                    text += "</ul>";
-                    
-                    pnotify(text, false);
                 }
 
                 if(!$('#changePasswordForm [type="submit"] i').hasClass('hidden')) {
