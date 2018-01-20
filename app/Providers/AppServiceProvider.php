@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use  Illuminate\Support\Facades\Schema;
+use Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,16 @@ class AppServiceProvider extends ServiceProvider
     function boot()
     {
         Schema::defaultStringLength(191);
+
+        Validator::extend('greater_than_field', function($attribute, $value, $parameters, $validator) {
+            $min_field = $parameters[0];
+            $min_value = $min_field;
+            return $value > $min_value;
+        });   
+
+        Validator::replacer('greater_than_field', function($message, $attribute, $rule, $parameters) {
+            return str_replace(':field', $parameters[0], 'The data should be greater than 0');
+        });
     }
 
     /**
