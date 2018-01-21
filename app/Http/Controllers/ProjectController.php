@@ -12,12 +12,19 @@ use Auth;
 use Validator;
 use Response;
 use Carbon\Carbon;
+use App\Events\TestEvent;
 
 class ProjectController extends Controller
 {
     public function index()
     {
         return view('dashboard');
+    }
+
+    public function trigger(){
+        $event = new TestEvent(1);
+        broadcast($event);
+        dd();
     }
     
     public function show($id)

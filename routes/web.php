@@ -9,6 +9,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
@@ -23,6 +24,8 @@ Route::middleware(['auth'])->group(function () {
 
         return redirect('/');
     })->name('logout');
+
+    Route::get('trigger', 'ProjectController@trigger'); 
 
     Route::get('dashboard', 'ProjectController@getQuery'); 
     Route::post('addProject', 'ProjectController@addProject'); 

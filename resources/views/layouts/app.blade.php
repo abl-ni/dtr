@@ -173,7 +173,6 @@
         </footer>
     </div>
 
-
     <!-- Scripts -->
     @if (App::isLocal())
       <!-- jQuery 3 -->
@@ -193,6 +192,11 @@
       <script type="text/javascript" src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
       <!-- Custom JS -->
       <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
+
+      <!-- Socket IO -->
+      <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
+      
+      <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
     @else
       @if (Request::server('HTTP_X_FORWARDED_PROTO') == 'http')
       <!-- jQuery 3 -->
