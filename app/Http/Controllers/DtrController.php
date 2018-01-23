@@ -8,6 +8,7 @@ use App\Dev;
 use App\User;
 use App\Project;
 use App\Dtr;
+use App\Notification;
 use Auth;
 use Carbon\Carbon;
 
@@ -22,7 +23,14 @@ class DtrController extends Controller
                 'hrs_rendered' => 'required|numeric|greater_than_field:0',
             ]);
 
+        $timestamp = Carbon::now();
+
         $user_id = Auth::id();
+        $check = array();
+            
+        $project = Project::where('id', $request->projectid)->first();
+        $admin = User::where('type', 'Admin')->pluck('id');
+        $notifyTo = array($admin, $project->tl()->pluck('id'), $project->pm()->pluck('id'));
 
         $id = Dev::where('proj_id', $request->projectid)
             ->where('dev_id', $user_id)
@@ -47,20 +55,78 @@ class DtrController extends Controller
                 $hrs_rendered = $request->hrs_rendered;
             }
 
-            $data = new Dtr ();       
-            $data->proj_devs_id = $id;
-            $data->task_title = $request->task_title;
-            $data->ticket_no = $request->ticket_number;
-            $data->roadblock = $request->roadblock;
-            $data->hours_rendered = $hrs_rendered;
-            $data->date_created = Carbon::now()->toDateString();
-            $saved = $data->save ();
+            $data = array(
+                'proj_devs_id' => $id,
+                'task_title' => $request->task_title,
+                'ticket_no' => $request->ticket_number,
+                'roadblock' => $request->roadblock,
+                'hours_rendered' => $hrs_rendered,
+                'date_created' => Carbon::now()->toDateString(),
+                );
 
-            // if ($overtime > 0) {
-            //     echo json_encode("overtime: ".$overtime);
-            // }
+            $saved = Dtr::create($data);
+
+            if ($overtime > 0) {
+                $data = array();
+
+                foreach ($notifyTo as $key => $value) {
+                    $data[$key] = array(
+                        'dtr_id' => $saved->id, 
+                        'overtime' => $overtime, 
+                        'message' => 'Overtime pending for approval', 
+                        'status' => 1, 
+                        'user_id' => $value[0], 
+                        'requested_by' => $user_id, 
+                        'created_at' => $timestamp, 
+                        'updated_at' => $timestamp, 
+                        );
+                }
+
+                Notification::insert($data);
+
+                $check = array(
+                    'success' => true, 
+                    'message' => 'Overtime for approval.');
+            }
         } else {
-            // echo json_encode("overtime: ".$overtime);
+            $data = array(
+                'proj_devs_id' => $id,
+                'task_title' => $request->task_title,
+                'ticket_no' => $request->ticket_number,
+                'roadblock' => $request->roadblock,
+                'hours_rendered' => 0,
+                'overtime?' => 'true',
+                'date_created' => Carbon::now()->toDateString(),
+                );
+
+            $saved = Dtr::create($data);
+
+            $data = array();
+
+            foreach ($notifyTo as $key => $value) {
+                $data[$key] = array(
+                    'dtr_id' => $saved->id, 
+                    'overtime' => $request->hrs_rendered, 
+                    'message' => 'Overtime pending for approval', 
+                    'status' => 1, 
+                    'user_id' => $value[0], 
+                    'requested_by' => $user_id, 
+                    'created_at' => $timestamp, 
+                    'updated_at' => $timestamp, 
+                    );
+            }
+
+            Notification::insert($data);
+
+            $check = array(
+                'success' => true, 
+                'message' => 'Overtime for approval.');
+        }
+
+        if($check){
+            echo json_encode($check);
+
+            return;
         }
 
         if(!$saved){
@@ -70,7 +136,7 @@ class DtrController extends Controller
         } else {
             $check = array(
                 'success' => true, 
-                'message' => 'Logs has been added successfully.'.$data->id);
+                'message' => 'Logs has been added successfully.');
         }
 
         echo json_encode($check);

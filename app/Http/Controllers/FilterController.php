@@ -34,9 +34,11 @@ class FilterController extends Controller
 
             if(Auth::user()->type === 'Dev'){
                 $query->where('users.id', Auth::id())
+                    ->where('dtrs.overtime?', 'false')
                     ->groupby('users.id', 'projects.id');
             } else {
-                $query->groupby('projects.id');
+                $query->where('dtrs.overtime?', 'false')
+                    ->groupby('projects.id');
             }
 
             if($request->start && $request->end){
@@ -103,10 +105,12 @@ class FilterController extends Controller
                 if(Auth::user()->type === 'Admin'){
                     $query->where('users.type', 'Dev')
                         ->whereBetween('dtrs.date_created', [$start, $end])
+                        ->where('dtrs.overtime?', 'false')
                         ->whereIn('devs.id', $getDtrIds)
                         ->groupBy('dtrs.id');
                 }else if(Auth::user()->type === 'Dev'){                    
                     $query->where('users.id', Auth::id())
+                        ->where('dtrs.overtime?', 'false')
                         ->whereBetween('dtrs.date_created', [$start, $end])
                         ->groupBy('dtrs.id');
                 }
@@ -129,10 +133,12 @@ class FilterController extends Controller
 
                     if(Auth::user()->type === 'Admin'){
                         $query->where('users.type', 'Dev')
+                            ->where('dtrs.overtime?', 'false')
                             ->whereBetween('dtrs.date_created', [$start, $end])
                             ->whereIn('devs.id', $getDtrIds);
                     }else if(Auth::user()->type === 'Dev'){                    
                         $query->where('users.id', Auth::id())
+                            ->where('dtrs.overtime?', 'false')
                             ->whereBetween('dtrs.date_created', [$start, $end]);
                     }
 
@@ -154,10 +160,12 @@ class FilterController extends Controller
 
                 if(Auth::user()->type === 'Admin'){
                     $query->where('users.type', 'Dev')
+                        ->where('dtrs.overtime?', 'false')
                         ->whereBetween('dtrs.date_created', [$start, $end])
                         ->whereIn('devs.id', $getDtrIds);
                 }else if(Auth::user()->type === 'Dev'){                    
                     $query->where('users.id', Auth::id())
+                        ->where('dtrs.overtime?', 'false')
                         ->whereBetween('dtrs.date_created', [$start, $end]);
                 }
 
@@ -182,15 +190,18 @@ class FilterController extends Controller
             if(Auth::user()->type === 'Admin' && $option === null){                
                 $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
                     'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
+                    ->where('dtrs.overtime?', 'false')
                     ->where('users.type', 'Dev')
                     ->whereIn('devs.id', $this->getDtrIds);
             }else if(Auth::user()->type === 'Dev' && $option === null){     
                 $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
                     'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
+                    ->where('dtrs.overtime?', 'false')
                     ->where('users.id', Auth::id());
             }else if(Auth::user()->type === 'PM' && $option === null){                
                 $query->select('users.id','users.name', 'projects.id as project_id','projects.name as project_name', 'dtrs.ticket_no', 
                     'dtrs.task_title', 'dtrs.hours_rendered', 'dtrs.date_created', 'dtrs.roadblock')
+                    ->where('dtrs.overtime?', 'false')
                     ->where('users.type', 'Dev')
                     ->whereIn('devs.id', $this->getDtrIds);
             }

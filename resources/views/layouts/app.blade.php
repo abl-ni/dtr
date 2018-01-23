@@ -58,6 +58,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowgroup/1.0.2/css/rowGroup.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" />
+
 </head>
 <body class="hold-transition skin-yellow sidebar-collapse sidebar-mini">
     <div class="wrapper">
@@ -82,6 +83,84 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+          <!-- Messages: style can be found in dropdown.less-->
+          <li class="dropdown messages-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              <span class="label label-success">{{ count($notifications) }}</span>
+            </a>
+            <ul class="dropdown-menu list-group">
+              <li class="header">You have 4 messages</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  @foreach ($notifications as $notification)
+                    <!-- start message -->
+                    <li>
+                      <a href="#">
+                        <div class="pull-left">
+                          <img src="{{ asset('vendor/dist/img/avatar5.png')}}" class="img-circle" alt="User Image">
+                        </div>
+                        <h4>
+                          {{ ucwords($notification->requested_by()->pluck('name')[0]) }}
+                          <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                        </h4>
+                        <p>{{$notification->message}}</p>
+                        <div class="pull-right">
+                          <span class="btn btn-success btn-xs">Accept</span>
+                          <span class="btn btn-danger btn-xs">Cancel</span>
+                        </div>
+                      </a>
+                    </li>
+                    <!-- end message -->
+                  @endforeach
+                </ul>
+              </li>
+              <li class="footer"><a href="#">See All Messages</a></li>
+            </ul>
+          </li>
+          <!-- Notifications: style can be found in dropdown.less -->
+          <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-flag-o"></i>
+              <span class="label label-danger">10</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">You have 10 notifications</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                      page and may cause design problems
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-users text-red"></i> 5 new members joined
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-user text-red"></i> You changed your username
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="footer"><a href="#">View all</a></li>
+            </ul>
+          </li>
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -174,11 +253,13 @@
     </div>
 
     <!-- Scripts -->
-    @if (App::isLocal())
-      <!-- jQuery 3 -->
-      <script type="text/javascript" src="{{ asset('vendor/jquery/dist/jquery.min.js')}}"></script>
-      <!-- Bootstrap 3.3.7 -->
-      <script type="text/javascript" src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+
+    <!-- Socket IO -->
+    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
+
+    @if (App::isLocal())      
+      <!-- App JS -->
+      <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
       <!-- DataTables -->
       <script type="text/javascript" src="{{ asset('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
       <script type="text/javascript" src="{{ asset('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
@@ -192,17 +273,10 @@
       <script type="text/javascript" src="{{ asset('vendor/dist/js/adminlte.min.js')}}"></script>
       <!-- Custom JS -->
       <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
-
-      <!-- Socket IO -->
-      <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
-      
-      <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
     @else
       @if (Request::server('HTTP_X_FORWARDED_PROTO') == 'http')
-      <!-- jQuery 3 -->
-      <script type="text/javascript" src="{{ asset('vendor/jquery/dist/jquery.min.js')}}"></script>
-      <!-- Bootstrap 3.3.7 -->
-      <script type="text/javascript" src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+      <!-- App JS -->
+      <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
       <!-- DataTables -->
       <script type="text/javascript" src="{{ asset('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
       <script type="text/javascript" src="{{ asset('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
@@ -217,10 +291,11 @@
       <!-- Custom JS -->
       <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
       @else
-      <!-- jQuery 3 -->
-      <script type="text/javascript" src="{{ secure_asset('vendor/jquery/dist/jquery.min.js')}}"></script>
-      <!-- Bootstrap 3.3.7 -->
-      <script type="text/javascript" src="{{ secure_asset('vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+      <!-- App JS -->
+      <script type="text/javascript" src="{{ secure_asset('js/app.js') }}"></script>
+      <!-- DataTables -->
+      <script type="text/javascript" src="{{ secure_asset('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+      <script type="text/javascript" src="{{ secure_asset('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
       <!-- SlimScroll -->
       <script type="text/javascript" src="{{ secure_asset('vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
       <!-- FastClick -->

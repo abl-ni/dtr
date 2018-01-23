@@ -18,10 +18,16 @@ class Notifications extends Migration
             $table->increments('id');
             $table->integer('dtr_id')->unsigned();
             $table->string('overtime');
+            $table->string('message');
             $table->integer('status')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->integer('requested_by')->unsigned();
-            $table->integer('approved_by')->unsigned();
+            $table->integer('approved_by')->nullable()->unsigned();
             $table->timestamps();
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
             $table->foreign('requested_by')
                 ->references('id')
                 ->on('users')

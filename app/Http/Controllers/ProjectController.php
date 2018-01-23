@@ -8,6 +8,7 @@ use App\Project;
 use App\User;
 use App\Dev;
 use App\Dtr;
+use App\Notification;
 use Auth;
 use Validator;
 use Response;
@@ -86,6 +87,10 @@ class ProjectController extends Controller
     public function getQuery(Request $req)
     {
         $id = Auth::id();
+
+        // $tmp = Notification::where('user_id', $id)->get();
+
+        // dd($tmp->requested_by->pluck('id'));
         
         if (User::find($id)->type == 'Dev')
         {
@@ -105,7 +110,8 @@ class ProjectController extends Controller
         $pm = User::orderByRaw("id = $id DESC")->where('type', 'PM')->get();
         $allPM = User::where('type', 'PM')->get();
         $today = Dtr::where('date_created', Carbon::now()->toDateString())->count();
-        return view ('dashboard',compact('project', 'projectCount', 'dev', 'pm', 'allPM', 'today'));
+        return view ('dashboard',compact('project', 'projectCount', 'dev', 'pm', 'allPM', 'today'))
+            ->with('notifications', Notification::where('user_id', $id)->get());
     }
 
     public function projectList(){        

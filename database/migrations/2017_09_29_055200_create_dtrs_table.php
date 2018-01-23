@@ -21,6 +21,7 @@ class CreateDtrsTable extends Migration
             $table->string('ticket_no');
             $table->string('roadblock')->nullable();
             $table->string('hours_rendered');
+            $table->enum('overtime?', ['true', 'false'])->default('false');
             $table->foreign('proj_devs_id')
                 ->references('id')
                 ->on('devs')
