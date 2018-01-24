@@ -1,4 +1,10 @@
 $(document).ready(function(){
+
+    // Prevents notification dropdown-menu from closing on click
+    $('.navbar-nav>.messages-menu>.dropdown-menu>li .menu>li>a').click(function(e) {
+        e.stopPropagation();
+    });
+
     $('#changePassword').on('click',function(){
       $('#change-password').modal('show');
     });
@@ -874,6 +880,18 @@ $("#changePasswordForm").submit(function(e){
         barGraphData();     
     }
     // End Chart
+
+    //Notification functions
+    $('.notification .accept').click(function(e){
+        var notification_id = $(this).parents().eq(2).data('notification-id');
+        console.log(notification_id);
+    });
+
+    $('.notification .cancel').click(function(e){
+        var notification_id = $(this).parents().eq(2).data('notification-id');
+        console.log(notification_id);
+    });
+    // End Notification functions
 });
 
 var pnotify = function(str, success){

@@ -84,7 +84,7 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
+          <li class="dropdown messages-menu notification">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
               <span class="label label-success">{{ count($notifications) }}</span>
@@ -96,19 +96,19 @@
                 <ul class="menu">
                   @foreach ($notifications as $notification)
                     <!-- start message -->
-                    <li>
+                    <li data-notification-id="{{$notification->id}}">
                       <a href="#">
                         <div class="pull-left">
                           <img src="{{ asset('vendor/dist/img/avatar5.png')}}" class="img-circle" alt="User Image">
                         </div>
                         <h4>
-                          {{ ucwords($notification->requested_by()->pluck('name')[0]) }}
+                          {{ ucwords($notification->requested_by()->first()->name) }}
                           <small><i class="fa fa-clock-o"></i> 5 mins</small>
                         </h4>
                         <p>{{$notification->message}}</p>
                         <div class="pull-right">
-                          <span class="btn btn-success btn-xs">Accept</span>
-                          <span class="btn btn-danger btn-xs">Cancel</span>
+                          <span class="accept btn btn-success btn-xs">Accept</span>
+                          <span class="cancel btn btn-danger btn-xs">Cancel</span>
                         </div>
                       </a>
                     </li>
