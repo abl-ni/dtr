@@ -10,7 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class TestEvent implements ShouldBroadcast
+class ResponseEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -21,9 +21,9 @@ class TestEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(array $user)
+    public function __construct(array $data)
     {
-        $this->user = $user;
+        $this->user = $data;
     }
 
     /**
@@ -33,13 +33,6 @@ class TestEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('reply.'.$this->user['user']);
-    }
-
-    public function broadcastWith()
-    {
-        return [
-            'notification' => $this->user['notification']
-        ];
+        return new PrivateChannel('response'.$this->user);
     }
 }

@@ -14,7 +14,7 @@ class Notification extends Model
      * @var array
      */
     protected $fillable = [
-        'dtr_id', 'overtime', 'message', 'status', 'user_id', 'requested_by', 'approved_by'
+        'dtr_id', 'overtime', 'message', 'status', 'user_id', 'requested_by', 'approved_by', 'notification_type'
     ];
 
     public $timestamps = true;

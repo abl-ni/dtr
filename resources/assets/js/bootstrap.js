@@ -30,6 +30,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 let token = document.head.querySelector('meta[name="csrf-token"]');
+let user_id = document.head.querySelector('meta[name="user_id"]').content;
 
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
@@ -52,7 +53,7 @@ let e = new Echo({
     host: window.location.hostname + ':6001'
 });
 
-e.private('user.1')
+e.private('reply.'+user_id)
 	.listen('TestEvent', function(e) {
 		console.log('nice', e);
 	});

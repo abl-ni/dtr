@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,6 +17,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'type' => 'Admin',
             'password' => bcrypt('password'),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
         DB::table('users')->insert([
@@ -23,6 +26,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'dev@gmail.com',
             'type' => 'Dev',
             'password' => bcrypt('password'),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
         DB::table('users')->insert([
@@ -30,6 +35,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'pm@gmail.com',
             'type' => 'PM',
             'password' => bcrypt('password'),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
     }
 }

@@ -23,8 +23,9 @@ class ProjectController extends Controller
     }
 
     public function trigger(){
-        $event = new TestEvent(1);
-        broadcast($event);
+        // echo json_encode(Carbon::now());
+        $event = new TestEvent(['user' => 4, 'notification' => Notification::all()]);
+        event($event);
         dd();
     }
     
@@ -87,10 +88,6 @@ class ProjectController extends Controller
     public function getQuery(Request $req)
     {
         $id = Auth::id();
-
-        // $tmp = Notification::where('user_id', $id)->get();
-
-        // dd($tmp->requested_by->pluck('id'));
         
         if (User::find($id)->type == 'Dev')
         {
@@ -110,8 +107,7 @@ class ProjectController extends Controller
         $pm = User::orderByRaw("id = $id DESC")->where('type', 'PM')->get();
         $allPM = User::where('type', 'PM')->get();
         $today = Dtr::where('date_created', Carbon::now()->toDateString())->count();
-        return view ('dashboard',compact('project', 'projectCount', 'dev', 'pm', 'allPM', 'today'))
-            ->with('notifications', Notification::where('user_id', $id)->get());
+        return view ('dashboard',compact('project', 'projectCount', 'dev', 'pm', 'allPM', 'today'));
     }
 
     public function projectList(){        

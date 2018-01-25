@@ -884,7 +884,11 @@ $("#changePasswordForm").submit(function(e){
     //Notification functions
     $('.notification .accept').click(function(e){
         var notification_id = $(this).parents().eq(2).data('notification-id');
-        console.log(notification_id);
+        var url = 'notification/approve';
+        
+        $.get( url, {id: notification_id}, function( data ) {
+            alert('success');
+        });
     });
 
     $('.notification .cancel').click(function(e){

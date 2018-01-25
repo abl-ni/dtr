@@ -751,9 +751,8 @@ module.exports = __webpack_require__(36);
 
 /***/ }),
 /* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -817,6 +816,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 var token = document.head.querySelector('meta[name="csrf-token"]');
+var user_id = document.head.querySelector('meta[name="user_id"]').content;
 
 if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
@@ -839,7 +839,7 @@ var e = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
   host: window.location.hostname + ':6001'
 });
 
-e.private('user.1').listen('TestEvent', function (e) {
+e.private('reply.' + user_id).listen('TestEvent', function (e) {
   console.log('nice', e);
 });
 

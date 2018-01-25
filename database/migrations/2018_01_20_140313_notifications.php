@@ -17,6 +17,7 @@ class Notifications extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('dtr_id')->unsigned();
+            $table->string('notification_type')->default('request');
             $table->string('overtime');
             $table->string('message');
             $table->integer('status')->unsigned();

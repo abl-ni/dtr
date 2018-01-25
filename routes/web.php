@@ -52,5 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('profile','HomeController@profile');
     Route::resource('users','UserController');
     Route::get('userList','UserController@userList');
+
+    Route::get('notification/{option}', 'NotificationController@action');
      
 });

@@ -12,6 +12,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- User ID -->
+    <meta name="user_id" content="{{ Auth::id() }}">
+
     <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
 
     <!-- Tell the browser to be responsive to screen width -->
@@ -87,14 +90,14 @@
           <li class="dropdown messages-menu notification">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-success">{{ count($notifications) }}</span>
+              <span class="label label-success">@if(count(notifications("request"))){{ count(notifications("request")) }}@endif</span>
             </a>
             <ul class="dropdown-menu list-group">
-              <li class="header">You have 4 messages</li>
+              <li class="header">Overtime Request</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                  @foreach ($notifications as $notification)
+                  @foreach (notifications("request") as $notification)
                     <!-- start message -->
                     <li data-notification-id="{{$notification->id}}">
                       <a href="#">
@@ -123,7 +126,7 @@
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">10</span>
+              <span class="label label-danger">@if(count(notifications("reply"))){{ count(notifications("reply")) }}@endif</span>
             </a>
             <ul class="dropdown-menu">
               <li class="header">You have 10 notifications</li>
