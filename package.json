@@ -1,24 +1,45 @@
 {
-    "private": true,
-    "scripts": {
-        "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch-poll": "npm run watch -- --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
-    },
-    "devDependencies": {
-        "axios": "^0.16.2",
-        "bootstrap-sass": "^3.3.7",
-        "cross-env": "^5.0.1",
-        "jquery": "^3.1.1",
-        "laravel-mix": "^1.0",
-        "lodash": "^4.17.4",
-        "vue": "^2.1.10"
-    },
-    "dependencies": {
-        "laravel-echo": "^1.3.3"
-    }
+  "private": true,
+  "engine": {
+    "node": "8.3.0"
+  },
+  "scripts": {
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch-poll": "npm run watch -- --watch-poll",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "devDependencies": {
+    "axios": "^0.16.2",
+    "bootstrap-sass": "^3.3.7",
+    "cross-env": "^5.0.1",
+    "jquery": "^3.1.1",
+    "laravel-mix": "^1.0",
+    "lodash": "^4.17.4",
+    "vue": "^2.1.10"
+  },
+  "dependencies": {
+    "laravel-echo": "^1.3.3"
+  },
+  "name": "dtr",
+  "description": "<html>\r \t<h1>TimeWave</h1>\r \t<p>by Bywave Phils. Inc.</p>\r \t<p>A system used to record and organize daily logs</p>\r \t<a>http://timewave.herokuapp.com/</a>\r \t<h2>Usage</h2>\r \t<p> 1. Install Laravel</p>\r \t<p> 2. Run Composer</p>\r \t<p> 3. Run laravel migrations -> php artisan migrate</p>\r \t<p> 4. Run php artisan db:seed</p>\r \t<h2>Sample Accounts</h2>\r \t<table>\r \t\t<thead>\r \t\t\t<tr>\r \t\t\t\t<th>Email</th>\r \t\t\t\t<th>Password</th>\r \t\t\t</tr>\r \t\t</thead>\r \t\t<tbody>\r \t\t\t<tr>\r \t\t\t\t<td>admin@gmail.com</td>\r \t\t\t\t<td>password</td>\r \t\t\t</tr>\r \t\t\t<tr>\r \t\t\t\t<td>pm@gmail.com</td>\r \t\t\t\t<td>password</td>\r \t\t\t</tr>\r \t\t\t<tr>\r \t\t\t\t<td>dev@gmail.com</td>\r \t\t\t\t<td>password</td>\r \t\t\t</tr>\r \t\t</tbody>\r \t</table>\r </html>",
+  "version": "1.0.0",
+  "main": "webpack.mix.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redeemed24/dtr.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/redeemed24/dtr/issues"
+  },
+  "homepage": "https://github.com/redeemed24/dtr#readme"
 }
