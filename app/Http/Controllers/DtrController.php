@@ -11,6 +11,7 @@ use App\Dtr;
 use App\Notification;
 use Auth;
 use Carbon\Carbon;
+use App\Events\RequestEvent;
 
 class DtrController extends Controller
 {
@@ -80,9 +81,27 @@ class DtrController extends Controller
                         'created_at' => $timestamp, 
                         'updated_at' => $timestamp, 
                         );
-                }
 
-                Notification::insert($data);
+                    foreach ($notifyTo as $key => $value) {
+                        $data = array(
+                            'dtr_id' => $saved->id, 
+                            'overtime' => $request->hrs_rendered, 
+                            'message' => 'Overtime pending for approval', 
+                            'status' => 1, 
+                            'user_id' => $value[0], 
+                            'requested_by' => $user_id
+                            );
+
+                        $request_notif = Notification::create($data);
+                        $event = new RequestEvent([
+                            'user' => $request_notif->user_id,
+                            'notifications' => Notification::with('requested_by')->where('id', $request_notif->id)->first(),
+                            'time' => time_elapsed_string($request_notif->created_at),
+                            ]);
+                        
+                        event($event);
+                    }
+                }
 
                 $check = array(
                     'success' => true, 
@@ -104,19 +123,24 @@ class DtrController extends Controller
             $data = array();
 
             foreach ($notifyTo as $key => $value) {
-                $data[$key] = array(
+                $data = array(
                     'dtr_id' => $saved->id, 
                     'overtime' => $request->hrs_rendered, 
                     'message' => 'Overtime pending for approval', 
                     'status' => 1, 
                     'user_id' => $value[0], 
-                    'requested_by' => $user_id, 
-                    'created_at' => $timestamp, 
-                    'updated_at' => $timestamp, 
+                    'requested_by' => $user_id
                     );
-            }
 
-            Notification::insert($data);
+                $request_notif = Notification::create($data);
+                $event = new RequestEvent([
+                        'user' => $request_notif->user_id,
+                        'notifications' => Notification::with('requested_by')->where('id', $request_notif->id)->first(),
+                        'time' => time_elapsed_string($request_notif->created_at),
+                        ]);
+                
+                event($event);
+            }
 
             $check = array(
                 'success' => true, 

@@ -881,21 +881,26 @@ $("#changePasswordForm").submit(function(e){
     }
     // End Chart
 
-    //Notification functions
-    $('.notification .accept').click(function(e){
-        var notification_id = $(this).parents().eq(2).data('notification-id');
-        var url = 'notification/approve';
-        
-        $.get( url, {id: notification_id}, function( data ) {
-            alert('success');
-        });
+//Notification functions
+$(document).on('click', 'li.request span.accept', function(e){
+    var parentList = $(this).parents().eq(2);
+    var notification_id = parentList.data('notification-id');
+    var url = 'notification/approve';
+    
+    $.get( url, {id: notification_id}, function( data ) {
+        parentList.fadeOut('slow');
     });
+});
 
-    $('.notification .cancel').click(function(e){
-        var notification_id = $(this).parents().eq(2).data('notification-id');
-        console.log(notification_id);
-    });
-    // End Notification functions
+$('#request .cancel').on('click', function(e){        
+    e.stopPropagation();
+
+    // var notification_id = $(this).parents().eq(2).data('notification-id');
+    console.log('notification_id');
+});
+
+// End Notification functions
+
 });
 
 var pnotify = function(str, success){

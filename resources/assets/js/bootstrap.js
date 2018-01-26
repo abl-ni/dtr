@@ -31,6 +31,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 let token = document.head.querySelector('meta[name="csrf-token"]');
 let user_id = document.head.querySelector('meta[name="user_id"]').content;
+let profile_picture = document.head.querySelector('meta[name="profile_picture"]').content;
 
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
@@ -44,16 +45,19 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
+let request = $('li#request').find('.count');
+let requestList = $('li#request ul>li>ul.menu');
+
 import Echo from 'laravel-echo'
 
 // window.Pusher = require('pusher-js');
 
-let e = new Echo({
+window.Echo = new Echo({
     broadcaster: 'socket.io',
     host: window.location.hostname + ':6001'
 });
 
-e.private('reply.'+user_id)
-	.listen('TestEvent', function(e) {
+window.Echo.private('response.'+user_id)
+	.listen('ResponseEvent', function(e) {
 		console.log('nice', e);
 	});

@@ -14,6 +14,7 @@
 
     <!-- User ID -->
     <meta name="user_id" content="{{ Auth::id() }}">
+    <meta name="profile_picture" content="{{ asset('vendor/dist/img/avatar5.png')}}">
 
     <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
 
@@ -64,6 +65,13 @@
 
 </head>
 <body class="hold-transition skin-yellow sidebar-collapse sidebar-mini">
+    <div id="app">
+      <h1>Chat</h1>
+      <!-- <chat-message></chat-message> -->
+      <chat-log :messages="thread"></chat-log>
+      <chat-composer v-on:messagesent="addMessage"></chat-composer>
+    </div>
+
     <div class="wrapper">
 
   <header class="main-header">
@@ -86,18 +94,39 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
+          <!-- Notification: style can be found in dropdown.less-->
+          <li class="dropdown messages-menu" id="request">
+            <notification-counter :count="requests.length"></notification-counter>
+            
+            <ul class="dropdown-menu list-group">
+              <li class="header">Overtime Request</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                  <notification-list :requests="requests" v-on:approved="requestApproved" v-on:cancelled="requestCancelled"></notification-list>
+                <!-- </ul> -->
+              </li>
+              <li class="footer"><a href="#">See All Messages</a></li>
+            </ul>
+          </li>
+          <!-- Notification: style can be found in dropdown.less-->
           <li class="dropdown messages-menu notification">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-success">@if(count(notifications("request"))){{ count(notifications("request")) }}@endif</span>
+              <span class="label label-danger">@if(count(notifications("reply"))){{ count(notifications("reply")) }}@endif</span>
             </a>
             <ul class="dropdown-menu list-group">
               <li class="header">Overtime Request</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                  @foreach (notifications("request") as $notification)
+                  @if(!count(notifications("reply")))
+                    <li>
+                      <a href="#" class="text-center" style="color: gray">
+                        No request
+                      </a>
+                    </li>
+                  @endif
+                  @foreach (notifications("reply") as $notification)
                     <!-- start message -->
                     <li data-notification-id="{{$notification->id}}">
                       <a href="#">
@@ -105,14 +134,10 @@
                           <img src="{{ asset('vendor/dist/img/avatar5.png')}}" class="img-circle" alt="User Image">
                         </div>
                         <h4>
-                          {{ ucwords($notification->requested_by()->first()->name) }}
-                          <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                          {{ ucwords($notification->approved_by()->first()->name) }}
+                          <small><i class="fa fa-clock-o"></i> {{ time_elapsed_string($notification->updated_at) }}</small>
                         </h4>
                         <p>{{$notification->message}}</p>
-                        <div class="pull-right">
-                          <span class="accept btn btn-success btn-xs">Accept</span>
-                          <span class="cancel btn btn-danger btn-xs">Cancel</span>
-                        </div>
                       </a>
                     </li>
                     <!-- end message -->
@@ -120,48 +145,6 @@
                 </ul>
               </li>
               <li class="footer"><a href="#">See All Messages</a></li>
-            </ul>
-          </li>
-          <!-- Notifications: style can be found in dropdown.less -->
-          <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">@if(count(notifications("reply"))){{ count(notifications("reply")) }}@endif</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                      page and may cause design problems
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-red"></i> 5 new members joined
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-user text-red"></i> You changed your username
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="footer"><a href="#">View all</a></li>
             </ul>
           </li>
           <!-- User Account: style can be found in dropdown.less -->

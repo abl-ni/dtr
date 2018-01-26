@@ -14,7 +14,7 @@ class ResponseEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
+    public $data;
 
     /**
      * Create a new event instance.
@@ -23,7 +23,7 @@ class ResponseEvent implements ShouldBroadcast
      */
     public function __construct(array $data)
     {
-        $this->user = $data;
+        $this->data = $data;
     }
 
     /**
@@ -33,6 +33,13 @@ class ResponseEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('response'.$this->user);
+        return new PrivateChannel('response.'.$this->data['user']);
+    }    
+
+    public function broadcastWith()
+    {
+        return [
+            'notification' => $this->data['notification']
+        ];
     }
 }

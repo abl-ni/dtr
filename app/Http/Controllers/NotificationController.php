@@ -57,9 +57,28 @@ class NotificationController extends Controller
 
 	            Notification::where('dtr_id', $dtr->id)->update($data);
 
-		        $event = new ResponseEvent(['user' => $notification->requested_by]);
+		        $event = new ResponseEvent([
+		        	'user' => $notification->requested_by,
+		        	'notification' => $reply_notif
+		        	]);
+		        
 		        event($event);
     		}
+    	}
+    }
+
+    public function get($options){
+    	if($options){
+    		$notifications = notifications($options);
+
+    		foreach ($notifications as $notification) {
+    			$data[] = array(
+    				'notifications' => $notification, 
+    				'time' => time_elapsed_string($notification->created_at), 
+    			);
+    		}
+
+    		echo json_encode($data);
     	}
     }
 }
