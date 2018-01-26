@@ -15,7 +15,7 @@ function notifications($option) {
 				->get();
 		}
 			
-			return $data;
+		return $data;
 	}
 
 	return false;

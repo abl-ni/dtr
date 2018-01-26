@@ -62,19 +62,20 @@ class NotificationController extends Controller
 		        	'notification' => $reply_notif
 		        	]);
 		        
-		        event($event);
+		        broadcast($event)->toOthers();
     		}
     	}
     }
 
     public function get($options){
     	if($options){
+    		$data = array();
     		$notifications = notifications($options);
 
     		foreach ($notifications as $notification) {
     			$data[] = array(
     				'notifications' => $notification, 
-    				'time' => time_elapsed_string($notification->created_at), 
+    				'time' => time_elapsed_string($notification->updated_at), 
     			);
     		}
 

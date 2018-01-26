@@ -65,15 +65,7 @@
 
 </head>
 <body class="hold-transition skin-yellow sidebar-collapse sidebar-mini">
-    <div id="app">
-      <h1>Chat</h1>
-      <!-- <chat-message></chat-message> -->
-      <chat-log :messages="thread"></chat-log>
-      <chat-composer v-on:messagesent="addMessage"></chat-composer>
-    </div>
-
-    <div class="wrapper">
-
+  <div class="wrapper">
   <header class="main-header">
     <!-- Logo -->
     <a href="@guest {{url('/')}} @else {{url('/dashboard ')}} @endguest" class="logo">
@@ -103,46 +95,19 @@
               <li>
                 <!-- inner menu: contains the actual data -->
                   <notification-list :requests="requests" v-on:approved="requestApproved" v-on:cancelled="requestCancelled"></notification-list>
-                <!-- </ul> -->
               </li>
               <li class="footer"><a href="#">See All Messages</a></li>
             </ul>
           </li>
           <!-- Notification: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu notification">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-danger">@if(count(notifications("reply"))){{ count(notifications("reply")) }}@endif</span>
-            </a>
+          <li class="dropdown messages-menu notification" id="response">
+            <response-counter :count="responses.length"></response-counter>
+
             <ul class="dropdown-menu list-group">
               <li class="header">Overtime Request</li>
               <li>
                 <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  @if(!count(notifications("reply")))
-                    <li>
-                      <a href="#" class="text-center" style="color: gray">
-                        No request
-                      </a>
-                    </li>
-                  @endif
-                  @foreach (notifications("reply") as $notification)
-                    <!-- start message -->
-                    <li data-notification-id="{{$notification->id}}">
-                      <a href="#">
-                        <div class="pull-left">
-                          <img src="{{ asset('vendor/dist/img/avatar5.png')}}" class="img-circle" alt="User Image">
-                        </div>
-                        <h4>
-                          {{ ucwords($notification->approved_by()->first()->name) }}
-                          <small><i class="fa fa-clock-o"></i> {{ time_elapsed_string($notification->updated_at) }}</small>
-                        </h4>
-                        <p>{{$notification->message}}</p>
-                      </a>
-                    </li>
-                    <!-- end message -->
-                  @endforeach
-                </ul>
+                  <response-list :responses="responses"></response-list>
               </li>
               <li class="footer"><a href="#">See All Messages</a></li>
             </ul>

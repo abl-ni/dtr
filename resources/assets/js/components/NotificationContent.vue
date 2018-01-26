@@ -10,8 +10,8 @@
 		    </h4>
 		    <p>{{request.notifications.message}}</p>
 		    <div class="pull-right">
-		      <span class="btn btn-success btn-xs" @click="accept">Accept</span>
-		      <span class="btn btn-danger btn-xs" @click="cancel">Cancel</span>
+		      <span class="btn btn-success btn-xs" @click="accept(request.notifications.id)">Accept</span>
+		      <span class="btn btn-danger btn-xs" @click="cancel(request.notifications.id)">Cancel</span>
 		    </div>
 		  </a>
 		</li>
@@ -21,27 +21,27 @@
     export default {
     	props: ['request'],
     	methods: {
-	    	cancel: function(e){
-    			e.stopPropagation();
-	    		var notification = $(e.target).parents().eq(2);
+	    	cancel: function(id){
+	    		//var notification = id;
 
 	    		//notification.fadeOut();
 
 	    		this.$emit('cancelRequest', {
-	    			id: notification.data('notification-id')
+	    			id: id
 	    		});
 
 	    		this.$emit('remove');
 	    	},
-    		accept : function(e) {
-    			e.stopPropagation();
-    			var notification = $(e.target).parents().eq(2);
+    		accept : function(id) {
+    			//var notification = id;
 
 	    		//notification.fadeOut();
 
     			this.$emit('acceptRequest', {
-	    			id: notification.data('notification-id')
+	    			id: id
 	    		});
+
+	    		this.$emit('remove');
     		}
     	}
     }

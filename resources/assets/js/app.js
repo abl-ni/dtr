@@ -16,31 +16,37 @@ window.Vue = require('vue');
  */
 
 Vue.component('example', require('./components/Example.vue'));
-Vue.component('chat-message', require('./components/ChatMessage.vue'));
-Vue.component('chat-log', require('./components/ChatLog.vue'));
-Vue.component('chat-composer', require('./components/ChatComposer.vue'));
+Vue.component('response-counter', require('./components/ResponseCounter.vue'));
+Vue.component('response-content', require('./components/ResponseContent.vue'));
+Vue.component('response-list', require('./components/ResponseList.vue'));
 Vue.component('notification-counter', require('./components/NotificationCounter.vue'));
 Vue.component('notification-content', require('./components/NotificationContent.vue'));
 Vue.component('notification-list', require('./components/NotificationList.vue'));
 
-const app = new Vue({
-    el: '#app',
+const response = new Vue({
+    el: '#response',
     data: {
-		thread: [
-			{
-				message: 'Hey!',
-				user: 'John Doe'
-			},
-			{
-				message: 'Hello!',
-				user: 'Jane Doe'
-			}
-		]
+		responses: []
     },
     methods: {
-    	addMessage: function(message){
-    		console.log(message);
-    	}
+      //   responses: function(notification)
+      //   {
+	    	// axios.get('/notification/retrieve/reply').then((response) => {
+	    	// 	this.responses = response.data;
+	    	// });
+      //   }
+    },
+    created() {
+    	let user_id = document.head.querySelector('meta[name="user_id"]').content;
+
+    	axios.get('/notification/retrieve/reply').then((response) => {
+    		this.responses = response.data;
+    	});
+    },
+    mounted() {
+	    $('.navbar-nav>.messages-menu>.dropdown-menu>li .menu>li>a').click(function(e) {
+	        e.stopPropagation();
+	    });
     }
 });
 
@@ -52,13 +58,19 @@ const request = new Vue({
     methods: {
     	requestApproved: function(notification){
     		console.log('approved', notification);
-    		// axios.get('notification/approve', {id: notification.id}).then((response) => {
+    		axios.get('notification/approve', {params: {id: notification.id}}).then((response) => {
 	    		
-	    	// });
+	    	});
     	},
     	requestCancelled: function(notification){
     		console.log('cancelled', notification);
-    	}
+    	},
+        response: function(notification)
+        {
+	    	axios.get('/notification/retrieve/request').then((response) => {
+	    		this.requests = response.data;
+	    	});
+        }
     },
     created() {
     	let user_id = document.head.querySelector('meta[name="user_id"]').content;
@@ -72,6 +84,11 @@ const request = new Vue({
 				var notify = e;
 				this.requests.unshift(e);
 			});
+
+
+		window.Echo.private('response.'+user_id)
+			.listen('ResponseEvent', e => this.response(e));
+
     },
     mounted() {
 	    $('.navbar-nav>.messages-menu>.dropdown-menu>li .menu>li>a').click(function(e) {
