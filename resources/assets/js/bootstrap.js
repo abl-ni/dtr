@@ -50,9 +50,16 @@ let requestList = $('li#request ul>li>ul.menu');
 
 import Echo from 'laravel-echo'
 
-// window.Pusher = require('pusher-js');
+window.Pusher = require('pusher-js');
+
+// window.Echo = new Echo({
+//     broadcaster: 'socket.io',
+//     host: window.location.hostname+":6001"
+// });
 
 window.Echo = new Echo({
-    broadcaster: 'socket.io',
-    host: 'https://timewave-socket.herokuapp.com/'
+    broadcaster: 'pusher',
+    key: '1d7d634160643f60321f',
+    cluster: 'mt1',
+    encrypted: true
 });

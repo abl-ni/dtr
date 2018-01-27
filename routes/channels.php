@@ -23,3 +23,6 @@ Broadcast::channel('request.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
+Broadcast::channel('request.update.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});

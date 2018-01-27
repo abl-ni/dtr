@@ -1,10 +1,10 @@
 {
-	"authHost": "http://timewave.herokuapp.com",
+	"authHost": "localhost:8000",
 	"authEndpoint": "/broadcasting/auth",
 	"clients": [
 		{
-			"appId": "3a59bc230b00a6e3",
-			"key": "ce871cc032ee122bdf516c4486c881c0"
+			"appId": "6befc3ca50682c9b",
+			"key": "3663479602dad65c8a71502c785e1da0"
 		}
 	],
 	"database": "redis",

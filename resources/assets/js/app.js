@@ -29,19 +29,29 @@ const response = new Vue({
 		responses: []
     },
     methods: {
-      //   responses: function(notification)
-      //   {
+        set: function(response)
+        {
+            console.log(response);
+            var notification = response.notification;
+            this.responses.unshift(notification);
 	    	// axios.get('/notification/retrieve/reply').then((response) => {
 	    	// 	this.responses = response.data;
 	    	// });
-      //   }
+        }
     },
-    created() {
+    created() {        
     	let user_id = document.head.querySelector('meta[name="user_id"]').content;
 
     	axios.get('/notification/retrieve/reply').then((response) => {
     		this.responses = response.data;
+
+            console.log(this.responses);
     	});
+
+        window.Echo.private('response.'+user_id)
+         .listen('ResponseEvent', e => {
+            this.responses.unshift(e.notification);
+         });
     },
     mounted() {
 	    $('.navbar-nav>.messages-menu>.dropdown-menu>li .menu>li>a').click(function(e) {
@@ -64,9 +74,13 @@ const request = new Vue({
     	},
     	requestCancelled: function(notification){
     		console.log('cancelled', notification);
+            axios.get('notification/cancel', {params: {id: notification.id}}).then((response) => {
+                
+            });
     	},
         response: function(notification)
         {
+            // response.set(notification);
 	    	axios.get('/notification/retrieve/request').then((response) => {
 	    		this.requests = response.data;
 	    	});
@@ -85,9 +99,12 @@ const request = new Vue({
 				this.requests.unshift(e);
 			});
 
-
-		window.Echo.private('response.'+user_id)
-			.listen('ResponseEvent', e => this.response(e));
+        window.Echo.private('request.update.'+user_id)
+            .listen('RequestUpdateEvent', e => {
+                axios.get('/notification/retrieve/request').then((response) => {
+                    this.requests = response.data;
+                });
+            });
 
     },
     mounted() {
