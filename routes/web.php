@@ -54,7 +54,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('userList','UserController@userList');
 
     Route::get('notification/{option}', 'NotificationController@action');
-    Route::get('notification/retrieve/{option}', 'NotificationController@get');
-    Route::get('test', 'NotificationController@test');
-     
+    Route::get('notification/retrieve/{option}', 'NotificationController@get');     
 });

@@ -82,13 +82,6 @@ class NotificationController extends Controller
 
             if($notification){
                 $dtr = Dtr::find($notification->dtr_id);
-                // $hrs_update = $dtr->hours_rendered + $notification->overtime;
-
-                // $data = array(
-                //     'hours_rendered' => $hrs_update,
-                //     );
-
-                // $dtr->update($data);
 
                 $data = array();
                 $data = array(
@@ -148,12 +141,5 @@ class NotificationController extends Controller
 
     		echo json_encode($data);
     	}
-    }
-
-    public function test()
-    {
-        $notification = Notification::find(500);
-        // $approved = count($notification->whereNotNull('approved_by')->get());
-        echo json_encode($notification);
     }
 }
