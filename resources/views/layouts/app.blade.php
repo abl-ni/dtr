@@ -89,28 +89,14 @@
           <!-- Notification: style can be found in dropdown.less-->
           <li class="dropdown messages-menu" id="request">
             <notification-counter :count="requests.length"></notification-counter>
-            
-            <ul class="dropdown-menu list-group">
-              <li class="header">Overtime Request</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                  <notification-list :requests="requests" v-on:approved="requestApproved" v-on:cancelled="requestCancelled"></notification-list>
-              </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
-            </ul>
+            <!-- inner menu: contains the actual data -->
+            <notification-list :requests="requests" v-on:pagination="paginate" v-on:approved="requestApproved" v-on:cancelled="requestCancelled"></notification-list>
           </li>
           <!-- Notification: style can be found in dropdown.less-->
           <li class="dropdown messages-menu notification" id="response">
             <response-counter :count="responses.length"></response-counter>
-
-            <ul class="dropdown-menu list-group">
-              <li class="header">Overtime Request</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                  <response-list :responses="responses"></response-list>
-              </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
-            </ul>
+            <!-- inner menu: contains the actual data -->
+            <response-list :responses="responses" v-on:pagination="paginate"></response-list>
           </li>
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">

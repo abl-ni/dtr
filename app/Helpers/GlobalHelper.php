@@ -6,12 +6,14 @@ function notifications($option) {
 			$data = App\Notification::where(['notification_type' => $option, 'user_id' => Auth::id(), 'approved_by' => null, 'status' => 1])
             ->orderBy('id', 'DESC')
             ->with('requested_by')
+            ->limit(10)
 			->get();
 		} else if($option === 'reply'){
 			$data = App\Notification::where(['notification_type' => $option, 'requested_by' => Auth::id()])
 				->whereNotNull('approved_by')
                 ->orderBy('id', 'DESC')
                 ->with('approved_by')
+                ->limit(10)
 				->get();
 		}
 			

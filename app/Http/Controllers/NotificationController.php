@@ -127,19 +127,56 @@ class NotificationController extends Controller
         }
     }
 
-    public function get($options){
-    	if($options){
-    		$data = array();
-    		$notifications = notifications($options);
+    public function get($options, $pagination = null, $id = null){
+    	if($options === 'request' || $options === 'reply'){
 
-    		foreach ($notifications as $notification) {
-    			$data[] = array(
-    				'notifications' => $notification, 
-    				'time' => time_elapsed_string($notification->updated_at), 
-    			);
-    		}
+            if($pagination === 'more' && $id) {
+                $notification = array();
 
-    		echo json_encode($data);
-    	}
+                if($options === 'request'){
+                    $data = Notification::where(['notification_type' => $options, 'user_id' => Auth::id(), 'approved_by' => null, 'status' => 1])
+                    ->orderBy('id', 'DESC')
+                    ->where('id', '<', $id)
+                    ->with('requested_by')
+                    ->limit(2)
+                    ->get();
+                } else if($options === 'reply'){
+                    $data = Notification::where(['notification_type' => $options, 'requested_by' => Auth::id()])
+                        ->whereNotNull('approved_by')
+                        ->orderBy('id', 'DESC')
+                        ->where('id', '<', $id)
+                        ->with('approved_by')
+                        ->limit(10)
+                        ->get();
+                }
+
+                foreach ($data as $datum) {
+                    $notification[] = array(
+                        'notifications' => $datum, 
+                        'time' => time_elapsed_string($datum->updated_at), 
+                    );
+                }
+
+                if($notification) 
+                    echo json_encode($notification);
+                else echo json_encode(null);
+
+                exit;
+            }
+
+    		if(!$pagination && !$id) {
+                $data = array();
+                $notifications = notifications($options);
+
+                foreach ($notifications as $notification) {
+                    $data[] = array(
+                        'notifications' => $notification, 
+                        'time' => time_elapsed_string($notification->updated_at), 
+                    );
+                }
+
+                echo json_encode($data);
+            }
+    	} 
     }
 }

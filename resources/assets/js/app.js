@@ -28,15 +28,18 @@ const response = new Vue({
     data: {
 		responses: []
     },
-    methods: {
-        set: function(response)
-        {
-            console.log(response);
-            var notification = response.notification;
-            this.responses.unshift(notification);
-	    	// axios.get('/notification/retrieve/reply').then((response) => {
-	    	// 	this.responses = response.data;
-	    	// });
+    methods: {        
+        paginate: function(offset){
+            var id = offset.id;
+
+            axios.get('/notification/retrieve/reply/more/'+id).then((response) => {
+                var data = response.data;
+                if(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        this.responses.push(data[i]);
+                    };
+                }
+            });
         }
     },
     created() {        
@@ -44,8 +47,6 @@ const response = new Vue({
 
     	axios.get('/notification/retrieve/reply').then((response) => {
     		this.responses = response.data;
-
-            console.log(this.responses);
     	});
 
         window.Echo.private('response.'+user_id)
@@ -67,23 +68,26 @@ const request = new Vue({
     },
     methods: {
     	requestApproved: function(notification){
-    		console.log('approved', notification);
     		axios.get('notification/approve', {params: {id: notification.id}}).then((response) => {
 	    		
 	    	});
     	},
     	requestCancelled: function(notification){
-    		console.log('cancelled', notification);
             axios.get('notification/cancel', {params: {id: notification.id}}).then((response) => {
                 
             });
     	},
-        response: function(notification)
-        {
-            // response.set(notification);
-	    	axios.get('/notification/retrieve/request').then((response) => {
-	    		this.requests = response.data;
-	    	});
+        paginate: function(offset){
+            var id = offset.id;
+
+            axios.get('/notification/retrieve/request/more/'+id).then((response) => {
+                var data = response.data;
+                if(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        this.requests.push(data[i]);
+                    };
+                }
+            });
         }
     },
     created() {
